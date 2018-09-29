@@ -1,0 +1,19 @@
+{
+  "name": "procjam2018",
+  "version": "0.0.0",
+  "description": "Procjam2018 project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kchapelier/procjam2018.git"
+  },
+  "author": "Kevin Chapelier <kevin.chapelier@gmail.com> (http://www.kchapelier.com/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kchapelier/procjam2018/issues"
+  },
+  "homepage": "https://github.com/kchapelier/procjam2018#readme"
+}
