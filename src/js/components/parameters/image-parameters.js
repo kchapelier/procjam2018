@@ -8,7 +8,8 @@ function ImageParameters (name, values, callback) {
   this.constructor.super.call(this, name, callback);
 
   this.values = {
-    type: getProp(values, 'type', 1)
+    type: getProp(values, 'type', 1),
+    image: null
   };
 }
 

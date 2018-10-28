@@ -3,6 +3,8 @@
 const BaseWidget = require('./base');
 const { makeElement, getProp, extendClass } = require('./../../commons/utils');
 
+const globalEE = require('../event-listener').global;
+
 const acceptableTypes = [
   'image/png',
   'image/jpeg'
@@ -101,6 +103,7 @@ ImageWidget.prototype.clearImage = function () {
     this.img.src = transparentPixel;
     this.inputContainer.style.paddingTop = defaultHeightPercents.toFixed(3) + '%';
     this.buttonClear.style.display = 'none';
+    this.value.dispose();
     this.value = null;
     this.triggerChangeCallback();
   }
@@ -118,8 +121,14 @@ ImageWidget.prototype.setImage = function (file) {
 
       this.inputContainer.style.paddingTop = percentHeight.toFixed(3) + '%';
       this.buttonClear.style.display = 'inline';
-      this.value = e.target.result;
-      this.triggerChangeCallback();
+
+      globalEE.trigger('create-texture-from-image', this.img, webGlTexture => {
+        if (this.value !== null) {
+          this.value.dispose();
+        }
+        this.value = webGlTexture;
+        this.triggerChangeCallback();
+      });
     };
     this.img.src = e.target.result;
   };

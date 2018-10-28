@@ -20,6 +20,16 @@ function ShapeParameters (name, values, callback) {
 
 extendClass(ShapeParameters, BaseParameters);
 
+const withSpecificParam = [9, 10, 11, 21, 16, 14, 17, 18, 19, 20, 22];
+
+ShapeParameters.prototype.update = function () {
+  if (withSpecificParam.indexOf(this.values.shape) > -1) {
+    this.elements.specific.enable();
+  } else {
+    this.elements.specific.disable();
+  }
+};
+
 ShapeParameters.prototype.initializeElements = function () {
   this.setElement('rotate45', 'boolean', 'Rotate at 45 degrees', {});
 

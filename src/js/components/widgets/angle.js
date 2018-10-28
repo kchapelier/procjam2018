@@ -52,6 +52,7 @@ function AngleWidget () {
   const moveFn = e => {
     if (dragging) {
       this.setAngle(Math.atan2(centerY - e.clientY, e.clientX - centerX));
+      this.triggerChangeCallback();
     }
   };
 
@@ -80,6 +81,7 @@ function AngleWidget () {
         this.input.value = this.value;
       } else {
         this.setAngle(value);
+        this.triggerChangeCallback();
       }
     }
   });
@@ -105,8 +107,6 @@ AngleWidget.prototype.setAngle = function (angle) {
     this.point.style.transform = 'rotate(' + -angle.toFixed(6) + 'rad)';
 
     this.input.value = this.value;
-
-    this.triggerChangeCallback();
   }
 };
 

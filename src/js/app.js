@@ -36,6 +36,7 @@ var TypeSelector = require('./components/node-graph/type-selector');
 
 var globalEE = require('./components/event-listener').global;
 
+var parseUrlHash = require('./commons/parse-url-hash');
 var { generateUUID } = require('./commons/utils');
 
 console.log(globalEE);
@@ -55,9 +56,23 @@ document.body.appendChild(canvas);
 function App () {
   // Initialize node graph
 
+  this.version = 1;
   this.context = new Context();
 
   this.nodeGraph = document.querySelector('.graph');
+
+  // buttons
+
+  this.saveButton = document.querySelector('.save-button');
+  this.saveButton.addEventListener('click', () => {
+    this.saveButton.blur();
+    var d = new Date();
+    var filename = 'textool-' + (
+      d.getFullYear() + ('0' + (d.getMonth()+1)).substr(-2) + ('0' + d.getDate()).substr(-2) + '-' +
+      ('0' + d.getHours()).substr(-2) + ('0' + d.getMinutes()).substr(-2) + ('0' + d.getSeconds()).substr(-2)
+    ) + '.json';
+    this.downloadState(filename);
+  });
 
   // Initialize sidebar
 
@@ -254,18 +269,9 @@ function App () {
 
   globalEE.on('create-node', (typeId) => {
     var uuid = generateUUID();
-    var type = this.typesProvider.getType(typeId);
 
-    console.log('create-node', typeId, type, uuid);
-
-    this.jobs[uuid] = type.job;
-    this.parameters[uuid] = new (type.parameters)(type.name, {}, (v) => { globalEE.trigger('change-parameters', uuid, v) });
-    this.graph.selectNode(this.graph.addNode(uuid, type));
-
-    this.outputs[uuid] = {};
-    for(var i = 0; i < type.outputs.length; i++) {
-      this.outputs[uuid][type.outputs[i]] = this.context.createTexture(1024, 1024);
-    }
+    this.createNode(uuid, typeId, {}, null, null);
+    this.graph.selectNode(this.graph.getNode(uuid));
   });
 
   globalEE.on('delete-node', (uuid) => {
@@ -304,7 +310,68 @@ function App () {
       this.context.drawToCanvas(uiNode.canvas, uiNode.canvasCtx, this.outputs[uuid].output);
     });
   });
+
+  globalEE.on('create-texture-from-image', (img, callback) => {
+    var texture = this.context.createTexture(img.naturalWidth, img.naturalHeight);
+    texture.updateFromImageElement(img);
+    callback(texture);
+  });
+
+  var hashOptions = parseUrlHash();
+
+  if (hashOptions.gist) {
+    this.loadStateFromGist(hashOptions.gist);
+  }
 }
+
+App.prototype.getState = function () {
+  var nodes = {};
+
+  for (var nodeUuid in this.parameters) {
+    var nodeInGraph = this.graph.getNode(nodeUuid);
+
+    if (nodeInGraph) {
+      var nodeParams = this.parameters[nodeUuid].values;
+      var processedParams = {};
+
+      for (var paramName in nodeParams) {
+        var paramValue = nodeParams[paramName];
+        var paramType = typeof paramValue;
+
+        if (paramType === 'number' || paramType === 'string' || paramType === 'boolean' || Array.isArray(paramValue)) {
+          processedParams[paramName] = paramValue;
+        }
+      }
+
+      nodes[nodeUuid] = {
+        type: nodeInGraph.type.id,
+        position: [nodeInGraph.positionX, nodeInGraph.positionY],
+        params: processedParams
+      };
+    }
+  }
+
+  return {
+    version: this.version,
+    board: {
+      position: [this.graph.boardPositionX, this.graph.boardPositionY]
+    },
+    nodes: nodes
+  };
+};
+
+App.prototype.downloadState = function (filename) {
+  var blob = new Blob([ JSON.stringify(this.getState(), null, 2)], {
+    type: 'text/plain;charset=utf-8'
+  });
+
+  var url = URL.createObjectURL(blob);
+
+  var a = document.createElement('a');
+  a.setAttribute('download', filename);
+  a.setAttribute('href', url);
+  a.click();
+};
 
 /*
 App.prototype.testWebgl = function () {
@@ -429,11 +496,46 @@ App.prototype.loadStateFromFile = function (file) {
   reader.readAsText(file);
 };
 
-App.prototype.loadState = function (data) {
-  // TODO verify state integrity
-  // TODO implement state loading
+App.prototype.createNode = function (uuid, typeId, params, x, y) {
+  var type = this.typesProvider.getType(typeId);
 
-  console.log(data);
+  this.jobs[uuid] = type.job;
+  this.parameters[uuid] = new (type.parameters)(type.name, params, (v) => { globalEE.trigger('change-parameters', uuid, v) });
+  var node = this.graph.addNode(uuid, type);
+
+  if (x !== null && y !== null) {
+    node.position(x, y);
+  }
+
+  this.outputs[uuid] = {};
+  for(var i = 0; i < type.outputs.length; i++) {
+    this.outputs[uuid][type.outputs[i]] = this.context.createTexture(1024, 1024);
+  }
+};
+
+App.prototype.loadState = function (data) {
+  // very basic state integrity check
+
+  if (
+    !data.hasOwnProperty('version') || typeof data.version !== 'number' ||
+    !data.hasOwnProperty('board') || typeof data.board !== 'object' ||
+    !data.hasOwnProperty('nodes') || typeof data.nodes !== 'object'
+  ) {
+    this.setError('Incorrect state format', true);
+    return false;
+  } else if (data.version > App.version) {
+    this.setError('Incorrect version : ' + data.version, true);
+    return false;
+  }
+
+  this.graph.moveBoard(data.board.position[0], data.board.position[1], true);
+
+  for (let uuid in data.nodes) {
+    var nodeDesc = data.nodes[uuid];
+    this.createNode(uuid, nodeDesc.type, nodeDesc.params, nodeDesc.position[0], nodeDesc.position[1]);
+  }
+
+  return true;
 };
 
 module.exports = App;
