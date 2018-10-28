@@ -1,0 +1,44 @@
+.component-input-select
+  background transparent
+
+  .select-container {
+    padding: 0;
+    margin: 0;
+    border: 0;
+    width: 100%;
+    overflow: hidden;
+    background: #fff;
+    position: relative;
+  }
+
+  .select-container:after {
+    top: 50%;
+    right: 10px;
+    border: solid transparent;
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+    border-color: rgba(0, 0, 0, 0);
+    border-top-color: #000000;
+    border-width: 5px;
+    margin-top: -2px;
+    z-index: 100;
+  }
+
+  .select-container select {
+    padding: 4px 4px;
+    width: 100%;
+    border: none;
+    box-shadow: none;
+    background-color: transparent;
+    background-image: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+  }
+
+  .select-container select:focus {
+    outline: none;
+  }

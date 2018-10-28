@@ -1,0 +1,17 @@
+.component-input-boolean
+  background pink
+
+  & label
+    display none !important
+
+  & button
+    border 0
+    width 100%
+    opacity 0.5
+    transition opacity 0.12s ease-in-out
+    background-color white
+    color var(--secondary-text)
+    cursor pointer
+
+  & button.enabled
+    opacity 1.0

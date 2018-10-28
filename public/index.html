@@ -1,0 +1,44 @@
+<html>
+<head>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Arimo|Lato|Roboto">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.1.5/css/fork-awesome.min.css">
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+<main>
+    <header>
+        <h1>TexTool <span>v0.1</span></h1>
+        <div class="buttons">
+            <button class="fa fa-download" title="Load"></button>
+            <button class="fa fa-save" title="Save"></button>
+        </div>
+    </header>
+    <section class="graph" tabindex="0">
+        <div class="graph-container">
+            <div class="layer connection-layer"></div>
+            <div class="layer node-layer"></div>
+        </div>
+    </section>
+    <section class="sidebar"></section>
+    <footer>
+        <div class="error"><span class="fa fa-times-circle"></span> <span class="error-text">Some error happened.</span></div>
+        <div class="credits"><a href="http://www.github.com" class="fa fa-github" target="_blank"></a></div>
+    </footer>
+    <div class="overlay">
+        <div class="popup">
+            <div class="popup-close-button"><span class="fa fa-close"></span></div>
+            <div class="popup-content"></div>
+        </div>
+    </div>
+    <div id="pop" style="width:600px; height:200px;">aa</div>
+</main>
+<script src="main.js"></script>
+<script>
+    var a = new App();
+
+    //setTimeout(() =>  a.displayPopup(document.querySelector('#pop'), true), 600);
+
+    //a.loadStateFromGist('https://gist.github.com/kchapelier/6c8cbadcaca6eea31f58b72782834eca');
+</script>
+</body>
+</html>

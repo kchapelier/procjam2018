@@ -1,0 +1,56 @@
+.overlay
+  z-index 2
+  display block
+  position absolute
+  top 0
+  left 0
+  right 0
+  bottom 0
+  background-color rgba(250, 255, 245, 0.6)
+  opacity 0.0
+  pointer-events none
+  transition opacity 0.15s ease-in-out
+
+  .popup
+    position relative
+    display inline-block
+    width auto
+    margin 0 auto
+    top 50%
+    left 50%
+    transform translate(-50%, -50%)
+    background var(--secondary)
+    opacity 0.0
+    transition opacity 0.45s ease-in-out
+    border-radius 3px
+    border 8px solid var(--primary)
+    color var(--secondary-text)
+    box-shadow #444444 0 0 40px
+
+  .popup-close-button
+    visibility hidden
+    position absolute
+    top -20px
+    right -20px
+    width 32px
+    height 32px
+    border-radius 16px
+    text-align center
+    line-height 32px
+    font-size 17px
+    color var(--primary-text)
+    background-color var(--primary-dark)
+
+    span
+      line-height 32px
+
+  &.visible
+    opacity 1.0
+    pointer-events all
+
+    .popup
+      opacity 1.0
+
+  &.with-close-button .popup-close-button
+    visibility visible
+    pointer-events all

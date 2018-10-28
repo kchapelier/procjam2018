@@ -1,0 +1,202 @@
+.graph
+  overflow hidden
+  user-select none
+  cursor default
+
+
+  .graph-container
+    width 100%
+    height 100%
+    overflow visible
+    transform translate(0px, 0px)
+    transition transform 0.04s linear
+
+    &.no-transition
+      transition none
+
+    // Connections
+
+    svg
+      position absolute
+      top 0
+      left 0
+      pointer-events none
+
+      path.display-path
+        fill none
+        stroke var(--secondary-dark-dark)
+        stroke-width 2.0
+        stroke-linecap round
+        transition stroke-width 0.25s ease-in-out, stroke 0.2s linear
+
+      path.interactive-path
+        fill none
+        stroke transparent
+        stroke-width 13
+        stroke-linecap round
+        opacity 0.2
+        cursor pointer
+        pointer-events auto
+
+      &.hover path.display-path
+        stroke-width 4.0
+        stroke-linecap round
+
+
+      &.dragging path.display-path
+        stroke-dasharray 2 6
+
+
+      &.selected path.display-path
+        stroke-width 3.0
+        stroke var(--primary)
+
+
+      &.error path.display-path
+        stroke-width 4.0
+        stroke #DD0000
+
+
+
+    .layer
+      position absolute
+      top 0
+      left 0
+
+
+.board-dragging
+     cursor move
+     cursor -moz-grabbing
+     cursor -webkit-grabbing
+     cursor grabbing
+
+
+.board-dragging .graph-container, .board-dragging span.anchor, .board-dragging svg path.interactive-path
+     pointer-events none !important
+
+
+.node-dragging
+     cursor move
+     cursor -moz-grabbing
+     cursor -webkit-grabbing
+     cursor grabbing
+
+
+.node-dragging .layer, .node-dragging span.anchor, .node-dragging svg path.interactive-path
+     pointer-events none !important
+
+
+.connection-dragging
+     cursor crosshair
+
+
+.connection-dragging .layer, .connection-dragging svg path.interactive-path
+     pointer-events none !important
+
+
+.node
+     position absolute
+     top 0
+     left 0
+     transform translate(0px, 0px)
+     width 100px
+     height 100px
+     margin-left -50px
+     margin-top -50px
+     background-color var(--secondary-dark-dark)
+     transition background-color 0.1s linear
+     cursor pointer
+
+
+.node.selected
+     background-color var(--primary-dark)
+
+
+.node .node-label
+     position absolute
+     bottom 102px
+     left -20px
+     right -20px
+     text-align center
+     color var(--secondary-dark-dark)
+     font-size 12px
+     transition color 0.1s linear
+
+
+.node.selected .node-label
+     color var(--primary-light)
+
+
+.node canvas
+     background var(--secondary-dark)
+     margin 2px
+     pointer-events none
+
+
+.node .inputs
+     position absolute
+     top 8px
+     left -8px
+     width 16px
+     height 96px
+     pointer-events none
+
+
+.node .outputs
+     position absolute
+     top 8px
+     left 92px
+     width 16px
+     height auto
+     pointer-events none
+
+
+.node .outputs div.output, .node .inputs div.input
+     white-space nowrap
+     display inline-block
+     width 16px
+     height 16px
+     margin-bottom 4px
+     overflow visible
+     pointer-events none
+
+
+.node .outputs
+     direction ltr
+
+
+.node .inputs
+     direction rtl
+
+
+.node .outputs div span.anchor, .node .inputs div span.anchor
+     display inline-block
+     width 16px
+     height 16px
+     background-color rgba(0,0,0,0.2)
+     border-radius 50%
+     pointer-events auto
+
+
+.node .outputs div.connected span.anchor, .node .inputs div.connected span.anchor
+     background-color rgba(255, 255, 0, 0.8)
+
+
+.node .outputs div span.anchor:before, .node .inputs div span.anchor:before
+     content ''
+     display inline-block
+     width 8px
+     height 8px
+     background #FFFFFF
+     border-radius 50%
+     margin 4px
+
+
+.node .outputs div span.label, .node .inputs div span.label
+     display inline-block
+     margin 0 4px
+     line-height 16px
+     vertical-align text-top
+     font-size 12px
+     color #666
+     font-family Arial

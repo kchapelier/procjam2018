@@ -1,0 +1,30 @@
+.component-input-angle
+  background transparent
+
+  .input-container
+    position relative
+
+    input
+      width 100px
+      position absolute
+      top 50%
+      right 30px
+      transform translateY(-50%)
+
+    svg
+      margin-top 0
+      margin-left 5px
+
+      .circle
+        fill transparent
+        stroke var(--primary-dark)
+        stroke-width 1.9
+        stroke-linecap round
+
+      .point
+        fill var(--primary)
+        pointer-events none
+        transform-origin 50% 50%
+        transform rotate(0rad)
+        text-align center
+        vertical-align middle

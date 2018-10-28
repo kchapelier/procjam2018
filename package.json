@@ -2,9 +2,12 @@
   "name": "procjam2018",
   "version": "0.0.0",
   "description": "Procjam2018 project",
-  "main": "index.js",
+  "main": "src/js/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build-styles": "stylus src/stylus/main.styl -o public/main.css",
+    "build-scripts": "browserify src/js/app.js -d --s App -u crypto > public/main.js",
+    "build": "(stylus src/stylus/main.styl -o public/main.css; echo 'Styles compiled.';) & (browserify src/js/app.js -d --s App -u crypto > public/main.js; echo 'Scripts compiled.';) & wait"
   },
   "repository": {
     "type": "git",
@@ -15,5 +18,9 @@
   "bugs": {
     "url": "https://github.com/kchapelier/procjam2018/issues"
   },
-  "homepage": "https://github.com/kchapelier/procjam2018#readme"
+  "homepage": "https://github.com/kchapelier/procjam2018#readme",
+  "devDependencies": {
+    "browserify": "^16.2.3",
+    "stylus": "^0.54.5"
+  }
 }

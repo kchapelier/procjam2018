@@ -1,0 +1,57 @@
+.selector
+  position absolute
+  top 0
+  left 0
+  font-size 13px
+  border 1px solid var(--secondary-dark-dark)
+  width 200px
+  height 300px
+  overflow hidden
+  user-select none
+  opacity 0
+  transition opacity 0.12s ease-in-out
+  pointer-events none
+  cursor default
+
+  &.active
+    opacity 1
+    pointer-events auto
+
+
+  input
+    background #FFF
+    border none
+    display block
+    box-sizing border-box
+    padding 3px 5px
+    width 200px
+    height 25px
+    cursor default
+    outline none
+
+
+  .types-container
+    background var(--secondary-dark)
+    height calc(100% - 25px)
+    overflow-y scroll
+    -ms-overflow-style -ms-autohiding-scrollbar
+
+
+    &::-webkit-scrollbar
+      display none
+
+
+    div
+      height 25px
+      line-height 26px
+      padding 0 5px
+      background-color rgba(255,255,255,0.0)
+      transition background-color 0.13s linear
+      white-space nowrap
+      overflow hidden
+      text-overflow ellipsis
+      cursor pointer
+
+
+      &:hover
+        background-color rgba(255,255,255,0.4)

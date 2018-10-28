@@ -1,0 +1,24 @@
+@require "layout/general.styl"
+@require "layout/header.styl"
+@require "layout/footer.styl"
+@require "layout/popup.styl"
+@require "layout/ranges.styl"
+
+
+main section.graph
+  flex 1 1 300px
+  height calc(100vh - 95px)
+  background var(--secondary)
+  color var(--secondary-text)
+
+main section.sidebar
+  user-select none
+  flex 0 0 300px
+  height calc(100vh - 95px)
+  background var(--secondary-dark)
+  color var(--secondary-text)
+  overflow-x hidden
+  overflow-y hidden
+
+main section.sidebar:hover
+  overflow-y auto

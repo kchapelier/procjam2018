@@ -62,3 +62,8 @@ typings/
 
 # Editor crap
 .idea
+
+# Specific project configuration
+
+public/*.css
+public/*.js

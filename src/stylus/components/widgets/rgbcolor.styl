@@ -1,0 +1,32 @@
+.component-input-rgbcolor
+  background transparent
+  position relative
+
+  .color-preview
+    display inline-block
+    width 58px
+    height 12px
+    background black
+    border 1px solid var(--secondary)
+    position absolute
+    top 5px
+    right 10px
+
+  .vector-component
+    &.hidden
+      display none
+
+    label
+      width 15px
+      text-transform uppercase
+      font-weight bold
+      opacity 0.6
+      font-size 10px
+
+    input[type=range]
+      width 200px
+      margin-left 5px
+
+    input[type=text]
+      width 60px
+      margin-left 5px
