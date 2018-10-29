@@ -1,9 +1,10 @@
 "use strict";
 
-function WorkingTexture (context, width, height) {
+function WorkingTexture (context, width, height, repeat) {
   this.context = context;
   this.width = width;
   this.height = height;
+  this.repeat = !!repeat;
 
   this.initialize();
 }
@@ -34,8 +35,8 @@ WorkingTexture.prototype.initialize = function () {
   gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, false);
   gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA32F, this.width, this.height, 0, gl.RGBA, gl.FLOAT, null);
 
-  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
-  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, this.repeat ? gl.REPEAT : gl.CLAMP_TO_EDGE);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, this.repeat ? gl.REPEAT : gl.CLAMP_TO_EDGE);
   gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
   gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
 
@@ -266,7 +267,7 @@ WorkingTexture.fromImageFile = function (context, file, callback) {
   });
 
   img.addEventListener('load', function () {
-    var texture = new WorkingTexture(context, img.naturalWidth, img.naturalHeight);
+    var texture = new WorkingTexture(context, img.naturalWidth, img.naturalHeight, false);
     texture.updateFromImageElement(img);
 
     callback(texture);

@@ -1,12 +1,12 @@
 "use strict";
 
-function EventListener () {
+function EventEmitter () {
   this.listeners = {};
 }
 
-EventListener.prototype.listeners = null;
+EventEmitter.prototype.listeners = null;
 
-EventListener.prototype.on = function (event, func) {
+EventEmitter.prototype.on = function (event, func) {
   if (!this.listeners.hasOwnProperty(event)) {
     this.listeners[event] = [];
   }
@@ -14,7 +14,7 @@ EventListener.prototype.on = function (event, func) {
   this.listeners[event].push(func);
 };
 
-EventListener.prototype.off = function (event, func) {
+EventEmitter.prototype.off = function (event, func) {
   if (this.listeners.hasOwnProperty(event)) {
     if (!func) {
       delete this.listeners[event];
@@ -32,7 +32,7 @@ EventListener.prototype.off = function (event, func) {
   }
 };
 
-EventListener.prototype.trigger = function (event, ...args) {
+EventEmitter.prototype.trigger = function (event, ...args) {
   if (this.listeners.hasOwnProperty(event)) {
     for (var i = 0; i < this.listeners[event].length; i++) {
       this.listeners[event][i](...args);
@@ -40,6 +40,6 @@ EventListener.prototype.trigger = function (event, ...args) {
   }
 };
 
-EventListener.global = new EventListener();
+EventEmitter.global = new EventEmitter();
 
-module.exports = EventListener;
+module.exports = EventEmitter;

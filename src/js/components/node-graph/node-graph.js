@@ -4,7 +4,7 @@ var { generateUUID, uniqueArray } = require('./../../commons/utils');
 var Node = require('./node');
 var Connection = require('./connection');
 
-var globalEE = require('./../event-listener').global;
+var globalEE = require('./../event-emitter').global;
 
 function NodeGraph (app) {
   this.app = app;
@@ -154,6 +154,7 @@ NodeGraph.prototype.addEvents = function () {
       if (this.draggedConnectionToUuid) {
         this.draggedConnection.svg.classList.remove('dragging');
         this.removeConnectionToOutputParam(this.draggedConnectionToUuid, this.draggedConnectionToParam, this.draggedConnection.uuid);
+        this.triggerCreateConnection(this.draggedConnection);
       } else {
         this.removeConnection(this.draggedConnection);
       }
@@ -178,6 +179,7 @@ NodeGraph.prototype.addEvents = function () {
     // backspace or delete
     if (e.keyCode === 8 || e.keyCode === 46) {
       if (this.selectedConnection !== null) {
+        this.triggerDeleteConnection(this.selectedConnection);
         this.removeConnection(this.selectedConnection);
       }
 
@@ -223,21 +225,6 @@ NodeGraph.prototype.resize = function () {
   this.boardHeight = bb.height;
 };
 
-NodeGraph.prototype.load = function (data) {
-  this.moveBoard(data.board.x, data.board.y, true);
-
-  for (var i = 0; i < data.nodes.length; i++) {
-    var node = data.nodes[i];
-    this.addNode(node.uuid, node.type).position(node.x, node.y);
-  }
-
-  for (i = 0; i < data.connections.length; i++) {
-    var connection = data.connections[i];
-    this.addConnection(connection.uuid);
-    this.setConnectionFromTo(connection.uuid, connection.from[0], connection.from[1], connection.to[0], connection.to[1]);
-  }
-};
-
 NodeGraph.prototype.addNode = function (uuid, type) {
   var node = new Node (uuid, type);
   this.nodes[node.uuid] = node;
@@ -254,6 +241,7 @@ NodeGraph.prototype.addNode = function (uuid, type) {
 
     node.position((fromNode.positionX + toNode.positionX) / 2, (fromNode.positionY + toNode.positionY) / 2);
 
+    this.triggerDeleteConnection(this.selectedConnection);
     this.removeConnection(this.selectedConnection);
 
     var newNodeInputs = node.inputs;
@@ -261,15 +249,18 @@ NodeGraph.prototype.addNode = function (uuid, type) {
 
     var connection = this.addConnection(null);
     this.setConnectionFromTo(connection.uuid, fromUuid, fromParam, uuid, newNodeInputs[0]);
+    this.triggerCreateConnection(connection);
 
     if (node.outputs.length) {
       connection = this.addConnection(null);
       this.setConnectionFromTo(connection.uuid, uuid, newNodeOutputs[0], toUuid, toParam);
+      this.triggerCreateConnection(connection);
     }
   } else if (this.selectedNode && this.selectedNode.outputs.length && node.inputs.length) {
     node.position(this.selectedNode.positionX + 225, this.selectedNode.positionY);
     var connection = this.addConnection(null);
     this.setConnectionFromTo(connection.uuid, this.selectedNode.uuid, this.selectedNode.outputs[0], node.uuid, node.inputs[0]);
+    this.triggerCreateConnection(connection);
   } else {
     node.position(this.boardWidth / 2 - this.boardPositionX, this.boardHeight / 2 - this.boardPositionY);
   }
@@ -282,6 +273,7 @@ NodeGraph.prototype.removeConnectionToOutputParam = function (uuid, param, excep
     var connection = this.connections[key];
     if (connection.toUuid === uuid && connection.toParam === param && connection.uuid !== exceptUuid) {
       this.removeConnection(connection);
+      this.triggerDeleteConnection(connection);
     }
   }
 
@@ -298,6 +290,7 @@ NodeGraph.prototype.removeNode = function (uuid) {
   for (var key in this.connections) {
     var connection = this.connections[key];
     if (connection.isLinkedTo(node.uuid)) {
+      this.triggerDeleteConnection(connection);
       this.removeConnection(connection);
     }
   }
@@ -481,6 +474,14 @@ NodeGraph.prototype.getNodesOrderedByDepth = function () {
   }
 
   return this.orderedNodesPerDepth;
+};
+
+NodeGraph.prototype.triggerCreateConnection = function (connection) {
+  globalEE.trigger('create-connection', connection.uuid, connection.fromUuid, connection.fromParam, connection.toUuid, connection.toParam);
+};
+
+NodeGraph.prototype.triggerDeleteConnection = function (connection) {
+  globalEE.trigger('delete-connection', connection.uuid);
 };
 
 module.exports = NodeGraph;

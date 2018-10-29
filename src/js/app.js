@@ -3,38 +3,44 @@
 var Context = require('./components/webgl/context');
 
 //var ColorspacesParameters = require('./components/parameters/colorspaces-parameters');
-//var MirrorParameters = require('./components/parameters/mirror-parameters');
+
 //var TexturePatchingParameters = require('./components/parameters/texture-patching-parameters');
 var BricksParameters = require('./components/parameters/bricks-parameters');
 var CheckersParameters = require('./components/parameters/checkers-parameters');
 var FastMazeParameters = require('./components/parameters/fast-maze-parameters');
 var GradientNoiseParameters = require('./components/parameters/gradient-noise-parameters');
 var GradientNoiseFractalParameters = require('./components/parameters/gradient-noise-fractal-parameters');
+var GrayscaleConversionParameters = require('./components/parameters/grayscale-conversion-parameters');
 var ImageParameters = require('./components/parameters/image-parameters');
 var LinearGradientParameters = require('./components/parameters/linear-gradient-2-parameters');
+var MirrorParameters = require('./components/parameters/mirror-parameters');
 var ShapeParameters = require('./components/parameters/shape-parameters');
 var UniformColorParameters = require('./components/parameters/uniform-color-parameters');
 var ValueNoiseParameters = require('./components/parameters/value-noise-parameters');
 var ValueNoiseFractalParameters = require('./components/parameters/value-noise-fractal-parameters');
-//var VibranceParameters = require('./components/parameters/vibrance-parameters');
+var VibranceParameters = require('./components/parameters/vibrance-parameters');
 
 var bricksJob = require('./components/jobs/bricks');
 var checkersJob = require('./components/jobs/checkers');
 var fastMazeJob = require('./components/jobs/fast-maze');
 var gradientNoiseJob = require('./components/jobs/gradient-noise');
 var gradientNoiseFractalJob = require('./components/jobs/gradient-noise-fractal');
+var grayscaleConversionJob = require('./components/jobs/grayscale-conversion');
 var imageJob = require('./components/jobs/image');
 var linearGradientJob = require('./components/jobs/linear-gradient-2');
+var mirrorJob = require('./components/jobs/mirror');
 var shapeJob = require('./components/jobs/shape');
 var uniformColorJob = require('./components/jobs/uniform-color');
 var valueNoiseJob = require('./components/jobs/value-noise');
 var valueNoiseFractalJob = require('./components/jobs/value-noise-fractal');
+var vibranceJob = require('./components/jobs/vibrance');
 
+var WorkingGraph = require('./components/working-graph/working-graph');
 var NodeGraph = require('./components/node-graph/node-graph');
 var TypesProvider = require('./components/node-graph/types-provider');
 var TypeSelector = require('./components/node-graph/type-selector');
 
-var globalEE = require('./components/event-listener').global;
+var globalEE = require('./components/event-emitter').global;
 
 var parseUrlHash = require('./commons/parse-url-hash');
 var { generateUUID } = require('./commons/utils');
@@ -219,14 +225,24 @@ function App () {
     inputs: [ 'input' ],
     outputs: [ 'output' ],
     parameters: ColorspacesParameters
-  });
+  });*/
 
   this.typesProvider.setType('mirror', {
     id: 'mirror',
     name: 'Mirror',
     inputs: [ 'input' ],
     outputs: [ 'output' ],
-    parameters: MirrorParameters
+    parameters: MirrorParameters,
+    job: mirrorJob
+  });
+
+  this.typesProvider.setType('grayscale-conversion', {
+    id: 'grayscale-conversion',
+    name: 'Grayscale conversion',
+    inputs: [ 'input' ],
+    outputs: [ 'output' ],
+    parameters: GrayscaleConversionParameters,
+    job: grayscaleConversionJob
   });
 
   this.typesProvider.setType('vibrance', {
@@ -234,9 +250,11 @@ function App () {
     name: 'Vibrance',
     inputs: [ 'input' ],
     outputs: [ 'output' ],
-    parameters: VibranceParameters
+    parameters: VibranceParameters,
+    job: vibranceJob
   });
 
+  /*
   this.typesProvider.setType('texture-patching', {
     id: 'texture-patching',
     name: 'Texture patching',
@@ -246,6 +264,7 @@ function App () {
   });
   */
 
+  this.workingGraph = new WorkingGraph(this.context);
   this.graph = new NodeGraph(this);
 
   var selector = new TypeSelector(this.typesProvider, function (type) {
@@ -263,9 +282,15 @@ function App () {
   });
 
   this.parameters = {};
-  this.jobs = {};
-  this.outputs = {};
   this.parametersShown = null;
+
+  globalEE.on('create-connection', (connectionUuid, fromUuid, fromParam, toUuid, toParam) => {
+    this.workingGraph.createConnection(connectionUuid, fromUuid, fromParam, toUuid, toParam);
+  });
+
+  globalEE.on('delete-connection', (connectionUuid) => {
+    this.workingGraph.deleteConnection(connectionUuid);
+  });
 
   globalEE.on('create-node', (typeId) => {
     var uuid = generateUUID();
@@ -281,16 +306,10 @@ function App () {
       this.displayParameters(null);
     }
 
-    delete this.jobs[uuid];
     this.parameters[uuid].freeElements();
     delete this.parameters[uuid];
     this.graph.removeNode(uuid);
-
-    for (var key in this.outputs[uuid]) {
-      this.outputs[uuid][key].dispose();
-    }
-
-    delete this.outputs[uuid];
+    this.workingGraph.deleteNode(uuid);
   });
 
   globalEE.on('display-parameters', (uuid) => {
@@ -303,16 +322,12 @@ function App () {
     console.log('change-parameters', uuid, values);
     //console.log(this.parameters[uuid].values);
 
-    console.time('process-' + uuid);
-    this.jobs[uuid](this.context, {}, this.outputs[uuid], values, () => {
-      console.timeEnd('process-' + uuid);
-      var uiNode = this.graph.getNode(uuid);
-      this.context.drawToCanvas(uiNode.canvas, uiNode.canvasCtx, this.outputs[uuid].output);
-    });
+    var uiNode = this.graph.getNode(uuid);
+    this.workingGraph.executeNodeJob(uuid, values, uiNode.canvas, uiNode.canvasCtx);
   });
 
   globalEE.on('create-texture-from-image', (img, callback) => {
-    var texture = this.context.createTexture(img.naturalWidth, img.naturalHeight);
+    var texture = this.context.createTexture(img.naturalWidth, img.naturalHeight, false);
     texture.updateFromImageElement(img);
     callback(texture);
   });
@@ -326,11 +341,13 @@ function App () {
 
 App.prototype.getState = function () {
   var nodes = {};
+  var connections = {};
 
   for (var nodeUuid in this.parameters) {
     var nodeInGraph = this.graph.getNode(nodeUuid);
+    var nodeInWorkingGraph = this.workingGraph.getNode(nodeUuid);
 
-    if (nodeInGraph) {
+    if (nodeInGraph && nodeInWorkingGraph) {
       var nodeParams = this.parameters[nodeUuid].values;
       var processedParams = {};
 
@@ -344,9 +361,25 @@ App.prototype.getState = function () {
       }
 
       nodes[nodeUuid] = {
-        type: nodeInGraph.type.id,
+        type: nodeInWorkingGraph.type,
         position: [nodeInGraph.positionX, nodeInGraph.positionY],
         params: processedParams
+      };
+    }
+  }
+
+  for (var connectionUuid in this.workingGraph.connections) {
+    var connectionInWorkingGraph = this.workingGraph.connections[connectionUuid];
+
+    if (
+      nodes.hasOwnProperty(connectionInWorkingGraph.fromUuid) &&
+      nodes.hasOwnProperty(connectionInWorkingGraph.toUuid)
+    ) {
+      connections[connectionUuid] = {
+        fromUuid: connectionInWorkingGraph.fromUuid,
+        fromParam: connectionInWorkingGraph.fromParam,
+        toUuid: connectionInWorkingGraph.toUuid,
+        toParam: connectionInWorkingGraph.toParam
       };
     }
   }
@@ -356,7 +389,8 @@ App.prototype.getState = function () {
     board: {
       position: [this.graph.boardPositionX, this.graph.boardPositionY]
     },
-    nodes: nodes
+    nodes: nodes,
+    connections: connections
   };
 };
 
@@ -475,7 +509,7 @@ App.prototype.loadStateFromGist = function (url) {
   var match = /^https?:\/\/gist\.(github|githubusercontent)\.com\/([^\/ \?#]+)\/([a-z0-9]+)/.exec(url);
 
   if (match !== null) {
-    fetch('https://gist.githubusercontent.com/' + match[2] + '/' + match[3] + '/raw').then(function(response) {
+    fetch('https://gist.githubusercontent.com/' + match[2] + '/' + match[3] + '/raw', { cache: 'no-cache' }).then(function(response) {
       return response.json();
     })
       .then(json => {
@@ -499,17 +533,13 @@ App.prototype.loadStateFromFile = function (file) {
 App.prototype.createNode = function (uuid, typeId, params, x, y) {
   var type = this.typesProvider.getType(typeId);
 
-  this.jobs[uuid] = type.job;
+  this.workingGraph.createNode(uuid, type);
+
   this.parameters[uuid] = new (type.parameters)(type.name, params, (v) => { globalEE.trigger('change-parameters', uuid, v) });
   var node = this.graph.addNode(uuid, type);
 
   if (x !== null && y !== null) {
     node.position(x, y);
-  }
-
-  this.outputs[uuid] = {};
-  for(var i = 0; i < type.outputs.length; i++) {
-    this.outputs[uuid][type.outputs[i]] = this.context.createTexture(1024, 1024);
   }
 };
 
@@ -533,6 +563,15 @@ App.prototype.loadState = function (data) {
   for (let uuid in data.nodes) {
     var nodeDesc = data.nodes[uuid];
     this.createNode(uuid, nodeDesc.type, nodeDesc.params, nodeDesc.position[0], nodeDesc.position[1]);
+  }
+
+  for (let uuid in data.connections) {
+    var connectionDesc = data.connections[uuid];
+
+    this.graph.addConnection(uuid);
+    this.graph.setConnectionFromTo(uuid, connectionDesc.fromUuid, connectionDesc.fromParam, connectionDesc.toUuid, connectionDesc.toParam);
+
+    this.workingGraph.createConnection(uuid, connectionDesc.fromUuid, connectionDesc.fromParam, connectionDesc.toUuid, connectionDesc.toParam);
   }
 
   return true;

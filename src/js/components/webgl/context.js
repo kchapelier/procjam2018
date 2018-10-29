@@ -24,10 +24,11 @@ Context.prototype.createProgram = function (fragmentShader, uniforms) {
  *
  * @param {int} width
  * @param {int} height
+ * @param {bool} repeat
  * @returns {WorkingTexture}
  */
-Context.prototype.createTexture = function (width, height) {
-  return new WorkingTexture(this, width, height);
+Context.prototype.createTexture = function (width, height, repeat) {
+  return new WorkingTexture(this, width, height, repeat);
 };
 
 /**

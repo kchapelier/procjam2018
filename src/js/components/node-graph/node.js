@@ -5,9 +5,8 @@ var { makeElement } = require('./../../commons/utils');
 function Node (uuid, type) {
   this.uuid = uuid;
 
-  this.type = type;
   this.element = makeElement('div', { className: 'node', 'data-uuid': this.uuid });
-  this.canvas = makeElement('canvas', { width: 512, height: 512 }); //TODO switch me back to 96
+  this.canvas = makeElement('canvas', { width: 256, height: 256 }); //TODO switch me back to 96
   this.canvasCtx = this.canvas.getContext('2d');
 
   this.element.appendChild(this.canvas);

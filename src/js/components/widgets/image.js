@@ -3,7 +3,7 @@
 const BaseWidget = require('./base');
 const { makeElement, getProp, extendClass } = require('./../../commons/utils');
 
-const globalEE = require('../event-listener').global;
+const globalEE = require('../event-emitter').global;
 
 const acceptableTypes = [
   'image/png',
