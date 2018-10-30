@@ -16,6 +16,16 @@ function GrayscaleConversionParameters (name, values, callback) {
 
 extendClass(GrayscaleConversionParameters, BaseParameters);
 
+GrayscaleConversionParameters.prototype.update = function () {
+  if (this.values.type === 5) {
+    this.elements.weights.enable();
+    this.elements.normalizeWeights.enable();
+  } else {
+    this.elements.weights.disable();
+    this.elements.normalizeWeights.disable();
+  }
+};
+
 GrayscaleConversionParameters.prototype.initializeElements = function () {
   this.setElement('type', 'select', 'Conversion type', {
     options: [

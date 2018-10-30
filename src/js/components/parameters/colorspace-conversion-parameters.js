@@ -4,7 +4,7 @@ const BaseParameters = require('./base-parameters');
 
 const { getProp, extendClass } = require('./../../commons/utils');
 
-function ColorspacesParameters (name, values, callback) {
+function ColorspaceConversionParameters (name, values, callback) {
   this.constructor.super.call(this, name, callback);
 
   this.values = {
@@ -13,9 +13,9 @@ function ColorspacesParameters (name, values, callback) {
   };
 }
 
-extendClass(ColorspacesParameters, BaseParameters);
+extendClass(ColorspaceConversionParameters, BaseParameters);
 
-ColorspacesParameters.prototype.initializeElements = function () {
+ColorspaceConversionParameters.prototype.initializeElements = function () {
   const types = {
     options: [
       [0, 'RGB'],
@@ -33,4 +33,4 @@ ColorspacesParameters.prototype.initializeElements = function () {
   this.setElement('outputType', 'select', 'Output colorspace', types);
 };
 
-module.exports = ColorspacesParameters;
+module.exports = ColorspaceConversionParameters;

@@ -2,34 +2,43 @@
 
 var Context = require('./components/webgl/context');
 
-//var ColorspacesParameters = require('./components/parameters/colorspaces-parameters');
 
 //var TexturePatchingParameters = require('./components/parameters/texture-patching-parameters');
+var BlendParameters = require('./components/parameters/blend-parameters');
 var BricksParameters = require('./components/parameters/bricks-parameters');
 var CheckersParameters = require('./components/parameters/checkers-parameters');
+var ColorspaceConversionParameters = require('./components/parameters/colorspace-conversion-parameters');
 var FastMazeParameters = require('./components/parameters/fast-maze-parameters');
 var GradientNoiseParameters = require('./components/parameters/gradient-noise-parameters');
 var GradientNoiseFractalParameters = require('./components/parameters/gradient-noise-fractal-parameters');
 var GrayscaleConversionParameters = require('./components/parameters/grayscale-conversion-parameters');
 var ImageParameters = require('./components/parameters/image-parameters');
+var InvertParameters = require('./components/parameters/invert-parameters');
 var LinearGradientParameters = require('./components/parameters/linear-gradient-2-parameters');
 var MirrorParameters = require('./components/parameters/mirror-parameters');
 var ShapeParameters = require('./components/parameters/shape-parameters');
+var ShapeMapperParameters = require('./components/parameters/shape-mapper-parameters');
+var SharpenParameters = require('./components/parameters/sharpen-parameters');
 var UniformColorParameters = require('./components/parameters/uniform-color-parameters');
 var ValueNoiseParameters = require('./components/parameters/value-noise-parameters');
 var ValueNoiseFractalParameters = require('./components/parameters/value-noise-fractal-parameters');
 var VibranceParameters = require('./components/parameters/vibrance-parameters');
 
+var blendJob = require('./components/jobs/blend');
 var bricksJob = require('./components/jobs/bricks');
 var checkersJob = require('./components/jobs/checkers');
+var colorspaceConversionJob = require('./components/jobs/colorspace-conversion');
 var fastMazeJob = require('./components/jobs/fast-maze');
 var gradientNoiseJob = require('./components/jobs/gradient-noise');
 var gradientNoiseFractalJob = require('./components/jobs/gradient-noise-fractal');
 var grayscaleConversionJob = require('./components/jobs/grayscale-conversion');
 var imageJob = require('./components/jobs/image');
+var invertJob = require('./components/jobs/invert');
 var linearGradientJob = require('./components/jobs/linear-gradient-2');
 var mirrorJob = require('./components/jobs/mirror');
 var shapeJob = require('./components/jobs/shape');
+var shapeMapperJob = require('./components/jobs/shape-mapper');
+var sharpenJob = require('./components/jobs/sharpen');
 var uniformColorJob = require('./components/jobs/uniform-color');
 var valueNoiseJob = require('./components/jobs/value-noise');
 var valueNoiseFractalJob = require('./components/jobs/value-noise-fractal');
@@ -218,14 +227,36 @@ function App () {
     job: valueNoiseFractalJob
   });
 
-  /*
-  this.typesProvider.setType('colorspaces', {
-    id: 'colorspaces',
+
+
+
+
+  this.typesProvider.setType('blend', {
+    id: 'blend',
+    name: 'Blend',
+    inputs: [ 'background', 'foreground', 'mask' ],
+    outputs: [ 'output' ],
+    parameters: BlendParameters,
+    job: blendJob
+  });
+
+  this.typesProvider.setType('colorspace-conversion', {
+    id: 'colorspace-conversion',
     name: 'Colorspace conversion',
     inputs: [ 'input' ],
     outputs: [ 'output' ],
-    parameters: ColorspacesParameters
-  });*/
+    parameters: ColorspaceConversionParameters,
+    job: colorspaceConversionJob
+  });
+
+  this.typesProvider.setType('invert', {
+    id: 'invert',
+    name: 'Invert',
+    inputs: [ 'input' ],
+    outputs: [ 'output' ],
+    parameters: InvertParameters,
+    job: invertJob
+  });
 
   this.typesProvider.setType('mirror', {
     id: 'mirror',
@@ -243,6 +274,24 @@ function App () {
     outputs: [ 'output' ],
     parameters: GrayscaleConversionParameters,
     job: grayscaleConversionJob
+  });
+
+  this.typesProvider.setType('shape-mapper', {
+    id: 'shape-mapper',
+    name: 'Shape mapper',
+    inputs: [ 'input' ],
+    outputs: [ 'output' ],
+    parameters: ShapeMapperParameters,
+    job: shapeMapperJob
+  });
+
+  this.typesProvider.setType('sharpen', {
+    id: 'sharpen',
+    name: 'Sharpen',
+    inputs: [ 'input' ],
+    outputs: [ 'output' ],
+    parameters: SharpenParameters,
+    job: sharpenJob
   });
 
   this.typesProvider.setType('vibrance', {

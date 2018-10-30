@@ -21,7 +21,7 @@ WorkingGraph.prototype.createNode = function (uuid, type) {
   }
 
   for(i = 0; i < type.outputs.length; i++) {
-    textures[type.outputs[i]] = this.context.createTexture(1024, 1024, true);
+    textures[type.outputs[i]] = this.context.createTexture(512, 512, true);
     outputRefs[type.outputs[i]] = null;
   }
 
