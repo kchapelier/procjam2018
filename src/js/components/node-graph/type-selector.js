@@ -50,7 +50,7 @@ TypeSelector.prototype.addEvents = function () {
     e.stopPropagation();
   });
 
-  this.element.addEventListener('click', e => {
+  this.element.addEventListener('mousedown', e => {
     e.stopPropagation();
 
     if (e.target.classList.contains('type')) {
@@ -72,6 +72,12 @@ TypeSelector.prototype.addEvents = function () {
         }
       }
 
+      this.close();
+    }
+  });
+
+  this.input.addEventListener('blur', e => {
+    if (this.isActive) {
       this.close();
     }
   });
@@ -135,8 +141,8 @@ TypeSelector.prototype.open = function () {
 TypeSelector.prototype.close = function () {
   this.clearBounce();
   this.element.classList.remove('active');
-  this.input.blur();
   this.isActive = false;
+  this.input.blur();
 };
 
 TypeSelector.prototype.isOpen = function () {

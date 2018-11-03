@@ -65,6 +65,7 @@ NodeGraph.prototype.addEvents = function () {
 
       this.selectNode(this.getNode(e.target.getAttribute('data-uuid')));
       this.selectConnection(null);
+      this.displayParameters(this.selectedNode);
     } else if (e.target.classList.contains('interactive-path')) {
       var connection = this.connections[e.target.parentNode.getAttribute('data-uuid')];
 
@@ -96,7 +97,7 @@ NodeGraph.prototype.addEvents = function () {
 
       this.selectNode(node);
       this.selectConnection(null);
-      this.displayParameters(this.selectedNode);
+      this.showFullPreview(this.selectedNode);
     }
   });
 
@@ -385,6 +386,10 @@ NodeGraph.prototype.getNode = function (uuid) {
   }
 
   return node;
+};
+
+NodeGraph.prototype.showFullPreview = function (node) {
+  globalEE.trigger('show-full-preview', node.uuid);
 };
 
 NodeGraph.prototype.displayParameters = function (node) {

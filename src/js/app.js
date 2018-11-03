@@ -6,39 +6,72 @@ var Context = require('./components/webgl/context');
 //var TexturePatchingParameters = require('./components/parameters/texture-patching-parameters');
 var BlendParameters = require('./components/parameters/blend-parameters');
 var BricksParameters = require('./components/parameters/bricks-parameters');
+var BrightnessContrastParameters = require('./components/parameters/brightness-contrast-parameters');
+var ClampParameters = require('./components/parameters/clamp-parameters');
+var ChannelShuffleParameters = require('./components/parameters/channel-shuffle-parameters');
 var CheckersParameters = require('./components/parameters/checkers-parameters');
+var ColorToMaskParameters = require('./components/parameters/color-to-mask-parameters');
 var ColorspaceConversionParameters = require('./components/parameters/colorspace-conversion-parameters');
+var DirectionalWrapParameters = require('./components/parameters/directional-wrap-parameters');
 var FastMazeParameters = require('./components/parameters/fast-maze-parameters');
+var FixMaskParameters = require('./components/parameters/fix-mask-parameters');
 var GradientNoiseParameters = require('./components/parameters/gradient-noise-parameters');
 var GradientNoiseFractalParameters = require('./components/parameters/gradient-noise-fractal-parameters');
 var GrayscaleConversionParameters = require('./components/parameters/grayscale-conversion-parameters');
+var HslShiftParameters = require('./components/parameters/hsl-shift-parameters');
 var ImageParameters = require('./components/parameters/image-parameters');
 var InvertParameters = require('./components/parameters/invert-parameters');
+var IsolinesParameters = require('./components/parameters/isolines-parameters');
 var LinearGradientParameters = require('./components/parameters/linear-gradient-2-parameters');
+var MakeTileableParameters = require('./components/parameters/make-tileable-parameters');
 var MirrorParameters = require('./components/parameters/mirror-parameters');
+var NoParameters = require('./components/parameters/no-parameters');
+var PosterizeParameters = require('./components/parameters/posterize-parameters');
+var PowParameters = require('./components/parameters/pow-parameters');
 var ShapeParameters = require('./components/parameters/shape-parameters');
 var ShapeMapperParameters = require('./components/parameters/shape-mapper-parameters');
 var SharpenParameters = require('./components/parameters/sharpen-parameters');
+var SkewParameters = require('./components/parameters/skew-parameters');
+var TexturePatchingParameters = require('./components/parameters/texture-patching-parameters');
+var Transform2dParameters = require('./components/parameters/transform-2d-parameters');
 var UniformColorParameters = require('./components/parameters/uniform-color-parameters');
+var UniformGrayscaleParameters = require('./components/parameters/uniform-gray-parameters');
 var ValueNoiseParameters = require('./components/parameters/value-noise-parameters');
 var ValueNoiseFractalParameters = require('./components/parameters/value-noise-fractal-parameters');
 var VibranceParameters = require('./components/parameters/vibrance-parameters');
 
 var blendJob = require('./components/jobs/blend');
 var bricksJob = require('./components/jobs/bricks');
+var brightnessContrastJob = require('./components/jobs/brightness-contrast');
+var channelMergeJob = require('./components/jobs/channel-merge');
+var channelShuffleJob = require('./components/jobs/channel-shuffle');
+var channelSplitterJob = require('./components/jobs/channel-splitter');
+var clampJob = require('./components/jobs/clamp');
 var checkersJob = require('./components/jobs/checkers');
+var colorToMaskJob = require('./components/jobs/color-to-mask');
 var colorspaceConversionJob = require('./components/jobs/colorspace-conversion');
+var directionalWrapJob = require('./components/jobs/directional-wrap');
 var fastMazeJob = require('./components/jobs/fast-maze');
+var fixMaskJob = require('./components/jobs/fix-mask');
 var gradientNoiseJob = require('./components/jobs/gradient-noise');
 var gradientNoiseFractalJob = require('./components/jobs/gradient-noise-fractal');
 var grayscaleConversionJob = require('./components/jobs/grayscale-conversion');
+var hslShiftJob = require('./components/jobs/hsl-shift');
 var imageJob = require('./components/jobs/image');
 var invertJob = require('./components/jobs/invert');
+var isolinesJob = require('./components/jobs/isolines');
 var linearGradientJob = require('./components/jobs/linear-gradient-2');
+var makeTileableJob = require('./components/jobs/make-tileable');
 var mirrorJob = require('./components/jobs/mirror');
+var normalizeJob = require('./components/jobs/normalize');
+var posterizeJob = require('./components/jobs/posterize');
+var powJob = require('./components/jobs/pow');
 var shapeJob = require('./components/jobs/shape');
 var shapeMapperJob = require('./components/jobs/shape-mapper');
 var sharpenJob = require('./components/jobs/sharpen');
+var skewJob = require('./components/jobs/skew');
+var texturePatchingJob = require('./components/jobs/texture-patching');
+var transform2dJob = require('./components/jobs/transform-2d');
 var uniformColorJob = require('./components/jobs/uniform-color');
 var valueNoiseJob = require('./components/jobs/value-noise');
 var valueNoiseFractalJob = require('./components/jobs/value-noise-fractal');
@@ -53,20 +86,6 @@ var globalEE = require('./components/event-emitter').global;
 
 var parseUrlHash = require('./commons/parse-url-hash');
 var { generateUUID } = require('./commons/utils');
-
-console.log(globalEE);
-
-globalEE.trigger('click', 1, 2);
-
-var canvas = document.createElement('canvas');
-var canvasCtx = canvas.getContext('2d');
-canvas.width = canvas.height = 96;
-
-canvas.style.position = 'absolute';
-canvas.style.top = '0px';
-canvas.style.left = '0px';
-
-document.body.appendChild(canvas);
 
 function App () {
   // Initialize node graph
@@ -135,6 +154,33 @@ function App () {
     outputs: [ 'output' ],
     parameters: BricksParameters,
     job: bricksJob
+  });
+
+  this.typesProvider.setType('channel-shuffle', {
+    id: 'channel-shuffle',
+    name: 'Channel shuffle',
+    inputs: [ 'input1', 'input2', 'input3' ],
+    outputs: [ 'output' ],
+    parameters: ChannelShuffleParameters,
+    job: channelShuffleJob
+  });
+
+  this.typesProvider.setType('channel-splitter', {
+    id: 'channel-splitter',
+    name: 'Channel splitter',
+    inputs: [ 'input' ],
+    outputs: [ 'channel1', 'channel2', 'channel3' ],
+    parameters: NoParameters,
+    job: channelSplitterJob
+  });
+
+  this.typesProvider.setType('channel-merge', {
+    id: 'channel-merge',
+    name: 'Channel Merge',
+    inputs: [ 'channel1', 'channel2', 'channel3' ],
+    outputs: [ 'output' ],
+    parameters: NoParameters,
+    job: channelMergeJob
   });
 
   this.typesProvider.setType('checkers', {
@@ -209,6 +255,15 @@ function App () {
     job: uniformColorJob
   });
 
+  this.typesProvider.setType('uniform-grayscale', {
+    id: 'uniform-grayscale',
+    name: 'Uniform grayscale',
+    inputs: [ ],
+    outputs: [ 'output' ],
+    parameters: UniformGrayscaleParameters,
+    job: uniformColorJob
+  });
+
   this.typesProvider.setType('value-noise', {
     id: 'value-noise',
     name: 'Value noise',
@@ -240,6 +295,33 @@ function App () {
     job: blendJob
   });
 
+  this.typesProvider.setType('brightness-contrast', {
+    id: 'brightness-contrast',
+    name: 'Brightness and contrast',
+    inputs: [ 'input' ],
+    outputs: [ 'output' ],
+    parameters: BrightnessContrastParameters,
+    job: brightnessContrastJob
+  });
+
+  this.typesProvider.setType('clamp', {
+    id: 'clamp',
+    name: 'Clamp',
+    inputs: [ 'input' ],
+    outputs: [ 'output' ],
+    parameters: ClampParameters,
+    job: clampJob
+  });
+
+  this.typesProvider.setType('color-to-mask', {
+    id: 'color-to-mask',
+    name: 'Color to mask',
+    inputs: [ 'input' ],
+    outputs: [ 'output' ],
+    parameters: ColorToMaskParameters,
+    job: colorToMaskJob
+  });
+
   this.typesProvider.setType('colorspace-conversion', {
     id: 'colorspace-conversion',
     name: 'Colorspace conversion',
@@ -247,6 +329,33 @@ function App () {
     outputs: [ 'output' ],
     parameters: ColorspaceConversionParameters,
     job: colorspaceConversionJob
+  });
+
+  this.typesProvider.setType('directional-wrap', {
+    id: 'directional-wrap',
+    name: 'Directional wrap',
+    inputs: [ 'input', 'intensity', 'angle' ],
+    outputs: [ 'output' ],
+    parameters: DirectionalWrapParameters,
+    job: directionalWrapJob
+  });
+
+  this.typesProvider.setType('fix-mask', {
+    id: 'fix-mask',
+    name: 'Fix mask',
+    inputs: [ 'input' ],
+    outputs: [ 'output' ],
+    parameters: FixMaskParameters,
+    job: fixMaskJob
+  });
+
+  this.typesProvider.setType('hsl-shift', {
+    id: 'hsl-shift',
+    name: 'HSL Shift',
+    inputs: [ 'input' ],
+    outputs: [ 'output' ],
+    parameters: HslShiftParameters,
+    job: hslShiftJob
   });
 
   this.typesProvider.setType('invert', {
@@ -258,6 +367,24 @@ function App () {
     job: invertJob
   });
 
+  this.typesProvider.setType('isolines', {
+    id: 'isolines',
+    name: 'Isolines',
+    inputs: [ 'input' ],
+    outputs: [ 'output' ],
+    parameters: IsolinesParameters,
+    job: isolinesJob
+  });
+
+  this.typesProvider.setType('make-tileable', {
+    id: 'make-tileable',
+    name: 'Make tileable',
+    inputs: [ 'input', 'perturbation' ],
+    outputs: [ 'output' ],
+    parameters: MakeTileableParameters,
+    job: makeTileableJob
+  });
+
   this.typesProvider.setType('mirror', {
     id: 'mirror',
     name: 'Mirror',
@@ -265,6 +392,33 @@ function App () {
     outputs: [ 'output' ],
     parameters: MirrorParameters,
     job: mirrorJob
+  });
+
+  this.typesProvider.setType('normalize', {
+    id: 'normalize',
+    name: 'Normalize',
+    inputs: [ 'input' ],
+    outputs: [ 'output' ],
+    parameters: NoParameters,
+    job: normalizeJob
+  });
+
+  this.typesProvider.setType('posterize', {
+    id: 'posterize',
+    name: 'Posterize',
+    inputs: [ 'input' ],
+    outputs: [ 'output' ],
+    parameters: PosterizeParameters,
+    job: posterizeJob
+  });
+
+  this.typesProvider.setType('pow', {
+    id: 'pow',
+    name: 'Pow',
+    inputs: [ 'input', 'exponent' ],
+    outputs: [ 'output' ],
+    parameters: PowParameters,
+    job: powJob
   });
 
   this.typesProvider.setType('grayscale-conversion', {
@@ -292,6 +446,33 @@ function App () {
     outputs: [ 'output' ],
     parameters: SharpenParameters,
     job: sharpenJob
+  });
+
+  this.typesProvider.setType('skew', {
+    id: 'skew',
+    name: 'Skew',
+    inputs: [ 'input' ],
+    outputs: [ 'output' ],
+    parameters: SkewParameters,
+    job: skewJob
+  });
+
+  this.typesProvider.setType('texture-patching', {
+    id: 'texture-patching',
+    name: 'Texture patching',
+    inputs: [ 'input' ],
+    outputs: [ 'output' ],
+    parameters: TexturePatchingParameters,
+    job: texturePatchingJob
+  });
+
+  this.typesProvider.setType('transform-2d', {
+    id: 'transform-2d',
+    name: '2D Transform',
+    inputs: [ 'input' ],
+    outputs: [ 'output' ],
+    parameters: Transform2dParameters,
+    job: transform2dJob
   });
 
   this.typesProvider.setType('vibrance', {
@@ -338,6 +519,7 @@ function App () {
   });
 
   globalEE.on('delete-connection', (connectionUuid) => {
+    console.log('delete-connection', connectionUuid);
     this.workingGraph.deleteConnection(connectionUuid);
   });
 
@@ -345,7 +527,9 @@ function App () {
     var uuid = generateUUID();
 
     this.createNode(uuid, typeId, {}, null, null);
-    this.graph.selectNode(this.graph.getNode(uuid));
+    var uiNode = this.graph.getNode(uuid);
+    this.graph.selectNode(uiNode);
+    this.displayParameters(uuid);
   });
 
   globalEE.on('delete-node', (uuid) => {
@@ -367,12 +551,18 @@ function App () {
     this.displayParameters(uuid);
   });
 
+  globalEE.on('show-full-preview', (uuid) => {
+    console.log('show-full-preview', uuid);
+
+    //TODO implement this
+  });
+
   globalEE.on('change-parameters', (uuid, values) => {
     console.log('change-parameters', uuid, values);
     //console.log(this.parameters[uuid].values);
 
     var uiNode = this.graph.getNode(uuid);
-    this.workingGraph.executeNodeJob(uuid, values, uiNode.canvas, uiNode.canvasCtx);
+    this.workingGraph.scheduleNodeJob(uuid);
   });
 
   globalEE.on('create-texture-from-image', (img, callback) => {
@@ -397,7 +587,7 @@ App.prototype.getState = function () {
     var nodeInWorkingGraph = this.workingGraph.getNode(nodeUuid);
 
     if (nodeInGraph && nodeInWorkingGraph) {
-      var nodeParams = this.parameters[nodeUuid].values;
+      var nodeParams = nodeInWorkingGraph.parameters;
       var processedParams = {};
 
       for (var paramName in nodeParams) {
@@ -582,10 +772,11 @@ App.prototype.loadStateFromFile = function (file) {
 App.prototype.createNode = function (uuid, typeId, params, x, y) {
   var type = this.typesProvider.getType(typeId);
 
-  this.workingGraph.createNode(uuid, type);
-
   this.parameters[uuid] = new (type.parameters)(type.name, params, (v) => { globalEE.trigger('change-parameters', uuid, v) });
+  this.workingGraph.createNode(uuid, type, this.parameters[uuid].values);
   var node = this.graph.addNode(uuid, type);
+  this.workingGraph.setNodeCanvas(uuid, node.canvas, node.canvasCtx);
+
 
   if (x !== null && y !== null) {
     node.position(x, y);
@@ -620,7 +811,11 @@ App.prototype.loadState = function (data) {
     this.graph.addConnection(uuid);
     this.graph.setConnectionFromTo(uuid, connectionDesc.fromUuid, connectionDesc.fromParam, connectionDesc.toUuid, connectionDesc.toParam);
 
-    this.workingGraph.createConnection(uuid, connectionDesc.fromUuid, connectionDesc.fromParam, connectionDesc.toUuid, connectionDesc.toParam);
+    this.workingGraph.createConnection(uuid, connectionDesc.fromUuid, connectionDesc.fromParam, connectionDesc.toUuid, connectionDesc.toParam, true);
+  }
+
+  for (let uuid in data.nodes) {
+    this.workingGraph.scheduleNodeJob(uuid);
   }
 
   return true;

@@ -12,8 +12,8 @@ function TexturePatchingParameters (name, values, callback) {
     rotation: getProp(values, 'rotation', 0),
     tilesNumber: getProp(values, 'tilesNumber', 1),
     seed: getProp(values, 'seed', 0),
-    randomization: getProp(values, 'randomization', 0),
-    smoothness: getProp(values, 'smoothness', 0)
+    randomization: getProp(values, 'randomization', 0.2),
+    smoothness: getProp(values, 'smoothness', 0.3)
   };
 }
 

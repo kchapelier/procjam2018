@@ -90,7 +90,7 @@ function getProgram (context) {
         float iscale = float(scale) * 2.;
         float iseed = seed / 103.;
 
-        uv = uv * scale;
+        uv = uv * iscale;
 
         vec2 p = floor(uv);
         vec2 f = fract(uv);

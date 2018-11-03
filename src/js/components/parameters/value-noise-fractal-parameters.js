@@ -11,7 +11,7 @@ function ValueNoiseFractalParameters (name, values, callback) {
     minOctave: getProp(values, 'minOctave', 1),
     maxOctave: getProp(values, 'maxOctave', 4),
     direction: getProp(values, 'direction', 0),
-    lacunarity: getProp(values, 'direction', 2),
+    lacunarity: getProp(values, 'lacunarity', 2),
     smoothness: getProp(values, 'smoothness', 0.5),
     seed: getProp(values, 'seed', 0),
     deformShape: getProp(values, 'deformShape', 0),

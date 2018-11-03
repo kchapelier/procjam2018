@@ -40,6 +40,8 @@ BaseParameters.prototype.setElement = function (name, type, label, options) {
       this.triggerChangeCallback();
     }
   );
+
+  this.elements[name].enable();
 };
 
 BaseParameters.prototype.getElements = function () {
