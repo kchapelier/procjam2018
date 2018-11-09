@@ -115,7 +115,6 @@ function shapeMapperJob (context, inputs, outputs, parameters, done) {
     segments: parameters.segments
   };
 
-  console.log(outputs);
   program.execute(uniforms, outputs.output);
 
   done();

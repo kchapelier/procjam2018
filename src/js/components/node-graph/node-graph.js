@@ -193,13 +193,7 @@ NodeGraph.prototype.addEvents = function () {
 
       // TODO disable node dragging mode
       // TODO disable board dragging mode
-    } else if (e.keyCode === 13 && this.selectedNode) {
-      this.displayParameters(this.selectedNode);
     }
-  });
-
-  window.addEventListener('resize', e => {
-    this.resize();
   });
 };
 

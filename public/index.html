@@ -1,7 +1,9 @@
-<html>
+<!doctype html>
+<html lang="fr">
 <head>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Arimo|Lato|Roboto">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.1.5/css/fork-awesome.min.css">
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="resources/fonts/fonts.css">
+    <link rel="stylesheet" href="resources/fork-awesome/fork-awesome.min.css">
     <link rel="stylesheet" href="main.css">
 </head>
 <body>
@@ -13,11 +15,16 @@
             <button class="fa fa-save save-button" title="Save"></button>
         </div>
     </header>
-    <section class="graph" tabindex="0">
-        <div class="graph-container">
-            <div class="layer connection-layer"></div>
-            <div class="layer node-layer"></div>
-        </div>
+    <section class="working-space">
+        <section class="graph" tabindex="0">
+            <div class="graph-container">
+                <div class="layer connection-layer"></div>
+                <div class="layer node-layer"></div>
+            </div>
+        </section>
+        <section class="preview">
+
+        </section>
     </section>
     <section class="sidebar"></section>
     <footer>
@@ -35,10 +42,7 @@
 <script src="main.js"></script>
 <script>
     var a = new App();
-
-    //setTimeout(() =>  a.displayPopup(document.querySelector('#pop'), true), 600);
-
-    //a.loadStateFromGist('https://gist.github.com/kchapelier/6c8cbadcaca6eea31f58b72782834eca');
+    console.log(a);
 </script>
 </body>
 </html>

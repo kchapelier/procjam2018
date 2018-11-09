@@ -13,10 +13,12 @@ var ChannelShuffleParameters = require('./../parameters/channel-shuffle-paramete
 var CheckersParameters = require('./../parameters/checkers-parameters');
 var ColorToMaskParameters = require('./../parameters/color-to-mask-parameters');
 var ColorspaceConversionParameters = require('./../parameters/colorspace-conversion-parameters');
+var DirectionalBlurParameters = require('./../parameters/directional-blur-parameters');
 var DirectionalWrapParameters = require('./../parameters/directional-wrap-parameters');
 var EdgeDetectParameters = require('./../parameters/edge-detect-parameters');
 var FastMazeParameters = require('./../parameters/fast-maze-parameters');
 var FixMaskParameters = require('./../parameters/fix-mask-parameters');
+var GaussianBlurParameters = require('./../parameters/gaussian-blur-parameters');
 var GradientMapParameters = require('./../parameters/gradient-map-parameters');
 var GradientNoiseParameters = require('./../parameters/gradient-noise-parameters');
 var GradientNoiseFractalParameters = require('./../parameters/gradient-noise-fractal-parameters');
@@ -57,10 +59,12 @@ var clampJob = require('./../jobs/clamp');
 var checkersJob = require('./../jobs/checkers');
 var colorToMaskJob = require('./../jobs/color-to-mask');
 var colorspaceConversionJob = require('./../jobs/colorspace-conversion');
+var directionalBlurJob = require('./../jobs/directional-blur');
 var directionalWrapJob = require('./../jobs/directional-wrap');
 var edgeDetectJob = require('./../jobs/edge-detect');
 var fastMazeJob = require('./../jobs/fast-maze');
 var fixMaskJob = require('./../jobs/fix-mask');
+var gaussianBlurJob = require('./../jobs/gaussian-blur');
 var gradientMapJob = require('./../jobs/gradient-map');
 var gradientNoiseJob = require('./../jobs/gradient-noise');
 var gradientNoiseFractalJob = require('./../jobs/gradient-noise-fractal');
@@ -158,6 +162,15 @@ PopulatedTypeProvider.prototype.populate = function () {
     outputs: [ 'output' ],
     parameters: FastMazeParameters,
     job: fastMazeJob
+  });
+
+  this.setType('gaussian-blur', {
+    id: 'gaussian-blur',
+    name: 'Gaussian blur',
+    inputs: [ 'input' ],
+    outputs: [ 'output' ],
+    parameters: GaussianBlurParameters,
+    job: gaussianBlurJob
   });
 
   this.setType('gradient-noise', {
@@ -297,6 +310,15 @@ PopulatedTypeProvider.prototype.populate = function () {
     outputs: [ 'output' ],
     parameters: ColorspaceConversionParameters,
     job: colorspaceConversionJob
+  });
+
+  this.setType('directional-blur', {
+    id: 'directional-blur',
+    name: 'Directional blur',
+    inputs: [ 'input' ],
+    outputs: [ 'output' ],
+    parameters: DirectionalBlurParameters,
+    job: directionalBlurJob
   });
 
   this.setType('directional-wrap', {

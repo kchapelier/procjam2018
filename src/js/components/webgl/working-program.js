@@ -195,7 +195,6 @@ WorkingWebGLProgram.prototype.execute = function (uniforms, workingTexture) {
     context.working.gl.uniform1i(texture.location, texture.textureNumber);
     context.working.gl.uniform1f(texture.setLocation, value ? 1. : 0.);
     context.working.gl.uniform2f(texture.sizeLocation, value ? value.width : 0,  value ? value.height : 0);
-    //console.log(value ? value.width : 0, value ? value.height : 0);
   }
 
   //context.working.gl.bindBuffer(context.working.gl.ARRAY_BUFFER, context.working.triangleBuffer);

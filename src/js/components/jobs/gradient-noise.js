@@ -125,7 +125,6 @@ function gradientNoiseJob (context, inputs, outputs, parameters, done) {
     remapping: parameters.remapping
   };
 
-  console.log(outputs);
   program.execute(uniforms, outputs.output);
 
   done();

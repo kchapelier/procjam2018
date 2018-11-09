@@ -61,7 +61,6 @@ function checkersJob (context, inputs, outputs, parameters, done) {
     rotate45: parameters.rotate45
   };
 
-  console.log(outputs);
   program.execute(uniforms, outputs.output);
 
   done();

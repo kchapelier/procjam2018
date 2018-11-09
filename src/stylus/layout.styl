@@ -5,11 +5,33 @@
 @require "layout/ranges.styl"
 
 
-main section.graph
+main section.working-space
+  position relative
   flex 1 1 300px
   height calc(100vh - 95px)
   background var(--secondary)
   color var(--secondary-text)
+
+  .graph
+    position absolute
+    top 0
+    left 0
+    right 0
+    bottom 0
+
+  .preview
+    position absolute
+    top 0
+    left 0
+    right 0
+    bottom 0
+    background red
+    opacity 0
+    pointer-events none
+
+    &.active
+      opacity 1
+      pointer-events all
 
 main section.sidebar
   user-select none

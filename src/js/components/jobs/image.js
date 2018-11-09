@@ -75,7 +75,6 @@ function imageJob (context, inputs, outputs, parameters, done) {
     image: parameters.image
   };
 
-  console.log(outputs, parameters);
   program.execute(uniforms, outputs.output);
 
   done();

@@ -15,47 +15,53 @@ CopyToCanvasProgram.getInstance = function (context) {
       layout(location = 0) out vec4 fragColor;
 
       uniform vec2 resolution;
+      uniform float size;
 
       uniform sampler2D source;
-      uniform float sourceSet;
+      uniform bool sourceSet;
       uniform vec2 sourceSize;
 
       vec4 downSample (sampler2D sampler, vec2 uv, float level) {
-        vec2 p = 1. / resolution.xy;
+        vec2 p = 1. / sourceSize;
 
         return (
           texture(sampler, uv, 0.) +
-          texture(sampler, uv + vec2(1., 0.) * p * level, 1.) * 0.5 +
-          texture(sampler, uv + vec2(-1., 0.) * p * level, 1.) * 0.5 +
-          texture(sampler, uv + vec2(0., 1.) * p * level, 1.) * 0.5 +
-          texture(sampler, uv + vec2(0., -1.) * p * level, 1.) * 0.5 +
+          texture(sampler, uv + vec2(1., 0.) * p * level, 1.) * 0.75 +
+          texture(sampler, uv + vec2(-1., 0.) * p * level, 1.) * 0.75 +
+          texture(sampler, uv + vec2(0., 1.) * p * level, 1.) * 0.75 +
+          texture(sampler, uv + vec2(0., -1.) * p * level, 1.) * 0.75 +
 
-          texture(sampler, uv + vec2(0.72, 0.72) * p * level, 1.) * 0.5 +
-          texture(sampler, uv + vec2(-0.72, 0.72) * p * level, 1.) * 0.5 +
-          texture(sampler, uv + vec2(-0.72, -0.72) * p * level, 1.) * 0.5 +
-          texture(sampler, uv + vec2(0.72, -0.72) * p * level, 1.) * 0.5 +
+          texture(sampler, uv + vec2(1., 1.) * p * level, 1.) * 0.75 +
+          texture(sampler, uv + vec2(-1., 1.) * p * level, 1.) * 0.75 +
+          texture(sampler, uv + vec2(-1., -1.) * p * level, 1.) * 0.75 +
+          texture(sampler, uv + vec2(1., -1.) * p * level, 1.) * 0.75 +
 
-          texture(sampler, uv + vec2(1., 0.) * p * 2. * level, 1.) * 0.15 +
-          texture(sampler, uv + vec2(-1., 0.) * p * 2. * level, 1.) * 0.15 +
-          texture(sampler, uv + vec2(0., 1.) * p * 2. * level, 1.) * 0.15 +
-          texture(sampler, uv + vec2(0., -1.) * p * 2. * level, 1.) * 0.15 +
+          texture(sampler, uv + vec2(1., 0.) * p * 2. * level, 1.) * 0.25 +
+          texture(sampler, uv + vec2(-1., 0.) * p * 2. * level, 1.) * 0.25 +
+          texture(sampler, uv + vec2(0., 1.) * p * 2. * level, 1.) * 0.25 +
+          texture(sampler, uv + vec2(0., -1.) * p * 2. * level, 1.) * 0.25 +
 
-          texture(sampler, uv + vec2(0.72, 0.72) * p * 2. * level, 1.) * 0.15 +
-          texture(sampler, uv + vec2(-0.72, 0.72) * p * 2. * level, 1.) * 0.15 +
-          texture(sampler, uv + vec2(-0.72, -0.72) * p * 2. * level, 1.) * 0.15 +
-          texture(sampler, uv + vec2(0.72, -0.72) * p * 2. * level, 1.) * 0.15
-        ) / 6.2;
+          texture(sampler, uv + vec2(1., 1.) * p * 2. * level, 1.) * 0.25 +
+          texture(sampler, uv + vec2(-1., 1.) * p * 2. * level, 1.) * 0.25 +
+          texture(sampler, uv + vec2(-1., -1.) * p * 2. * level, 1.) * 0.25 +
+          texture(sampler, uv + vec2(1., -1.) * p * 2. * level, 1.) * 0.25
+        ) / 9.;
       }
 
       void main () {
-        float scale = clamp(max(resolution.x, resolution.y) / max(sourceSize.x, sourceSize.y), 0., 1.);
-        scale = pow(clamp(1. - scale, 0., 1.), 2.5) * 0.5;
-        fragColor = downSample(source, gl_FragCoord.xy / resolution, scale);
+        if (gl_FragCoord.x >= size || gl_FragCoord.y >= size) {
+          discard;
+        }
+
+        float scale = clamp(size / max(sourceSize.x, sourceSize.y), 0., 1.);
+        scale = pow(clamp(1. - scale, 0., 1.), 1.5);
+        fragColor = downSample(source, gl_FragCoord.xy / vec2(size), 0.);
         fragColor.a = 1.;
       }
 
     `, {
-      source: 't'
+      source: 't',
+      size: 'f'
     });
   }
 

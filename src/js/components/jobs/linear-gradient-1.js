@@ -65,7 +65,6 @@ function linearGradient1Job (context, inputs, outputs, parameters, done) {
     position: parameters.position
   };
 
-  console.log(outputs);
   program.execute(uniforms, outputs.output);
 
   done();

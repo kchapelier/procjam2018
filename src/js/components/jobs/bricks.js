@@ -119,7 +119,6 @@ function bricksJob (context, inputs, outputs, parameters, done) {
     offsetRandomization: parameters.offsetRandomization
   };
 
-  console.log(outputs);
   program.execute(uniforms, outputs.output);
 
   done();

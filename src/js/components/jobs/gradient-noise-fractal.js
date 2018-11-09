@@ -172,7 +172,6 @@ function gradientNoiseFractalJob (context, inputs, outputs, parameters, done) {
     peak: parameters.peak
   };
 
-  console.log(outputs);
   program.execute(uniforms, outputs.output);
 
   done();

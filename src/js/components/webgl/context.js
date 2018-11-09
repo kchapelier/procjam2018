@@ -38,14 +38,17 @@ Context.prototype.createTexture = function (width, height, repeat) {
  * @param texture
  */
 Context.prototype.drawToCanvas = function (canvas, canvasCtx, texture) {
+  var canvasSize = Math.max(canvas.width, canvas.height);
+
   CopyToCanvasProgram.getInstance(this).execute({
-    source: texture
+    source: texture,
+    size: canvasSize
   }, {
-    width: canvas.width,
-    height: canvas.height
+    width: texture.width,
+    height: texture.height
   });
 
-  canvasCtx.drawImage(this.working.canvas, 0, 0);
+  canvasCtx.drawImage(this.working.canvas, 0, texture.height - canvasSize, canvasSize, canvasSize, 0, 0, canvasSize, canvasSize);
 };
 
 module.exports = Context;

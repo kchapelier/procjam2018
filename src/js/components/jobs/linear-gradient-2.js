@@ -79,7 +79,6 @@ function linearGradient2Job (context, inputs, outputs, parameters, done) {
     gradientPosition: parameters.gradientPosition
   };
 
-  console.log(outputs);
   program.execute(uniforms, outputs.output);
 
   done();

@@ -90,8 +90,6 @@ function gradientMapJob (context, inputs, outputs, parameters, done) {
     endGradient = [position, 1.];
   }
 
-  console.log(startGradient, endGradient);
-
   var uniforms = {
     source: inputs.input,
     gradientMap: inputs.gradient,

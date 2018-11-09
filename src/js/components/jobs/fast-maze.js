@@ -64,7 +64,6 @@ function fastMazeJob (context, inputs, outputs, parameters, done) {
     seed: parameters.seed
   };
 
-  console.log(outputs);
   program.execute(uniforms, outputs.output);
 
   done();

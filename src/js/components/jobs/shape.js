@@ -435,7 +435,6 @@ function checkersJob (context, inputs, outputs, parameters, done) {
     specific: parameters.specific
   };
 
-  console.log(outputs);
   program.execute(uniforms, outputs.output);
 
   done();

@@ -4,6 +4,7 @@ var Context = require('./components/webgl/context');
 
 var WorkingGraph = require('./components/working-graph/working-graph');
 var NodeGraph = require('./components/node-graph/node-graph');
+var Preview = require('./components/preview/preview');
 var TypesProvider = require('./components/types-provider/populated-types-provider');
 var TypeSelector = require('./components/node-graph/type-selector');
 
@@ -17,8 +18,6 @@ function App () {
 
   this.version = 1;
   this.context = new Context();
-
-  this.nodeGraph = document.querySelector('.graph');
 
   // buttons
 
@@ -64,20 +63,19 @@ function App () {
     return false;
   };
 
-  window.addEventListener('resize', () => {
-    this.resize();
-  });
-
-  this.resize();
 
   this.typesProvider = new TypesProvider();
 
   this.workingGraph = new WorkingGraph(this.context);
   this.graph = new NodeGraph(this);
 
+  this.preview = new Preview();
+
   var selector = new TypeSelector(this.typesProvider, function (type) {
     globalEE.trigger('create-node', type);
   });
+
+  selector.setNextPosition(window.innerWidth / 2, window.innerHeight / 2);
 
   document.addEventListener('mousemove', e => {
     selector.setNextPosition(e.clientX, e.clientY);
@@ -88,6 +86,13 @@ function App () {
       selector.toggle();
     }
   });
+
+
+  window.addEventListener('resize', () => {
+    this.resize();
+  });
+
+  this.resize();
 
   this.parameters = {};
   this.parametersShown = null;
@@ -132,6 +137,9 @@ function App () {
   globalEE.on('show-full-preview', (uuid) => {
     console.log('show-full-preview', uuid);
 
+    this.preview.changeTexture(this.workingGraph.nodes[uuid].defaultTexture);
+    this.preview.show(uuid);
+
     //TODO implement this
   });
 
@@ -143,10 +151,26 @@ function App () {
     this.workingGraph.scheduleNodeJob(uuid);
   });
 
+  globalEE.on('create-buffers', (number, callback) => {
+    var buffers = [];
+
+    for (var i = 0; i < number; i++) {
+      buffers.push(this.context.createTexture(1024, 1024, false));
+    }
+
+    callback(buffers);
+  });
+
   globalEE.on('create-texture-from-image', (img, callback) => {
     var texture = this.context.createTexture(img.naturalWidth, img.naturalHeight, false);
     texture.updateFromImageElement(img);
     callback(texture);
+  });
+
+  globalEE.on('update-texture', (uuid, texture) => {
+    if (this.preview.active && this.preview.shownNode === uuid) {
+      this.preview.changeTexture(texture);
+    }
   });
 
   var hashOptions = parseUrlHash();
@@ -236,10 +260,8 @@ App.prototype.displayParameters = function (parametersUuid) {
 };
 
 App.prototype.resize = function () {
-  //console.log(this);
-  //console.log(this.nodeGraph.getBoundingClientRect());
-
-  //TODO resize operation on graph
+  this.graph.resize();
+  this.preview.resize();
 };
 
 App.prototype.displayPopup = function (el, allowPrematureClose) {
@@ -364,9 +386,7 @@ App.prototype.loadState = function (data) {
     this.workingGraph.createConnection(uuid, connectionDesc.fromUuid, connectionDesc.fromParam, connectionDesc.toUuid, connectionDesc.toParam, true);
   }
 
-  for (let uuid in data.nodes) {
-    this.workingGraph.scheduleNodeJob(uuid);
-  }
+  this.workingGraph.scheduleAll();
 
   return true;
 };

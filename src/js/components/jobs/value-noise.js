@@ -131,7 +131,6 @@ function valueNoiseJob (context, inputs, outputs, parameters, done) {
     deformAmount: parameters.deformAmount
   };
 
-  console.log(outputs);
   program.execute(uniforms, outputs.output);
 
   done();
