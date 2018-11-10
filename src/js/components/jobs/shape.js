@@ -300,105 +300,17 @@ function getProgram (context) {
       }
 
       vec4 process (in vec2 uv) {
-        float value = processStep(uv, vec2(0., 0.));
+        float value = 0.;
 
-        // range 1
+        for (float x = -3.; x <= 3.; x++)
+        for (float y = -3.; y <= 3.; y++) {
+          float v = processStep(uv, vec2(x, y));
 
-        float lc = processStep(uv, vec2(-1., 0.));
-        float cu = processStep(uv, vec2(0., -1.));
-        float rc = processStep(uv, vec2(1., 0.));
-        float cd = processStep(uv, vec2(0., 1.));
-        float rd = processStep(uv, vec2(1., 1.));
-        float ru = processStep(uv, vec2(1., -1.));
-        float ld = processStep(uv, vec2(-1., 1.));
-        float lu = processStep(uv, vec2(-1., -1.));
-
-        // range 2
-
-        float lldd = processStep(uv, vec2(-2., 2.));
-        float lluu = processStep(uv, vec2(-2., -2.));
-        float ldd = processStep(uv, vec2(-1., 2.));
-        float luu = processStep(uv, vec2(-1., -2.));
-        float cdd = processStep(uv, vec2(0., 2.));
-        float cuu = processStep(uv, vec2(0., -2.));
-        float rdd = processStep(uv, vec2(1., 2.));
-        float ruu = processStep(uv, vec2(1., -2.));
-        float rrdd = processStep(uv, vec2(2., 2.));
-        float rruu = processStep(uv, vec2(2., -2.));
-
-        float lld = processStep(uv, vec2(-2., 1.));
-        float llu = processStep(uv, vec2(-2., -1.));
-        float rrd = processStep(uv, vec2(2., 1.));
-        float rru = processStep(uv, vec2(2., -1.));
-
-        float rrc = processStep(uv, vec2(2., 0.));
-        float llc = processStep(uv, vec2(-2., 0.));
-
-        // range 3
-
-        float rrrddd = processStep(uv, vec2(-3., 3.));
-        float rrruuu = processStep(uv, vec2(-3., -3.));
-        float rrddd = processStep(uv, vec2(-2., 3.));
-        float rruuu = processStep(uv, vec2(-2., -3.));
-        float rddd = processStep(uv, vec2(-1., 3.));
-        float ruuu = processStep(uv, vec2(-1., -3.));
-        float cddd = processStep(uv, vec2(0., 3.));
-        float cuuu = processStep(uv, vec2(0., -3.));
-        float lddd = processStep(uv, vec2(1., 3.));
-        float luuu = processStep(uv, vec2(1., -3.));
-        float llddd = processStep(uv, vec2(2., 3.));
-        float lluuu = processStep(uv, vec2(2., -3.));
-        float lllddd = processStep(uv, vec2(3., 3.));
-        float llluuu = processStep(uv, vec2(3., -3.));
-
-        float rrrdd = processStep(uv, vec2(-3., 2.));
-        float rrruu = processStep(uv, vec2(-3., -2.));
-        float rrrd = processStep(uv, vec2(-3., 1.));
-        float rrru = processStep(uv, vec2(-3., -1.));
-        float llldd = processStep(uv, vec2(3., 2.));
-        float llluu = processStep(uv, vec2(3., -2.));
-        float llld = processStep(uv, vec2(3., 1.));
-        float lllu = processStep(uv, vec2(3., -1.));
-
-        float lllc = processStep(uv, vec2(3., 0.));
-        float rrrc = processStep(uv, vec2(-3., 0.));
-
-        if (blendMode == BLEND_MODE_MAX) {
-          value = max(value, max(lc, cu));
-          value = max(value, max(rc, cd));
-          value = max(value, max(rd, ru));
-          value = max(value, max(ld, lu));
-
-          value = max(value, max(lldd, lluu));
-          value = max(value, max(ldd, luu));
-          value = max(value, max(cdd, cuu));
-          value = max(value, max(rdd, ruu));
-          value = max(value, max(rrdd, rruu));
-
-          value = max(value, max(lld, llu));
-          value = max(value, max(rrd, rru));
-
-          value = max(value, max(llc, rrc));
-
-          value = max(value, max(rrrddd, rrruuu));
-          value = max(value, max(rrddd, rruuu));
-          value = max(value, max(rddd, ruuu));
-          value = max(value, max(cddd, cuuu));
-          value = max(value, max(lddd, luuu));
-          value = max(value, max(llddd, lluuu));
-          value = max(value, max(lllddd, llluuu));
-
-          value = max(value, max(rrrdd, rrruu));
-          value = max(value, max(rrrd, rrru));
-          value = max(value, max(llldd, llluu));
-          value = max(value, max(llld, lllu));
-
-          value = max(value, max(rrrc, lllc));
-        } else {
-          value += lc + cu + rc + cd + rd + ru + ld + lu;
-          value += lldd + lluu + ldd + luu + cdd + cuu + rdd + ruu + rrdd + rruu + lld + llu + rrd + rru + llc + rrc;
-          value += rrrddd + rrruuu + rrddd + rruuu + rddd + ruuu + cddd + cuuu + lddd + luuu + llddd + lluuu + lllddd + llluuu;
-          value += rrrdd + rrruu + rrrd + rrru + llldd + llluu + llld + lllu + rrrc + lllc;
+          if (blendMode == BLEND_MODE_MAX) {
+            value = max(value, v);
+          } else {
+            value+=v;
+          }
         }
 
         return vec4(vec3(value), 1.);
@@ -423,7 +335,7 @@ function getProgram (context) {
   return program;
 }
 
-function checkersJob (context, inputs, outputs, parameters, done) {
+function shapeJob (context, inputs, outputs, parameters, done) {
   var program = getProgram(context);
   var uniforms = {
     tiling: parameters.tiling,
@@ -440,4 +352,4 @@ function checkersJob (context, inputs, outputs, parameters, done) {
   done();
 }
 
-module.exports = checkersJob;
+module.exports = shapeJob;
