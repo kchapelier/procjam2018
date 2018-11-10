@@ -62,6 +62,24 @@ main section.sidebar
   color var(--secondary-text)
   overflow-x hidden
   overflow-y hidden
+  scrollbar-width thin
+
+  .sidebar-content
+    height auto
+    width 300px
+    overflow-x hidden
+
+  &::-webkit-scrollbar
+    background transparent
+    width 6px
+
+  &::-webkit-scrollbar-thumb
+    background rgba(0,0,0,0.7)
+    width 6px
+    border-radius 3px
+
+  &::-webkit-scrollbar-button
+    display none
 
 main section.sidebar:hover
   overflow-y auto

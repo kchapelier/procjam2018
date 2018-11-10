@@ -77,6 +77,7 @@ function App () {
   // Initialize sidebar
 
   this.sidebar = document.querySelector('.sidebar');
+  this.sidebarContent = this.sidebar.querySelector('.sidebar-content');
 
   // Initialize overlay/popup system
 
@@ -287,11 +288,11 @@ App.prototype.downloadState = function (filename) {
 };
 
 App.prototype.displayParameters = function (parametersUuid) {
-  this.sidebar.innerHTML = '';
+  this.sidebarContent.innerHTML = '';
   var parameters = this.parameters[parametersUuid] || null;
 
   if (parameters) {
-    this.sidebar.appendChild(parameters.getElements());
+    this.sidebarContent.appendChild(parameters.getElements());
   }
 
   this.parametersShown = parameters ? parametersUuid : null;
