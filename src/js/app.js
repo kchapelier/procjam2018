@@ -10,7 +10,7 @@ var TypeSelector = require('./components/node-graph/type-selector');
 
 var globalEE = require('./components/event-emitter').global;
 
-var parseUrlHash = require('./commons/parse-url-hash');
+var parseUrlQuery = require('./commons/parse-url-query');
 var { generateUUID } = require('./commons/utils');
 
 function App () {
@@ -215,7 +215,7 @@ function App () {
     }
   });
 
-  var hashOptions = parseUrlHash();
+  var hashOptions = parseUrlQuery();
 
   if (hashOptions.gist) {
     this.loadStateFromGist(hashOptions.gist);

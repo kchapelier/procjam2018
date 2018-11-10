@@ -1,11 +1,11 @@
 "use strict";
 
-function parseUrlHash () {
+function parseUrlQuery () {
   var data = {
     gist: null
   };
 
-  document.location.hash.split(/[#&]/g).map(function(option) {
+  document.location.search.split(/[?&]/g).map(function(option) {
     option = option.split('=');
 
     switch (option[0]) {
@@ -19,4 +19,4 @@ function parseUrlHash () {
 
 }
 
-module.exports = parseUrlHash;
+module.exports = parseUrlQuery;
