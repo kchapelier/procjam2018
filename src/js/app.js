@@ -20,6 +20,47 @@ function App () {
   this.context = new Context();
 
   // buttons
+  this.loadPopup = document.querySelector('.load-popup');
+  this.loadPopup.parentNode.removeChild(this.loadPopup);
+  this.loadPanel = this.loadPopup.querySelector('.load-panel');
+  this.loadPopupInput = this.loadPopup.querySelector('.load-popup-input');
+  this.loadButton = document.querySelector('.load-button');
+  this.loadButton.addEventListener('click', () => {
+    this.loadButton.blur();
+    this.loadPopupInput.value = null;
+    this.displayPopup(this.loadPopup, true);
+  });
+  this.loadPanel.addEventListener('click', () => {
+    this.loadPopupInput.click();
+  });
+  this.loadPopupInput.addEventListener('input', e => {
+    if (e.target.files && e.target.files.length > 0) {
+      this.loadStateFromFile(e.target.files[0]);
+      this.closePopup();
+    }
+  });
+  this.loadPanel.addEventListener('dragenter', e => {
+    e.preventDefault();
+    this.loadPanel.classList.add('dragging-file');
+  });
+
+  this.loadPanel.addEventListener('dragleave', e => {
+    this.loadPanel.classList.remove('dragging-file');
+  });
+
+  this.loadPanel.addEventListener('dragover', e => {
+    e.preventDefault();
+  });
+
+  this.loadPanel.addEventListener('drop', e => {
+    e.preventDefault();
+    this.loadPanel.classList.remove('dragging-file');
+
+    if (e.dataTransfer.files.length > 0) {
+      this.loadStateFromFile(e.dataTransfer.files[0]);
+      this.closePopup();
+    }
+  });
 
   this.saveButton = document.querySelector('.save-button');
   this.saveButton.addEventListener('click', () => {
@@ -28,7 +69,7 @@ function App () {
     var filename = 'textool-' + (
       d.getFullYear() + ('0' + (d.getMonth()+1)).substr(-2) + ('0' + d.getDate()).substr(-2) + '-' +
       ('0' + d.getHours()).substr(-2) + ('0' + d.getMinutes()).substr(-2) + ('0' + d.getSeconds()).substr(-2)
-    ) + '.json';
+    ) + '.tx.json';
     this.downloadState(filename);
   });
 
@@ -82,7 +123,8 @@ function App () {
   });
 
   document.body.addEventListener('keypress', e => {
-    if (e.keyCode === 32) {
+    var code = e.keyCode || e.charCode;
+    if (code === 32 && !this.preview.active) {
       selector.toggle();
     }
   });
@@ -102,7 +144,7 @@ function App () {
   });
 
   globalEE.on('delete-connection', (connectionUuid) => {
-    console.log('delete-connection', connectionUuid);
+    //console.log('delete-connection', connectionUuid);
     this.workingGraph.deleteConnection(connectionUuid);
   });
 
@@ -116,7 +158,7 @@ function App () {
   });
 
   globalEE.on('delete-node', (uuid) => {
-    console.log('delete-node', uuid);
+    //console.log('delete-node', uuid);
 
     if (this.parametersShown === uuid) {
       this.displayParameters(null);
@@ -129,13 +171,13 @@ function App () {
   });
 
   globalEE.on('display-parameters', (uuid) => {
-    console.log('display-parameters', uuid);
+    //console.log('display-parameters', uuid);
 
     this.displayParameters(uuid);
   });
 
   globalEE.on('show-full-preview', (uuid) => {
-    console.log('show-full-preview', uuid);
+    //console.log('show-full-preview', uuid);
 
     this.preview.changeTexture(this.workingGraph.nodes[uuid].defaultTexture);
     this.preview.show(uuid);
@@ -144,7 +186,7 @@ function App () {
   });
 
   globalEE.on('change-parameters', (uuid, values) => {
-    console.log('change-parameters', uuid, values);
+    //console.log('change-parameters', uuid, values);
     //console.log(this.parameters[uuid].values);
 
     var uiNode = this.graph.getNode(uuid);
@@ -355,6 +397,19 @@ App.prototype.createNode = function (uuid, typeId, params, x, y) {
   }
 };
 
+App.prototype.clearState = function () {
+  this.displayParameters(null);
+
+  for (var nodeUuid in this.parameters) {
+    this.parameters[nodeUuid].freeElements();
+    delete this.parameters[nodeUuid];
+    this.graph.removeNode(nodeUuid);
+    this.workingGraph.deleteNode(nodeUuid);
+  }
+
+  this.workingGraph.scheduleAll();
+};
+
 App.prototype.loadState = function (data) {
   // very basic state integrity check
 
@@ -369,6 +424,8 @@ App.prototype.loadState = function (data) {
     this.setError('Incorrect version : ' + data.version, true);
     return false;
   }
+
+  this.clearState();
 
   this.graph.moveBoard(data.board.position[0], data.board.position[1], true);
 

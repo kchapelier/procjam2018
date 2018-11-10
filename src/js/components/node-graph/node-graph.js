@@ -56,16 +56,38 @@ NodeGraph.prototype.addEvents = function () {
     }
   }, true);
 
+  var nodeClickTime = 0;
+  var nodeClickUuid = '';
+
   this.root.addEventListener('mousedown', e => {
     if (e.target.classList.contains('node')) {
-      this.isNodeDragging = true;
-      this.nodeOffsetX = e.offsetX;
-      this.nodeOffsetY = e.offsetY;
-      this.root.classList.add('node-dragging');
+      var nowTime = Date.now();
+      var nowUuid = e.target.getAttribute('data-uuid');
 
-      this.selectNode(this.getNode(e.target.getAttribute('data-uuid')));
-      this.selectConnection(null);
-      this.displayParameters(this.selectedNode);
+      if (e.ctrlKey || e.metaKey) {
+        // ctrl click open the preview without changing the selected node
+        // allow to modify the params of a node further down the graph and see how it affects one of its dependents
+        var node = this.getNode(nowUuid);
+        this.showFullPreview(node);
+      } else if (nowTime - nodeClickTime < 300 && nowUuid === nodeClickUuid) {
+        //double click handling
+        var node = this.getNode(nowUuid);
+        this.selectNode(node);
+        this.selectConnection(null);
+        this.showFullPreview(node);
+      } else {
+        this.isNodeDragging = true;
+        this.nodeOffsetX = e.offsetX;
+        this.nodeOffsetY = e.offsetY;
+        this.root.classList.add('node-dragging');
+
+        var node = this.getNode(nowUuid);
+        this.selectNode(node);
+        this.selectConnection(null);
+        this.displayParameters(node);
+      }
+      nodeClickTime = nowTime;
+      nodeClickUuid = nowUuid;
     } else if (e.target.classList.contains('interactive-path')) {
       var connection = this.connections[e.target.parentNode.getAttribute('data-uuid')];
 
@@ -86,18 +108,6 @@ NodeGraph.prototype.addEvents = function () {
     } else {
       this.isBoardDragging = true;
       this.root.classList.add('board-dragging');
-    }
-  });
-
-  this.root.addEventListener('dblclick', e => {
-    var target = document.elementFromPoint(e.clientX, e.clientY);
-
-    if (target.classList.contains('node')) {
-      var node = this.getNode(target.getAttribute('data-uuid'));
-
-      this.selectNode(node);
-      this.selectConnection(null);
-      this.showFullPreview(this.selectedNode);
     }
   });
 
@@ -177,8 +187,11 @@ NodeGraph.prototype.addEvents = function () {
   });
 
   this.root.addEventListener('keydown', e => {
+    var code = e.keyCode || e.charCode;
     // backspace or delete
-    if (e.keyCode === 8 || e.keyCode === 46) {
+    if (code === 8 || code === 46) {
+      e.preventDefault();
+
       if (this.selectedConnection !== null) {
         this.triggerDeleteConnection(this.selectedConnection);
         this.removeConnection(this.selectedConnection);
@@ -187,7 +200,7 @@ NodeGraph.prototype.addEvents = function () {
       if (this.selectedNode !== null) {
         globalEE.trigger('delete-node', this.selectedNode.uuid);
       }
-    } else if (e.keyCode === 27) {
+    } else if (code === 27) {
       this.selectNode(null);
       this.selectConnection(null);
 

@@ -25,27 +25,27 @@ CopyToCanvasProgram.getInstance = function (context) {
         vec2 p = 1. / sourceSize;
 
         return (
-          texture(sampler, uv, 0.) +
-          texture(sampler, uv + vec2(1., 0.) * p * level, 1.) * 0.75 +
-          texture(sampler, uv + vec2(-1., 0.) * p * level, 1.) * 0.75 +
-          texture(sampler, uv + vec2(0., 1.) * p * level, 1.) * 0.75 +
-          texture(sampler, uv + vec2(0., -1.) * p * level, 1.) * 0.75 +
+          texture(sampler, uv) +
+          texture(sampler, uv + vec2(1., 0.) * p * level) * 0.75 +
+          texture(sampler, uv + vec2(-1., 0.) * p * level) * 0.75 +
+          texture(sampler, uv + vec2(0., 1.) * p * level) * 0.75 +
+          texture(sampler, uv + vec2(0., -1.) * p * level) * 0.75 +
 
-          texture(sampler, uv + vec2(1., 1.) * p * level, 1.) * 0.75 +
-          texture(sampler, uv + vec2(-1., 1.) * p * level, 1.) * 0.75 +
-          texture(sampler, uv + vec2(-1., -1.) * p * level, 1.) * 0.75 +
-          texture(sampler, uv + vec2(1., -1.) * p * level, 1.) * 0.75 +
+          texture(sampler, uv + vec2(1., 1.) * p * level) * 0.75 +
+          texture(sampler, uv + vec2(-1., 1.) * p * level) * 0.75 +
+          texture(sampler, uv + vec2(-1., -1.) * p * level) * 0.75 +
+          texture(sampler, uv + vec2(1., -1.) * p * level) * 0.75 +
 
-          texture(sampler, uv + vec2(1., 0.) * p * 2. * level, 1.) * 0.25 +
-          texture(sampler, uv + vec2(-1., 0.) * p * 2. * level, 1.) * 0.25 +
-          texture(sampler, uv + vec2(0., 1.) * p * 2. * level, 1.) * 0.25 +
-          texture(sampler, uv + vec2(0., -1.) * p * 2. * level, 1.) * 0.25 +
+          texture(sampler, uv + vec2(1., 0.) * p * 2. * level) * 0.5 +
+          texture(sampler, uv + vec2(-1., 0.) * p * 2. * level) * 0.5 +
+          texture(sampler, uv + vec2(0., 1.) * p * 2. * level) * 0.5 +
+          texture(sampler, uv + vec2(0., -1.) * p * 2. * level) * 0.5 +
 
-          texture(sampler, uv + vec2(1., 1.) * p * 2. * level, 1.) * 0.25 +
-          texture(sampler, uv + vec2(-1., 1.) * p * 2. * level, 1.) * 0.25 +
-          texture(sampler, uv + vec2(-1., -1.) * p * 2. * level, 1.) * 0.25 +
-          texture(sampler, uv + vec2(1., -1.) * p * 2. * level, 1.) * 0.25
-        ) / 9.;
+          texture(sampler, uv + vec2(1., 1.) * p * 2. * level) * 0.5 +
+          texture(sampler, uv + vec2(-1., 1.) * p * 2. * level) * 0.5 +
+          texture(sampler, uv + vec2(-1., -1.) * p * 2. * level) * 0.5 +
+          texture(sampler, uv + vec2(1., -1.) * p * 2. * level) * 0.5
+        ) / 11.;
       }
 
       void main () {
@@ -55,7 +55,7 @@ CopyToCanvasProgram.getInstance = function (context) {
 
         float scale = clamp(size / max(sourceSize.x, sourceSize.y), 0., 1.);
         scale = pow(clamp(1. - scale, 0., 1.), 1.5);
-        fragColor = downSample(source, gl_FragCoord.xy / vec2(size), 0.);
+        fragColor = downSample(source, gl_FragCoord.xy / vec2(size), 1.);
         fragColor.a = 1.;
       }
 

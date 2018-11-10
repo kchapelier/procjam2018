@@ -32,7 +32,9 @@ function GrayColorWidget () {
   });
 
   this.input.addEventListener('keypress', e => {
-    if (e.keyCode === 13) {
+    var code = e.keyCode || e.charCode;
+
+    if (code === 13) {
       e.preventDefault();
       if (this.updateValue(this.input.value)) {
         this.triggerChangeCallback();

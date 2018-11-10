@@ -61,10 +61,11 @@ TypeSelector.prototype.addEvents = function () {
 
   this.input.addEventListener('keydown', e => {
     e.stopPropagation();
+    var code = e.keyCode || e.charCode;
 
-    if (e.keyCode === 27) {
+    if (code === 27) {
       this.close();
-    } else if (e.keyCode === 13) {
+    } else if (code === 13) {
       for (var i = 0; i < this.options.length; i++) {
         if (this.options[i].enable) {
           this.choose(this.options[i].id);

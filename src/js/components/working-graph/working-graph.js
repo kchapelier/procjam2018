@@ -24,6 +24,7 @@ function WorkingGraph (context) {
         done();
       });
     } else {
+      this.jobQueue = null;
       done();
     }
   });
@@ -176,7 +177,7 @@ WorkingGraph.prototype.scheduleNodeJob = function (uuid) {
 var jobid = 0;
 
 WorkingGraph.prototype.executeNodeJob = function (uuid, done) {
-  console.time('process-' + uuid);
+  //console.time('process-' + uuid);
 
   var node = this.nodes[uuid];
 
@@ -191,7 +192,7 @@ WorkingGraph.prototype.executeNodeJob = function (uuid, done) {
     node.job(this.context, inputTextures, node.outputTextures, node.parameters, () => {
       this.context.drawToCanvas(node.miniCanvas, node.miniCanvasContext, node.defaultTexture);
       globalEE.trigger('update-texture', uuid, node.defaultTexture);
-      console.timeEnd('process-' + uuid);
+      //console.timeEnd('process-' + uuid);
       done();
     });
   } else {

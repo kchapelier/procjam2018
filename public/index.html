@@ -11,7 +11,7 @@
     <header>
         <h1>TexTool <span>v0.1</span></h1>
         <div class="buttons">
-            <button class="fa fa-download" title="Load"></button>
+            <button class="fa fa-download load-button" title="Load"></button>
             <button class="fa fa-save save-button" title="Save"></button>
         </div>
     </header>
@@ -22,9 +22,7 @@
                 <div class="layer node-layer"></div>
             </div>
         </section>
-        <section class="preview">
-
-        </section>
+        <section class="preview"></section>
     </section>
     <section class="sidebar"></section>
     <footer>
@@ -37,12 +35,14 @@
             <div class="popup-content"></div>
         </div>
     </div>
-    <div id="pop" style="width:600px; height:200px;">aa</div>
+    <div class="load-popup">
+        <div class="load-panel">Drag and drop a save file (or click here to select one) to load it.</div>
+        <input type="file" class="load-popup-input">
+    </div>
 </main>
 <script src="main.js"></script>
 <script>
     var a = new App();
-    console.log(a);
 </script>
 </body>
 </html>

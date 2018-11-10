@@ -36,7 +36,9 @@ function VectorWidget () {
     });
 
     this.inputs[i].addEventListener('keypress', e => {
-      if (e.keyCode === 13) {
+      var code = e.keyCode || e.charCode;
+
+      if (code === 13) {
         e.preventDefault();
         if (this.updateValue(i, this.inputs[i].value)) {
           this.ranges[i].value = this.value[i];

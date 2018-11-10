@@ -73,7 +73,9 @@ function AngleWidget () {
   });
 
   this.input.addEventListener('keypress', e => {
-    if (e.keyCode === 13) {
+    var code = e.keyCode || e.charCode;
+
+    if (code === 13) {
       e.preventDefault();
       var value = parseFloat(this.input.value);
 

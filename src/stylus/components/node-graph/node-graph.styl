@@ -1,6 +1,7 @@
 .graph
   overflow hidden
   user-select none
+  -moz-user-select none
   cursor default
   outline none
 
@@ -84,7 +85,7 @@
      cursor grabbing
 
 
-.node-dragging .layer, .node-dragging span.anchor, .node-dragging svg path.interactive-path
+.node-dragging .graph-container, .node-dragging .layer, .node-dragging span.anchor, .node-dragging svg path.interactive-path
      pointer-events none !important
 
 
@@ -92,7 +93,7 @@
      cursor crosshair
 
 
-.connection-dragging .layer, .connection-dragging svg path.interactive-path
+.connection-dragging .graph-container, .connection-dragging .layer, .connection-dragging svg path.interactive-path, .connection-dragging .anchor-output
      pointer-events none !important
 
 

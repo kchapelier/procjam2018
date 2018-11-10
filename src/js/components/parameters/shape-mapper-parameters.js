@@ -24,8 +24,10 @@ extendClass(ShapeMapperParameters, BaseParameters);
 ShapeMapperParameters.prototype.update = function () {
   if (this.values.type === 1) {
     this.elements.segments.enable();
+    this.elements.patternRotation.enable();
   } else {
     this.elements.segments.disable();
+    this.elements.patternRotation.disable();
   }
 };
 

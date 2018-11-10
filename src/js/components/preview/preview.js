@@ -88,7 +88,9 @@ Preview.prototype.updateDisplay = function () {
 Preview.prototype.setEvents = function () {
   document.addEventListener('keyup', e => {
     if (this.active) {
-      if (e.keyCode === 27) { // ESC
+      var code = e.keyCode || e.charCode;
+
+      if (code === 27) { // ESC
         this.hide();
       }
     }

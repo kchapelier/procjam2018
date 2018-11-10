@@ -166,7 +166,7 @@ WorkingWebGLProgram.prototype.execute = function (uniforms, workingTexture) {
   var context = this.context;
   var program = this.getProgram();
   var isActualWorkingTexture = workingTexture.constructor.name === 'WorkingTexture';
-  var framebuffer = isActualWorkingTexture ? workingTexture.getFrameBuffer() : null;
+  var frameBuffer = isActualWorkingTexture ? workingTexture.getFrameBuffer() : null;
 
   context.working.resize(workingTexture.width, workingTexture.height);
 
@@ -200,7 +200,7 @@ WorkingWebGLProgram.prototype.execute = function (uniforms, workingTexture) {
   //context.working.gl.bindBuffer(context.working.gl.ARRAY_BUFFER, context.working.triangleBuffer);
   context.working.gl.vertexAttribPointer(this.vertexPositionAttribute, context.working.triangleBufferItemSize, context.working.gl.FLOAT, false, 0, 0);
 
-  context.working.gl.bindFramebuffer(context.working.gl.FRAMEBUFFER, framebuffer);
+  context.working.gl.bindFramebuffer(context.working.gl.FRAMEBUFFER, frameBuffer);
   context.working.gl.drawArrays(context.working.gl.TRIANGLES, 0, context.working.triangleBufferNumItems);
 
   // clean the webgl context
