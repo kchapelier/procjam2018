@@ -36,7 +36,7 @@ function Preview () {
     uniform vec2 sourceSize;
 
     vec4 process (in vec2 uv) {
-      return sourceSet == true ? texture(source, uv) : vec4(1., 0., 1., 1.);
+      return sourceSet == true ? clamp(texture(source, uv), 0., 1.) : vec4(1., 0., 1., 1.);
     }
 
     void main () {
@@ -63,7 +63,6 @@ function Preview () {
 
 Preview.prototype.render = function () {
   if (this.active && this.needDisplayUpdate) {
-    console.log('update preview');
     this.updateDisplay();
     this.needDisplayUpdate = false;
   }
