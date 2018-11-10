@@ -30,7 +30,7 @@
         stroke var(--secondary-dark-dark)
         stroke-width 2.0
         stroke-linecap round
-        transition stroke-width 0.25s ease-in-out, stroke 0.2s linear
+        transition stroke-width 0.2s ease-in-out
 
       path.interactive-path
         fill none
@@ -42,7 +42,7 @@
         pointer-events auto
 
       &.hover path.display-path
-        stroke-width 4.0
+        stroke-width 3.5
         stroke-linecap round
 
 
@@ -51,9 +51,8 @@
 
 
       &.selected path.display-path
-        stroke-width 3.0
+        stroke-width 3.5
         stroke var(--primary)
-
 
       &.error path.display-path
         stroke-width 4.0
@@ -107,7 +106,6 @@
      margin-left -50px
      margin-top -50px
      background-color var(--secondary-dark-dark)
-     transition background-color 0.1s linear
      cursor pointer
 
 
@@ -123,7 +121,6 @@
      text-align center
      color var(--secondary-dark-dark)
      font-size 12px
-     transition color 0.1s linear
 
 
 .node.selected .node-label
