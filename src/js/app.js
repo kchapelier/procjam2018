@@ -11,6 +11,7 @@ var TypeSelector = require('./components/node-graph/type-selector');
 var globalEE = require('./components/event-emitter').global;
 
 var parseUrlQuery = require('./commons/parse-url-query');
+var download = require('./commons/download');
 var { generateUUID } = require('./commons/utils');
 
 function App () {
@@ -278,16 +279,11 @@ App.prototype.getState = function () {
 };
 
 App.prototype.downloadState = function (filename) {
-  var blob = new Blob([ JSON.stringify(this.getState(), null, 2)], {
-    type: 'text/plain;charset=utf-8'
-  });
-
-  var url = URL.createObjectURL(blob);
-
-  var a = document.createElement('a');
-  a.setAttribute('download', filename);
-  a.setAttribute('href', url);
-  a.click();
+  download(
+    [ JSON.stringify(this.getState(), null, 2) ],
+    'text/plain;charset=utf-8',
+    filename
+  );
 };
 
 App.prototype.displayParameters = function (parametersUuid) {
