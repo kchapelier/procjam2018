@@ -11,6 +11,7 @@ function Preview () {
   this.active = false;
   this.shownNode = null;
   this.zoomLevel = 0.;
+  this.needDisplayUpdate = false;
 
   this.width = this.element.getBoundingClientRect().width;
   this.height = this.element.getBoundingClientRect().height;
@@ -52,8 +53,6 @@ function Preview () {
 
   this.element.appendChild(this.context.canvas);
 
-
-
   this.setEvents();
 
 
@@ -63,8 +62,10 @@ function Preview () {
 }
 
 Preview.prototype.render = function () {
-  if (this.active) {
+  if (this.active && this.needDisplayUpdate) {
+    console.log('update preview');
     this.updateDisplay();
+    this.needDisplayUpdate = false;
   }
 
   requestAnimationFrame(this._render);
@@ -74,10 +75,12 @@ Preview.prototype.resize = function () {
   var bb = this.element.getBoundingClientRect();
   this.width = bb.width;
   this.height = bb.height;
+  this.needDisplayUpdate = true;
 };
 
 Preview.prototype.changeTexture = function (texture) {
   this.texture.updateFromFloatArray(texture.getFloatArray());
+  this.needDisplayUpdate = true;
 };
 
 Preview.prototype.updateDisplay = function () {
@@ -137,6 +140,7 @@ Preview.prototype.show = function (uuid) {
 Preview.prototype.hide = function () {
   this.shownNode = null;
   this.active = false;
+  this.needDisplayUpdate = false;
   this.element.classList.remove('active');
 };
 
