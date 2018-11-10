@@ -15,10 +15,16 @@ function getElement () {
   return element;
 }
 
-function getUrl (contents, type) {
-  var blob = new Blob(contents, {
-    type: type
-  });
+function getObjectUrl (contents, type) {
+  var blob;
+
+  if (typeof contents === 'object' && contents.constructor.name === 'Blob') {
+    blob = contents;
+  } else {
+    blob = new Blob(contents, {
+      type: type
+    });
+  }
 
   var url = URL.createObjectURL(blob);
 
@@ -33,7 +39,7 @@ function getUrl (contents, type) {
 
 function download (contents, type, filename) {
   var element = getElement();
-  var url = getUrl(contents, type);
+  var url = getObjectUrl(contents, type);
 
   element.setAttribute('href', url);
   element.setAttribute('download', filename);

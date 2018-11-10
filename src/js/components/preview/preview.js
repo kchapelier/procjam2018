@@ -3,15 +3,19 @@
 var WorkingContext = require('./../webgl/working-context');
 var WorkingProgram = require('./../webgl/working-program');
 var WorkingTexture = require('./../webgl/working-texture');
+var download = require('./../../commons/download');
 
 function Preview () {
   this.element = document.querySelector('.preview');
+  this.saveImageButton = document.querySelector('.save-image-button');
   this.active = false;
   this.shownNode = null;
   this.zoomLevel = 0.;
 
   this.width = this.element.getBoundingClientRect().width;
   this.height = this.element.getBoundingClientRect().height;
+
+  this.downloadCanvas = document.createElement('canvas');
 
   this.context = new WorkingContext(this.width, this.height);
   this.texture = new WorkingTexture({ working: this.context }, 1024, 1024, true);
@@ -101,6 +105,26 @@ Preview.prototype.setEvents = function () {
       this.hide();
     }
   });
+
+  this.saveImageButton.addEventListener('click', e => {
+    e.preventDefault();
+    this.saveImageButton.blur();
+
+    this.downloadCanvas.width = this.texture.width;
+    this.downloadCanvas.height = this.texture.height;
+
+    this.downloadCanvas.getContext('2d').putImageData(this.texture.getImageData(), 0, 0);
+
+    this.downloadCanvas.toBlob(blob => {
+      var d = new Date();
+      var filename = 'textool-' + (
+        d.getFullYear() + ('0' + (d.getMonth()+1)).substr(-2) + ('0' + d.getDate()).substr(-2) + '-' +
+        ('0' + d.getHours()).substr(-2) + ('0' + d.getMinutes()).substr(-2) + ('0' + d.getSeconds()).substr(-2)
+      ) + '.png';
+
+      download(blob, 'image/png', filename);
+    }, 'image/png');
+  })
 };
 
 Preview.prototype.show = function (uuid) {
