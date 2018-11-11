@@ -1,7 +1,10 @@
 # procjam2018
 
-Project for Procjam 2018
+http://www.kchapelier.com/procjam2018beta/
 
+A procedural texture authoring application developed for [PROCJAM 2018](http://www.procjam.com/).
+
+The main objective of this project is to have a free, intuitive and efficient graph-based web application for said authoring.
 
 ## Potential use
 
@@ -22,9 +25,25 @@ Project for Procjam 2018
  * [Cartoonish shiny stones](http://www.kchapelier.com/procjam2018beta/?gist=https://gist.github.com/kchapelier/b801ea0ed3443dfb1af939f80f6b435f)
  * [Cords](http://www.kchapelier.com/procjam2018beta/?gist=https://gist.github.com/kchapelier/b60f7b9b3f39895ec3082dc2f82fa520)
 
+## How to use
+
+Check the [wiki](https://github.com/kchapelier/procjam2018/wiki/Help).
+
 ## Restrictions
 
  * The application is only supported on Firefox and Chrome as it depends on multiple modern API not available yet on other browsers.
  * The tool only deals with square textures. There is no plan to support the generation of non square textures.
  * The tool can currently only generate textures of 1024x1024 pixels.
  * The color control are currently rather limited, gradient maps have to be provided by the user.
+
+## How to report an issue ?
+
+Either create an issue on Github or contact me on [Twitter](https://twitter.com/kchplr). Please provide the following information when applicable :
+
+ * Your config (browser, browser version, os and graphic card)
+ * A save of your graph
+ * A screenshot of the issue (if it is a graphical bug)
+
+## How to contribute ?
+
+Make sure to contact me, either on [Twitter](https://twitter.com/kchplr) or through an issue on Github, so we can discuss what change you'd like to make.
