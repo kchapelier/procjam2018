@@ -1,6 +1,6 @@
-# procjam2018
+# Graph.ical
 
-http://www.kchapelier.com/procjam2018beta/
+http://www.kchapelier.com/graph.ical/
 
 A procedural texture authoring application developed for [PROCJAM 2018](http://www.procjam.com/).
 
@@ -10,20 +10,20 @@ The main objective of this project is to have a free, intuitive and efficient gr
 
  * Create procedural height maps for 3D applications.
  * Procedurally generate a full set of tileable textures (diffuse, normal maps, height maps, specular maps, ...) for 3D applications.
- * Generate tileable variations from a given tileable texture with very simple patch-based synthesis ([graph](http://www.kchapelier.com/procjam2018beta/?gist=https://gist.github.com/kchapelier/07869fb98c5348605cd9dffd104580e5)). Works best with highdensity textures such as sand, gravels, dirt, ...
- * Generate a tileable textures from a given non-tileable texture ([graph](http://www.kchapelier.com/procjam2018beta/?gist=https://gist.github.com/kchapelier/b70aef495c97e306291b35dd57d9ddb3)). Works best with highdensity textures such as sand, gravels, dirt, ...
- * Generate a normal map from a given image ([graph](http://www.kchapelier.com/procjam2018beta/?gist=https://gist.github.com/kchapelier/f0e5741103160c1f7f89b8eb4a14e1a1)).
- * Combine multiple b/w maps in a single image ([graph](http://www.kchapelier.com/procjam2018beta/?gist=https://gist.github.com/kchapelier/c8cc088bdca781c421666656e0ea6723))
+ * Generate tileable variations from a given tileable texture with very simple patch-based synthesis ([graph](http://www.kchapelier.com/graph.ical/?gist=https://gist.github.com/kchapelier/07869fb98c5348605cd9dffd104580e5)). Works best with highdensity textures such as sand, gravels, dirt, ...
+ * Generate a tileable textures from a given non-tileable texture ([graph](http://www.kchapelier.com/graph.ical/?gist=https://gist.github.com/kchapelier/b70aef495c97e306291b35dd57d9ddb3)). Works best with highdensity textures such as sand, gravels, dirt, ...
+ * Generate a normal map from a given image ([graph](http://www.kchapelier.com/graph.ical/?gist=https://gist.github.com/kchapelier/f0e5741103160c1f7f89b8eb4a14e1a1)).
+ * Combine multiple b/w maps in a single image ([graph](http://www.kchapelier.com/graph.ical/?gist=https://gist.github.com/kchapelier/c8cc088bdca781c421666656e0ea6723))
  * Create complex custom effects to apply to images.
- * Usable as a prototyping tool for creative coding, without the coding ([example](https://twitter.com/kchplr/status/1058008232063627266), [graph](http://www.kchapelier.com/procjam2018beta/?gist=https://gist.github.com/kchapelier/5a4648b643c914d676f6f62891cd2407))
- * Generate black and white maps to use in page transitions in websites ([example](https://twitter.com/kchplr/status/1061616749697744896), [graph](http://www.kchapelier.com/procjam2018beta/?gist=http://www.kchapelier.com/procjam2018beta/?gist=https://gist.github.com/kchapelier/be0b5de96b712fddcdf6d912078394ef)).
+ * Usable as a prototyping tool for creative coding, without the coding ([example](https://twitter.com/kchplr/status/1058008232063627266), [graph](http://www.kchapelier.com/graph.ical/?gist=https://gist.github.com/kchapelier/5a4648b643c914d676f6f62891cd2407))
+ * Generate black and white maps to use in page transitions in websites ([example](https://twitter.com/kchplr/status/1061616749697744896), [graph](http://www.kchapelier.com/graph.ical/?gist=http://www.kchapelier.com/graph.ical/?gist=https://gist.github.com/kchapelier/be0b5de96b712fddcdf6d912078394ef)).
 
 ## More examples
 
- * [Examples of each noise generator nodes](http://www.kchapelier.com/procjam2018beta/?gist=https://gist.github.com/kchapelier/65608b65fd726c3f77ed9522e0524a56)
- * [Custom kaleidoscope](http://www.kchapelier.com/procjam2018beta/?gist=https://gist.github.com/kchapelier/69c85cb68ee4610a30548facf69e8bf9)
- * [Cartoonish shiny stones](http://www.kchapelier.com/procjam2018beta/?gist=https://gist.github.com/kchapelier/b801ea0ed3443dfb1af939f80f6b435f)
- * [Cords](http://www.kchapelier.com/procjam2018beta/?gist=https://gist.github.com/kchapelier/b60f7b9b3f39895ec3082dc2f82fa520)
+ * [Examples of each noise generator nodes](http://www.kchapelier.com/graph.ical/?gist=https://gist.github.com/kchapelier/65608b65fd726c3f77ed9522e0524a56)
+ * [Custom kaleidoscope](http://www.kchapelier.com/graph.ical/?gist=https://gist.github.com/kchapelier/69c85cb68ee4610a30548facf69e8bf9)
+ * [Cartoonish shiny stones](http://www.kchapelier.com/graph.ical/?gist=https://gist.github.com/kchapelier/b801ea0ed3443dfb1af939f80f6b435f)
+ * [Cords](http://www.kchapelier.com/graph.ical/?gist=https://gist.github.com/kchapelier/b60f7b9b3f39895ec3082dc2f82fa520)
 
 ## How to use
 
