@@ -20,7 +20,7 @@ function AnisotropicNoiseParameters (name, values, callback) {
 extendClass(AnisotropicNoiseParameters, BaseParameters);
 
 AnisotropicNoiseParameters.prototype.initializeElements = function () {
-  this.setElement('rotate', 'boolean', 'Rotate at 45 degrees');
+  this.setElement('rotate', 'boolean', 'Rotate at 90 degrees');
 
   this.setElement('scale', 'vector', 'Scale', {
     items: 2,

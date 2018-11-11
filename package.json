@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build-styles": "stylus src/stylus/main.styl -o public/main.css",
     "build-scripts": "browserify src/js/app.js -d --s App -u crypto > public/main.js",
-    "build": "(stylus src/stylus/main.styl -o public/main.css; echo 'Styles compiled.';) & (browserify src/js/app.js -d --s App -u crypto > public/main.js; echo 'Scripts compiled.';) & wait"
+    "build": "(stylus src/stylus/main.styl -o public/main.css; echo 'Styles compiled.';) & (browserify src/js/app.js --s App -u crypto > public/main.js; echo 'Scripts compiled.';) & wait"
   },
   "repository": {
     "type": "git",
