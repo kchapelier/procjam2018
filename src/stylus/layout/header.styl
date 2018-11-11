@@ -6,6 +6,7 @@ main header
   border-bottom 1px solid var(--primary-light)
   background var(--primary)
   color var(--primary-text)
+  cursor default
 
   h1
     padding 0 0 0 15px
@@ -24,10 +25,15 @@ main header
     top 0
     right 15px
 
-    button
+    a, button
+      display inline-block
+      align-items flex-start
+      text-align center
+      box-sizing border-box
       border 0
       width 32px
       height 40px
+      line-height 32px
       padding 0
       margin 0
       background transparent
@@ -35,6 +41,7 @@ main header
       color var(--primary-text)
       cursor pointer
       transition color 0.1s ease-in-out
+      text-decoration none
 
-    button:hover
+    a:hover, button:hover
       color #BBAAFF
