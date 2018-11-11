@@ -205,6 +205,8 @@ NodeGraph.prototype.addEvents = function () {
       this.selectNode(null);
       this.selectConnection(null);
 
+      globalEE.trigger('display-parameters', null);
+
       // TODO disable node dragging mode
       // TODO disable board dragging mode
     }
