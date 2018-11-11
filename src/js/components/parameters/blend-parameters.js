@@ -9,7 +9,7 @@ function BlendParameters (name, values, callback) {
 
   this.values = {
     type: getProp(values, 'type', 0),
-    opacity: getProp(values, 'opacity', 0),
+    opacity: getProp(values, 'opacity', 0.5),
     seed: getProp(values, 'seed', 0)
   };
 }
