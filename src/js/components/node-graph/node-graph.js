@@ -205,7 +205,7 @@ NodeGraph.prototype.addEvents = function () {
       this.selectNode(null);
       this.selectConnection(null);
 
-      globalEE.trigger('display-parameters', null);
+      //globalEE.trigger('display-parameters', null); //there is currently a bug where this is triggered even though the user is in the preview
 
       // TODO disable node dragging mode
       // TODO disable board dragging mode
