@@ -10,6 +10,7 @@ function Preview () {
   this.saveImageButton = document.querySelector('.save-image-button');
   this.active = false;
   this.shownNode = null;
+  this.mask = true;
   this.zoomLevel = 0.;
   this.needDisplayUpdate = false;
 
@@ -31,6 +32,8 @@ function Preview () {
     uniform vec2 resolution;
     uniform float size;
 
+    uniform bool mask;
+
     uniform sampler2D source;
     uniform bool sourceSet;
     uniform vec2 sourceSize;
@@ -41,14 +44,15 @@ function Preview () {
 
     void main () {
       vec2 uv = (gl_FragCoord.xy - resolution.xy / 2.) * 1.1 / vec2(min(resolution.x,resolution.y)) + 0.5;
-      if (uv.x < 0. || uv.y < 0. || uv.x >= 1. || uv.y >= 1.) {
+      if (mask && (uv.x < 0. || uv.y < 0. || uv.x >= 1. || uv.y >= 1.)) {
         fragColor = process(fract(uv)) * 0.3;
       } else {
         fragColor = process(fract(uv));
       }
     }
   `, {
-    source: 't'
+    source: 't',
+    mask: 'b'
   });
 
   this.element.appendChild(this.context.canvas);
@@ -84,7 +88,8 @@ Preview.prototype.changeTexture = function (texture) {
 
 Preview.prototype.updateDisplay = function () {
   this.program.execute({
-    source: this.texture
+    source: this.texture,
+    mask: this.mask
   }, {
     width: this.width,
     height: this.height
@@ -92,12 +97,26 @@ Preview.prototype.updateDisplay = function () {
 };
 
 Preview.prototype.setEvents = function () {
+  document.addEventListener('keydown', e => {
+    if (this.active) {
+      var code = e.keyCode || e.charCode;
+
+      if (code === 32) {
+        this.mask = false;
+        this.needDisplayUpdate = true;
+      }
+    }
+  });
+
   document.addEventListener('keyup', e => {
     if (this.active) {
       var code = e.keyCode || e.charCode;
 
       if (code === 27) { // ESC
         this.hide();
+      } else if (code === 32) {
+        this.mask = true;
+        this.needDisplayUpdate = true;
       }
     }
   });
