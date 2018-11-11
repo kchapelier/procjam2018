@@ -63,29 +63,31 @@ NodeGraph.prototype.addEvents = function () {
     if (e.target.classList.contains('node')) {
       var nowTime = Date.now();
       var nowUuid = e.target.getAttribute('data-uuid');
+      var node = this.getNode(nowUuid);
 
       if (e.ctrlKey || e.metaKey) {
         // ctrl click open the preview without changing the selected node
         // allow to modify the params of a node further down the graph and see how it affects one of its dependents
-        var node = this.getNode(nowUuid);
         this.showFullPreview(node);
       } else if (nowTime - nodeClickTime < 300 && nowUuid === nodeClickUuid) {
         //double click handling
-        var node = this.getNode(nowUuid);
         this.selectNode(node);
         this.selectConnection(null);
         this.showFullPreview(node);
       } else {
+        // simple click handling
         this.isNodeDragging = true;
-        this.nodeOffsetX = e.offsetX;
-        this.nodeOffsetY = e.offsetY;
         this.root.classList.add('node-dragging');
 
-        var node = this.getNode(nowUuid);
+        var bb = node.element.getBoundingClientRect();
+        this.nodeOffsetX = Math.round(e.clientX - bb.x - bb.width / 2);
+        this.nodeOffsetY = Math.round(e.clientY - bb.y + 4); // where does this 4px offset come from ?
+
         this.selectNode(node);
         this.selectConnection(null);
         this.displayParameters(node);
       }
+
       nodeClickTime = nowTime;
       nodeClickUuid = nowUuid;
     } else if (e.target.classList.contains('interactive-path')) {
@@ -111,10 +113,10 @@ NodeGraph.prototype.addEvents = function () {
     }
   });
 
-  this.root.addEventListener('mousemove', e => {
+  window.addEventListener('mousemove', e => {
     if (this.isConnectionDragging) {
       var canConnectTo = false;
-      var isAnchor = e.target.classList.contains('anchor-input');
+      var isAnchor = e.target.classList && e.target.classList.contains('anchor-input');
 
       if (isAnchor) {
         canConnectTo = this.canConnectNodes(this.draggedConnectionFromUuid, e.target.getAttribute('data-uuid'));
@@ -127,7 +129,7 @@ NodeGraph.prototype.addEvents = function () {
       } else {
         this.draggedConnectionToUuid = null;
         this.draggedConnectionToParam = null;
-        this.setConnectionFrom(this.draggedConnection.uuid, this.draggedConnectionFromUuid, this.draggedConnectionFromParam, e.layerX, e.layerY);
+        this.setConnectionFrom(this.draggedConnection.uuid, this.draggedConnectionFromUuid, this.draggedConnectionFromParam, e.clientX, e.clientY - 54);
       }
 
       if (isAnchor && !canConnectTo) {
@@ -136,14 +138,13 @@ NodeGraph.prototype.addEvents = function () {
         this.draggedConnection.svg.classList.remove('error');
       }
     } else if (this.isNodeDragging) {
-      var posX = (e.layerX - this.nodeOffsetX - this.boardPositionX + 50);
-      var posY = (e.layerY - this.nodeOffsetY - this.boardPositionY + 50);
+      var posX = (e.clientX - this.nodeOffsetX - this.boardPositionX);
+      var posY = (e.clientY - this.nodeOffsetY - this.boardPositionY);
 
       if (e.altKey || e.shiftKey || this.autoSnapping) {
         posX = Math.round(posX / 25) * 25;
         posY = Math.round(posY / 25) * 25;
       }
-
 
       this.selectedNode.position(posX, posY);
 
@@ -160,7 +161,7 @@ NodeGraph.prototype.addEvents = function () {
     }
   });
 
-  this.root.addEventListener('mouseup', e => {
+  window.addEventListener('mouseup', e => {
     if (this.isConnectionDragging) {
       if (this.draggedConnectionToUuid) {
         this.draggedConnection.svg.classList.remove('dragging');

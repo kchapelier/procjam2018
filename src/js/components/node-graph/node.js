@@ -53,8 +53,8 @@ function Node (uuid, type) {
 }
 
 Node.prototype.position = function (x, y) {
-  this.positionX = x;
-  this.positionY = y;
+  this.positionX = Math.round(x);
+  this.positionY = Math.round(y);
   this.element.style.transform = 'translate(' + this.positionX + 'px,' + this.positionY + 'px)';
 };
 

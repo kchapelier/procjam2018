@@ -66,35 +66,25 @@
       left 0
 
 
-.board-dragging
-     cursor move
-     cursor -moz-grabbing
-     cursor -webkit-grabbing
-     cursor grabbing
+.board-dragging, .board-dragging .node, .board-dragging svg path
+     cursor move !important
+     cursor -moz-grabbing !important
+     cursor -webkit-grabbing !important
+     cursor grabbing !important
 
 
-.board-dragging .graph-container, .board-dragging span.anchor, .board-dragging svg path.interactive-path
-     pointer-events none !important
+.node-dragging, .node-dragging .node, .node-dragging svg path
+     cursor move !important
+     cursor -moz-grabbing !important
+     cursor -webkit-grabbing !important
+     cursor grabbing !important
 
 
-.node-dragging
-     cursor move
-     cursor -moz-grabbing
-     cursor -webkit-grabbing
-     cursor grabbing
+.connection-dragging, .connection-dragging .node, .connection-dragging svg path
+     cursor crosshair !important
 
-
-.node-dragging .graph-container, .node-dragging .layer, .node-dragging span.anchor, .node-dragging svg path.interactive-path
-     pointer-events none !important
-
-
-.connection-dragging
-     cursor crosshair
-
-
-.connection-dragging .graph-container, .connection-dragging .layer, .connection-dragging svg path.interactive-path, .connection-dragging .anchor-output
-     pointer-events none !important
-
+.connection-dragging .node .anchor-input
+    cursor pointer !important
 
 .node
      position absolute
