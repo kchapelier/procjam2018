@@ -13,7 +13,7 @@ function ShapeParameters (name, values, callback) {
     rotate45: getProp(values, 'rotate45', false),
     blendMode: getProp(values, 'blendMode', 0),
     angle: getProp(values, 'angle', 0),
-    size: getProp(values, 'size', [1, 1]),
+    size: getProp(values, 'size', [0.75, 0.75]),
     specific: getProp(values, 'specific', 0)
   };
 }
