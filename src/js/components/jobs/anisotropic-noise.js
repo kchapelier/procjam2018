@@ -40,11 +40,12 @@ function getProgram (context) {
         float xn = floor(mod(uv.x * scale.x + 1. + xd, scale.x)) / scale.x;
         float xm = clamp(fract(uv.x * scale.x + xd) - igradient, 0., 1. - igradient * 2.) / (1. - igradient * 2.);
 
-        vec2 nn = vec2(xc, y);
-        float cc = fract(sin(dot(vec2(xc, y) + iseed, vec2(12.9898, 4.1414))) * 43758.5453);
-        float cn = fract(sin(dot(vec2(xn, y) + iseed, vec2(12.9898, 4.1414))) * 43758.5453);
+        vec2 c = fract(vec2(
+          sin(dot(vec2(xc, y) + iseed, vec2(12.9898, 4.1414))),
+          sin(dot(vec2(xn, y) + iseed, vec2(12.9898, 4.1414)))
+        ) * 43758.5453);
 
-        float n = mix(cc, cn, mix(xm, smoothstep(0., 1., xm), gradientSmoothness));
+        float n = mix(c.x, c.y, mix(xm, smoothstep(0., 1., xm), gradientSmoothness));
 
         return vec4(vec3(n), 1.);
       }

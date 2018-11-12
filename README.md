@@ -46,4 +46,4 @@ Either create an issue on Github or contact me on [Twitter](https://twitter.com/
 
 ## How to contribute ?
 
-Make sure to contact me, either on [Twitter](https://twitter.com/kchplr) or through an issue on Github, so we can discuss what change you'd like to make.
+Make sure to contact me, either on [Twitter](https://twitter.com/kchplr) or through an issue on Github, so we can discuss the change(s) you'd like to make.
