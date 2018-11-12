@@ -180,7 +180,7 @@ function getBuffers (callback) {
 
 function sharpenJob (context, inputs, outputs, parameters, done) {
   var program = getProgram(context);
-  var kernel = getTruncateKernelForLinearFilter(63, parameters.sigma);
+  var kernel = getTruncateKernelForLinearFilter(parameters.kernelSize, parameters.sigma);
 
   var uniforms = {
     source: null,
@@ -188,8 +188,13 @@ function sharpenJob (context, inputs, outputs, parameters, done) {
   };
 
   for (var i = 0; i < 16; i++) {
-    uniforms['weight' + i.toString()] = kernel.weights[i];
-    uniforms['offset' + i.toString()] = kernel.offsets[i];
+    if (i >= kernel.weights.length) {
+      uniforms['weight' + i.toString()] = 0;
+      uniforms['offset' + i.toString()] = 0;
+    } else {
+      uniforms['weight' + i.toString()] = kernel.weights[i];
+      uniforms['offset' + i.toString()] = kernel.offsets[i];
+    }
   }
 
   getBuffers(function (buffers) {

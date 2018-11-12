@@ -8,6 +8,7 @@ function GaussianBlurParameters (name, values, callback) {
   this.constructor.super.call(this, name, callback);
 
   this.values = {
+    kernelSize: getProp(values, 'kernelSize', 63),
     sigma: getProp(values, 'sigma', 3),
     iterations: getProp(values, 'iterations', 1)
   };
@@ -16,7 +17,13 @@ function GaussianBlurParameters (name, values, callback) {
 extendClass(GaussianBlurParameters, BaseParameters);
 
 GaussianBlurParameters.prototype.initializeElements = function () {
-  //this.setElement('description', 'description', 'Applies a Gaussian blur with a kernel of 63 x 63 (3969 taps) on the input image');
+  this.setElement('kernelSize', 'range', 'kernelSize', {
+    steps: 1,
+    softMin: 9,
+    softMax: 63,
+    hardMin: 9,
+    hardMax: 63
+  });
 
   this.setElement('sigma', 'range', 'Sigma', {
     softMin: 1,
