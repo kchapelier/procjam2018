@@ -67,7 +67,7 @@ function App () {
   this.saveButton.addEventListener('click', () => {
     this.saveButton.blur();
     var d = new Date();
-    var filename = 'textool-' + (
+    var filename = 'graph-ical-' + (
       d.getFullYear() + ('0' + (d.getMonth()+1)).substr(-2) + ('0' + d.getDate()).substr(-2) + '-' +
       ('0' + d.getHours()).substr(-2) + ('0' + d.getMinutes()).substr(-2) + ('0' + d.getSeconds()).substr(-2)
     ) + '.tx.json';
