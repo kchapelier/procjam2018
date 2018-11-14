@@ -54,7 +54,7 @@ function getProgram (context) {
           float ccn = (sampleHeight(uv + 0.66 * step * dir) + sampleHeight(uv + 0.33 * step * dir)) / 2.;
           float diff = (ccn - ccc);
 
-          diff = mix(diff, sign(diff) * max(abs(diff) - 0.0025, 0.), 3. - 7. * fineDetails);
+          diff = mix(diff, sign(diff) * max(abs(diff) - 0.0025, 0.), 3. - 6. * fineDetails);
 
           vs[i] = vec3(dir * formatModifier, diff * heightScale);
         }
