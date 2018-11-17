@@ -24,6 +24,7 @@ The main objective of this project is to have a free, intuitive and efficient gr
  * [Custom kaleidoscope](http://www.kchapelier.com/graph.ical/?gist=https://gist.github.com/kchapelier/69c85cb68ee4610a30548facf69e8bf9)
  * [Cartoonish shiny stones](http://www.kchapelier.com/graph.ical/?gist=https://gist.github.com/kchapelier/b801ea0ed3443dfb1af939f80f6b435f)
  * [Cords](http://www.kchapelier.com/graph.ical/?gist=https://gist.github.com/kchapelier/b60f7b9b3f39895ec3082dc2f82fa520)
+ * [Black sea](http://www.kchapelier.com/graph.ical/?gist=https://gist.github.com/kchapelier/a5a8e30cd99307d0920cdb6826055d08), simplified port of my first [PROCJAM projet](https://github.com/kchapelier/procjam2014)
 
 ## How to use
 
@@ -47,3 +48,9 @@ Either create an issue on Github or contact me on [Twitter](https://twitter.com/
 ## How to contribute ?
 
 Make sure to contact me, either on [Twitter](https://twitter.com/kchplr) or through an issue on Github, so we can discuss the change(s) you'd like to make.
+
+## History
+
+ * **1.0.1 (2018-11-17):** [Changelog](https://github.com/kchapelier/procjam2018/wiki/Changelogs#101-2018-11-17)
+ * **1.0.0 (2018-11-11):** First release
+
