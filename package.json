@@ -1,8 +1,9 @@
 {
   "name": "procjam2018",
-  "version": "0.0.0",
+  "version": "1.0.1",
   "description": "Procjam2018 project",
   "main": "src/js/index.js",
+  "private": true,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build-styles": "stylus src/stylus/main.styl -o public/main.css",

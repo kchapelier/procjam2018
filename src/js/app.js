@@ -17,8 +17,11 @@ var { generateUUID } = require('./commons/utils');
 function App () {
   // Initialize node graph
 
-  this.version = 1;
+  this.version = 2;
+  this.versionStr = '1.0.1';
   this.context = new Context();
+
+  document.querySelector('#version').innerHTML = this.versionStr;
 
   // buttons
   this.loadPopup = document.querySelector('.load-popup');
