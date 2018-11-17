@@ -195,11 +195,11 @@ function App () {
     this.workingGraph.scheduleNodeJob(uuid);
   });
 
-  globalEE.on('create-buffers', (number, callback) => {
+  globalEE.on('create-buffers', (number, repeat, callback) => {
     var buffers = [];
 
     for (var i = 0; i < number; i++) {
-      buffers.push(this.context.createTexture(1024, 1024, false));
+      buffers.push(this.context.createTexture(1024, 1024, repeat));
     }
 
     callback(buffers);

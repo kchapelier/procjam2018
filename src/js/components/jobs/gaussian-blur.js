@@ -169,7 +169,7 @@ var buffers = null;
 
 function getBuffers (callback) {
   if (buffers === null) {
-    globalEE.trigger('create-buffers', 2, function (requestedBuffers) {
+    globalEE.trigger('create-buffers', 2, true, function (requestedBuffers) {
       buffers = requestedBuffers;
       callback(buffers);
     });
