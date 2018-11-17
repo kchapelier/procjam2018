@@ -101,7 +101,7 @@ function getProgram (context) {
           pow(pow(abs(f.x - 0.5) * 2., deformShape) + pow(abs(f.y - 0.5) * 2., deformShape), 1. / deformShape)
         , deformAmount), 0., 1.);
 
-        return controllableBilinearLerp(p00, p10, p01, p11, mix(mix(f, pd, deformAmount), f, d), smoothness);
+        return controllableBilinearLerp(p00, p10, p01, p11, mix(clamp(mix(f, pd, deformAmount), 0., 1.), f, d), smoothness);
       }
 
       vec4 process (in vec2 uv) {

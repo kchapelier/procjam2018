@@ -97,7 +97,7 @@ function getProgram (context) {
           deformAmount
         ), 0., 1.);
 
-        return controllableBilinearLerp(p00, p10, p01, p11, mix(mix(f, pd, deformAmount), f, d), smoothness);
+        return controllableBilinearLerp(p00, p10, p01, p11, mix(clamp(mix(f, pd, deformAmount), 0., 1.), f, d), smoothness);
       }
 
       vec4 process (in vec2 uv) {
