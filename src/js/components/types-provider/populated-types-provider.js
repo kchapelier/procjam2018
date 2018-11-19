@@ -32,6 +32,7 @@ var LinearGradientParameters = require('./../parameters/linear-gradient-2-parame
 var MakeTileableParameters = require('./../parameters/make-tileable-parameters');
 var MirrorParameters = require('./../parameters/mirror-parameters');
 var NoParameters = require('./../parameters/no-parameters');
+var NormalBlendParameters = require('./../parameters/normal-blend-parameters');
 var PosterizeParameters = require('./../parameters/posterize-parameters');
 var PowParameters = require('./../parameters/pow-parameters');
 var ShapeParameters = require('./../parameters/shape-parameters');
@@ -78,6 +79,7 @@ var linearGradientJob = require('./../jobs/linear-gradient-2');
 var makeTileableJob = require('./../jobs/make-tileable');
 var mirrorJob = require('./../jobs/mirror');
 var normalizeJob = require('./../jobs/normalize');
+var normalBlendJob = require('./../jobs/normal-blend');
 var posterizeJob = require('./../jobs/posterize');
 var powJob = require('./../jobs/pow');
 var shapeJob = require('./../jobs/shape');
@@ -409,6 +411,15 @@ PopulatedTypeProvider.prototype.populate = function () {
     outputs: [ 'output' ],
     parameters: MirrorParameters,
     job: mirrorJob
+  });
+
+  this.setType('normal-blend', {
+    id: 'normal-blend',
+    name: 'Normal Blend',
+    inputs: [ 'base', 'detail', 'mask' ],
+    outputs: [ 'output' ],
+    parameters: NormalBlendParameters,
+    job: normalBlendJob
   });
 
   this.setType('normalize', {
