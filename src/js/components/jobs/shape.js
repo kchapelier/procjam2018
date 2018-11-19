@@ -313,7 +313,7 @@ function getProgram (context) {
           }
         }
 
-        return vec4(vec3(value), 1.);
+        return vec4(vec3(clamp(value, 0., 1.)), 1.);
       }
 
       void main () {
