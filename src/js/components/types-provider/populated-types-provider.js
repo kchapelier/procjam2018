@@ -33,6 +33,7 @@ var MakeTileableParameters = require('./../parameters/make-tileable-parameters')
 var MirrorParameters = require('./../parameters/mirror-parameters');
 var NoParameters = require('./../parameters/no-parameters');
 var NormalBlendParameters = require('./../parameters/normal-blend-parameters');
+var NormalTweakParameters = require('./../parameters/normal-tweak-parameters');
 var PosterizeParameters = require('./../parameters/posterize-parameters');
 var PowParameters = require('./../parameters/pow-parameters');
 var ShapeParameters = require('./../parameters/shape-parameters');
@@ -80,6 +81,7 @@ var makeTileableJob = require('./../jobs/make-tileable');
 var mirrorJob = require('./../jobs/mirror');
 var normalizeJob = require('./../jobs/normalize');
 var normalBlendJob = require('./../jobs/normal-blend');
+var normalTweakJob = require('./../jobs/normal-tweak');
 var posterizeJob = require('./../jobs/posterize');
 var powJob = require('./../jobs/pow');
 var shapeJob = require('./../jobs/shape');
@@ -420,6 +422,15 @@ PopulatedTypeProvider.prototype.populate = function () {
     outputs: [ 'output' ],
     parameters: NormalBlendParameters,
     job: normalBlendJob
+  });
+
+  this.setType('normal-tweak', {
+    id: 'normal-tweak',
+    name: 'Normal Tweak',
+    inputs: [ 'input' ],
+    outputs: [ 'output' ],
+    parameters: NormalTweakParameters,
+    job: normalTweakJob
   });
 
   this.setType('normalize', {
