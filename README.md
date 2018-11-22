@@ -51,6 +51,7 @@ Make sure to contact me, either on [Twitter](https://twitter.com/kchplr) or thro
 
 ## History
 
+ * **1.1.0 (2018-11-22):** [Changelog](https://github.com/kchapelier/procjam2018/wiki/Changelogs#110-2018-11-22)
  * **1.0.1 (2018-11-17):** [Changelog](https://github.com/kchapelier/procjam2018/wiki/Changelogs#101-2018-11-17)
  * **1.0.0 (2018-11-11):** First release
 
