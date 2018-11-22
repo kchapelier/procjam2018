@@ -33,6 +33,7 @@ var MakeTileableParameters = require('./../parameters/make-tileable-parameters')
 var MirrorParameters = require('./../parameters/mirror-parameters');
 var NoParameters = require('./../parameters/no-parameters');
 var NormalBlendParameters = require('./../parameters/normal-blend-parameters');
+var NormalBlurParameters = require('./../parameters/normal-blur-parameters');
 var NormalInvertParameters = require('./../parameters/normal-invert-parameters');
 var NormalRotateParameters = require('./../parameters/normal-rotate-parameters');
 var NormalTweakParameters = require('./../parameters/normal-tweak-parameters');
@@ -83,6 +84,7 @@ var makeTileableJob = require('./../jobs/make-tileable');
 var mirrorJob = require('./../jobs/mirror');
 var normalizeJob = require('./../jobs/normalize');
 var normalBlendJob = require('./../jobs/normal-blend');
+var normalBlurJob = require('./../jobs/normal-blur');
 var normalInvertJob = require('./../jobs/normal-invert');
 var normalRotateJob = require('./../jobs/normal-rotate');
 var normalTweakJob = require('./../jobs/normal-tweak');
@@ -426,6 +428,15 @@ PopulatedTypeProvider.prototype.populate = function () {
     outputs: [ 'output' ],
     parameters: NormalBlendParameters,
     job: normalBlendJob
+  });
+
+  this.setType('normal-blur', {
+    id: 'normal-blur',
+    name: 'Normal Blur',
+    inputs: [ 'input' ],
+    outputs: [ 'output' ],
+    parameters: NormalBlurParameters,
+    job: normalBlurJob
   });
 
   this.setType('normal-invert', {
