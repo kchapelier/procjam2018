@@ -17,9 +17,13 @@ function getProgram (context) {
 
       layout(location = 0) out vec4 fragColor;
 
+      const int MODE_NORMAL_VECTOR_ONLY = 0;
+      const int MODE_WHOLE_MAP = 1;
+
       uniform vec2 resolution;
       uniform float seed;
 
+      uniform int mode;
       uniform float angle;
 
       uniform sampler2D source;
@@ -34,11 +38,19 @@ function getProgram (context) {
       }
 
       vec4 process (in vec2 uv) {
-        vec2 nuv = _rotate(uv - 0.5, angle) + 0.5;
+        vec3 n = vec3(0.);
 
-        vec3 n = (texture(source, nuv).rgb - 0.5) * 2.;
+        if (mode == MODE_NORMAL_VECTOR_ONLY) {
+          n = (texture(source, uv).rgb - 0.5) * 2.;
 
-        n.rg = _rotate(n.rg, -angle);
+          n.rg = _rotate(n.rg, angle);
+        } else {
+          vec2 nuv = _rotate(uv - 0.5, angle) + 0.5;
+
+          n = (texture(source, nuv).rgb - 0.5) * 2.;
+
+          n.rg = _rotate(n.rg, -angle);
+        }
 
         return vec4(normalize(n) * 0.5 + 0.5, 1.);
       }
@@ -55,7 +67,8 @@ function getProgram (context) {
 
     `, {
       source: 't',
-      angle: 'f'
+      angle: 'f',
+      mode: 'i'
     });
   }
 
@@ -66,6 +79,7 @@ function normalRotateJob (context, inputs, outputs, parameters, done) {
   var program = getProgram(context);
   var uniforms = {
     source: inputs.input,
+    mode: parameters.mode,
     angle: parameters.angle
   };
 
