@@ -4,8 +4,8 @@ function TypesProvider () {
   this.types = {};
 }
 
-TypesProvider.prototype.setType = function (key, infos) {
-  this.types[key] = infos;
+TypesProvider.prototype.registerType = function (infos) {
+  this.types[infos.id] = infos;
 };
 
 TypesProvider.prototype.getAllTypes = function () {

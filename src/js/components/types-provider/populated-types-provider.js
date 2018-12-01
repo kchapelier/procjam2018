@@ -111,7 +111,8 @@ function PopulatedTypeProvider () {
 extendClass(PopulatedTypeProvider, TypeProvider);
 
 PopulatedTypeProvider.prototype.populate = function () {
-  this.setType('anisotropic-noise', {
+  this.registerType({
+    isFilter: false,
     id: 'anisotropic-noise',
     name: 'Anisotropic noise',
     inputs: [ ],
@@ -120,7 +121,8 @@ PopulatedTypeProvider.prototype.populate = function () {
     job: anisotropicNoiseJob
   });
 
-  this.setType('bricks', {
+  this.registerType({
+    isFilter: false,
     id: 'bricks',
     name: 'Bricks',
     inputs: [ ],
@@ -129,7 +131,8 @@ PopulatedTypeProvider.prototype.populate = function () {
     job: bricksJob
   });
 
-  this.setType('channel-shuffle', {
+  this.registerType({
+    isFilter: true,
     id: 'channel-shuffle',
     name: 'Channel shuffle',
     inputs: [ 'input1', 'input2', 'input3' ],
@@ -138,7 +141,8 @@ PopulatedTypeProvider.prototype.populate = function () {
     job: channelShuffleJob
   });
 
-  this.setType('channel-splitter', {
+  this.registerType({
+    isFilter: true,
     id: 'channel-splitter',
     name: 'Channel splitter',
     inputs: [ 'input' ],
@@ -147,7 +151,8 @@ PopulatedTypeProvider.prototype.populate = function () {
     job: channelSplitterJob
   });
 
-  this.setType('channel-merge', {
+  this.registerType({
+    isFilter: true,
     id: 'channel-merge',
     name: 'Channel Merge',
     inputs: [ 'channel1', 'channel2', 'channel3' ],
@@ -156,7 +161,8 @@ PopulatedTypeProvider.prototype.populate = function () {
     job: channelMergeJob
   });
 
-  this.setType('checkers', {
+  this.registerType({
+    isFilter: false,
     id: 'checkers',
     name: 'Checkers',
     inputs: [ ],
@@ -165,7 +171,8 @@ PopulatedTypeProvider.prototype.populate = function () {
     job: checkersJob
   });
 
-  this.setType('fast-maze', {
+  this.registerType({
+    isFilter: false,
     id: 'fast-maze',
     name: 'Fast Maze',
     inputs: [ ],
@@ -174,7 +181,8 @@ PopulatedTypeProvider.prototype.populate = function () {
     job: fastMazeJob
   });
 
-  this.setType('gaussian-blur', {
+  this.registerType({
+    isFilter: true,
     id: 'gaussian-blur',
     name: 'Gaussian blur',
     inputs: [ 'input' ],
@@ -183,7 +191,8 @@ PopulatedTypeProvider.prototype.populate = function () {
     job: gaussianBlurJob
   });
 
-  this.setType('gradient-noise', {
+  this.registerType({
+    isFilter: false,
     id: 'gradient-noise',
     name: 'Gradient noise',
     inputs: [ ],
@@ -192,7 +201,8 @@ PopulatedTypeProvider.prototype.populate = function () {
     job: gradientNoiseJob
   });
 
-  this.setType('gradient-noise-fractal', {
+  this.registerType({
+    isFilter: false,
     id: 'gradient-noise-fractal',
     name: 'Gradient noise (fractal sum)',
     inputs: [ ],
@@ -201,7 +211,8 @@ PopulatedTypeProvider.prototype.populate = function () {
     job: gradientNoiseFractalJob
   });
 
-  this.setType('image', {
+  this.registerType({
+    isFilter: false,
     id: 'image',
     name: 'Image',
     inputs: [ ],
@@ -210,7 +221,8 @@ PopulatedTypeProvider.prototype.populate = function () {
     job: imageJob
   });
 
-  this.setType('linear-gradient', {
+  this.registerType({
+    isFilter: false,
     id: 'linear-gradient',
     name: 'Linear Gradient',
     inputs: [ ],
@@ -219,7 +231,8 @@ PopulatedTypeProvider.prototype.populate = function () {
     job: linearGradientJob
   });
 
-  this.setType('shape', {
+  this.registerType({
+    isFilter: false,
     id: 'shape',
     name: 'Shape',
     inputs: [ ],
@@ -228,7 +241,8 @@ PopulatedTypeProvider.prototype.populate = function () {
     job: shapeJob
   });
 
-  this.setType('uniform-color', {
+  this.registerType({
+    isFilter: false,
     id: 'uniform-color',
     name: 'Uniform color',
     inputs: [ ],
@@ -237,7 +251,8 @@ PopulatedTypeProvider.prototype.populate = function () {
     job: uniformColorJob
   });
 
-  this.setType('uniform-grayscale', {
+  this.registerType({
+    isFilter: false,
     id: 'uniform-grayscale',
     name: 'Uniform grayscale',
     inputs: [ ],
@@ -246,7 +261,8 @@ PopulatedTypeProvider.prototype.populate = function () {
     job: uniformColorJob
   });
 
-  this.setType('value-noise', {
+  this.registerType({
+    isFilter: false,
     id: 'value-noise',
     name: 'Value noise',
     inputs: [ ],
@@ -255,7 +271,8 @@ PopulatedTypeProvider.prototype.populate = function () {
     job: valueNoiseJob
   });
 
-  this.setType('value-noise-fractal', {
+  this.registerType({
+    isFilter: false,
     id: 'value-noise-fractal',
     name: 'Value noise (fractal sum)',
     inputs: [ ],
@@ -268,7 +285,8 @@ PopulatedTypeProvider.prototype.populate = function () {
 
 
 
-  this.setType('blend', {
+  this.registerType({
+    isFilter: true,
     id: 'blend',
     name: 'Blend',
     inputs: [ 'background', 'foreground', 'mask' ],
@@ -277,7 +295,8 @@ PopulatedTypeProvider.prototype.populate = function () {
     job: blendJob
   });
 
-  this.setType('brightness-contrast', {
+  this.registerType({
+    isFilter: true,
     id: 'brightness-contrast',
     name: 'Brightness and contrast',
     inputs: [ 'input' ],
@@ -286,7 +305,8 @@ PopulatedTypeProvider.prototype.populate = function () {
     job: brightnessContrastJob
   });
 
-  this.setType('cellular-noise', {
+  this.registerType({
+    isFilter: false,
     id: 'cellular-noise',
     name: 'Cellular noise',
     inputs: [],
@@ -295,7 +315,8 @@ PopulatedTypeProvider.prototype.populate = function () {
     job: cellularNoiseJob
   });
 
-  this.setType('clamp', {
+  this.registerType({
+    isFilter: true,
     id: 'clamp',
     name: 'Clamp',
     inputs: [ 'input' ],
@@ -304,7 +325,8 @@ PopulatedTypeProvider.prototype.populate = function () {
     job: clampJob
   });
 
-  this.setType('color-to-mask', {
+  this.registerType({
+    isFilter: true,
     id: 'color-to-mask',
     name: 'Color to mask',
     inputs: [ 'input' ],
@@ -313,7 +335,8 @@ PopulatedTypeProvider.prototype.populate = function () {
     job: colorToMaskJob
   });
 
-  this.setType('colorspace-conversion', {
+  this.registerType({
+    isFilter: true,
     id: 'colorspace-conversion',
     name: 'Colorspace conversion',
     inputs: [ 'input' ],
@@ -322,7 +345,8 @@ PopulatedTypeProvider.prototype.populate = function () {
     job: colorspaceConversionJob
   });
 
-  this.setType('directional-blur', {
+  this.registerType({
+    isFilter: true,
     id: 'directional-blur',
     name: 'Directional blur',
     inputs: [ 'input' ],
@@ -331,7 +355,8 @@ PopulatedTypeProvider.prototype.populate = function () {
     job: directionalBlurJob
   });
 
-  this.setType('directional-wrap', {
+  this.registerType({
+    isFilter: true,
     id: 'directional-wrap',
     name: 'Directional wrap',
     inputs: [ 'input', 'intensity', 'angle' ],
@@ -340,7 +365,8 @@ PopulatedTypeProvider.prototype.populate = function () {
     job: directionalWrapJob
   });
 
-  this.setType('edge-detect', {
+  this.registerType({
+    isFilter: true,
     id: 'edge-detect',
     name: 'Edge detect',
     inputs: [ 'input' ],
@@ -349,7 +375,8 @@ PopulatedTypeProvider.prototype.populate = function () {
     job: edgeDetectJob
   });
 
-  this.setType('fix-mask', {
+  this.registerType({
+    isFilter: true,
     id: 'fix-mask',
     name: 'Fix mask',
     inputs: [ 'input' ],
@@ -358,7 +385,8 @@ PopulatedTypeProvider.prototype.populate = function () {
     job: fixMaskJob
   });
 
-  this.setType('gradient-map', {
+  this.registerType({
+    isFilter: true,
     id: 'gradient-map',
     name: 'Gradient map',
     inputs: [ 'input', 'gradient' ],
@@ -367,7 +395,8 @@ PopulatedTypeProvider.prototype.populate = function () {
     job: gradientMapJob
   });
 
-  this.setType('height-to-normal', {
+  this.registerType({
+    isFilter: true,
     id: 'height-to-normal',
     name: 'Height to normal',
     inputs: [ 'input' ],
@@ -376,7 +405,8 @@ PopulatedTypeProvider.prototype.populate = function () {
     job: heightToNormalJob
   });
 
-  this.setType('hsl-shift', {
+  this.registerType({
+    isFilter: true,
     id: 'hsl-shift',
     name: 'HSL Shift',
     inputs: [ 'input' ],
@@ -385,7 +415,8 @@ PopulatedTypeProvider.prototype.populate = function () {
     job: hslShiftJob
   });
 
-  this.setType('invert', {
+  this.registerType({
+    isFilter: true,
     id: 'invert',
     name: 'Invert',
     inputs: [ 'input' ],
@@ -394,7 +425,8 @@ PopulatedTypeProvider.prototype.populate = function () {
     job: invertJob
   });
 
-  this.setType('isolines', {
+  this.registerType({
+    isFilter: true,
     id: 'isolines',
     name: 'Isolines',
     inputs: [ 'input' ],
@@ -403,7 +435,8 @@ PopulatedTypeProvider.prototype.populate = function () {
     job: isolinesJob
   });
 
-  this.setType('make-tileable', {
+  this.registerType({
+    isFilter: true,
     id: 'make-tileable',
     name: 'Make tileable',
     inputs: [ 'input', 'perturbation' ],
@@ -412,7 +445,8 @@ PopulatedTypeProvider.prototype.populate = function () {
     job: makeTileableJob
   });
 
-  this.setType('mirror', {
+  this.registerType({
+    isFilter: true,
     id: 'mirror',
     name: 'Mirror',
     inputs: [ 'input' ],
@@ -421,7 +455,8 @@ PopulatedTypeProvider.prototype.populate = function () {
     job: mirrorJob
   });
 
-  this.setType('normal-blend', {
+  this.registerType({
+    isFilter: true,
     id: 'normal-blend',
     name: 'Normal Blend',
     inputs: [ 'base', 'detail', 'mask' ],
@@ -430,7 +465,8 @@ PopulatedTypeProvider.prototype.populate = function () {
     job: normalBlendJob
   });
 
-  this.setType('normal-blur', {
+  this.registerType({
+    isFilter: true,
     id: 'normal-blur',
     name: 'Normal Blur',
     inputs: [ 'input' ],
@@ -439,7 +475,8 @@ PopulatedTypeProvider.prototype.populate = function () {
     job: normalBlurJob
   });
 
-  this.setType('normal-invert', {
+  this.registerType({
+    isFilter: true,
     id: 'normal-invert',
     name: 'Normal Invert',
     inputs: [ 'input' ],
@@ -448,7 +485,8 @@ PopulatedTypeProvider.prototype.populate = function () {
     job: normalInvertJob
   });
 
-  this.setType('normal-rotate', {
+  this.registerType({
+    isFilter: true,
     id: 'normal-rotate',
     name: 'Normal Rotate',
     inputs: [ 'input' ],
@@ -457,7 +495,8 @@ PopulatedTypeProvider.prototype.populate = function () {
     job: normalRotateJob
   });
 
-  this.setType('normal-tweak', {
+  this.registerType({
+    isFilter: true,
     id: 'normal-tweak',
     name: 'Normal Tweak',
     inputs: [ 'input' ],
@@ -466,7 +505,8 @@ PopulatedTypeProvider.prototype.populate = function () {
     job: normalTweakJob
   });
 
-  this.setType('normalize', {
+  this.registerType({
+    isFilter: true,
     id: 'normalize',
     name: 'Normalize',
     inputs: [ 'input' ],
@@ -475,7 +515,8 @@ PopulatedTypeProvider.prototype.populate = function () {
     job: normalizeJob
   });
 
-  this.setType('posterize', {
+  this.registerType({
+    isFilter: true,
     id: 'posterize',
     name: 'Posterize',
     inputs: [ 'input' ],
@@ -484,7 +525,8 @@ PopulatedTypeProvider.prototype.populate = function () {
     job: posterizeJob
   });
 
-  this.setType('pow', {
+  this.registerType({
+    isFilter: true,
     id: 'pow',
     name: 'Pow',
     inputs: [ 'input', 'exponent' ],
@@ -493,7 +535,8 @@ PopulatedTypeProvider.prototype.populate = function () {
     job: powJob
   });
 
-  this.setType('grayscale-conversion', {
+  this.registerType({
+    isFilter: true,
     id: 'grayscale-conversion',
     name: 'Grayscale conversion',
     inputs: [ 'input' ],
@@ -502,7 +545,8 @@ PopulatedTypeProvider.prototype.populate = function () {
     job: grayscaleConversionJob
   });
 
-  this.setType('shape-mapper', {
+  this.registerType({
+    isFilter: true,
     id: 'shape-mapper',
     name: 'Shape mapper',
     inputs: [ 'input' ],
@@ -511,7 +555,8 @@ PopulatedTypeProvider.prototype.populate = function () {
     job: shapeMapperJob
   });
 
-  this.setType('sharpen', {
+  this.registerType({
+    isFilter: true,
     id: 'sharpen',
     name: 'Sharpen',
     inputs: [ 'input' ],
@@ -520,7 +565,8 @@ PopulatedTypeProvider.prototype.populate = function () {
     job: sharpenJob
   });
 
-  this.setType('skew', {
+  this.registerType({
+    isFilter: true,
     id: 'skew',
     name: 'Skew',
     inputs: [ 'input' ],
@@ -529,7 +575,8 @@ PopulatedTypeProvider.prototype.populate = function () {
     job: skewJob
   });
 
-  this.setType('texture-patching', {
+  this.registerType({
+    isFilter: true,
     id: 'texture-patching',
     name: 'Texture patching',
     inputs: [ 'input' ],
@@ -538,7 +585,8 @@ PopulatedTypeProvider.prototype.populate = function () {
     job: texturePatchingJob
   });
 
-  this.setType('transform-2d', {
+  this.registerType({
+    isFilter: true,
     id: 'transform-2d',
     name: '2D Transform',
     inputs: [ 'input' ],
@@ -547,7 +595,8 @@ PopulatedTypeProvider.prototype.populate = function () {
     job: transform2dJob
   });
 
-  this.setType('vibrance', {
+  this.registerType({
+    isFilter: true,
     id: 'vibrance',
     name: 'Vibrance',
     inputs: [ 'input' ],
@@ -556,7 +605,8 @@ PopulatedTypeProvider.prototype.populate = function () {
     job: vibranceJob
   });
 
-  this.setType('wrap', {
+  this.registerType({
+    isFilter: true,
     id: 'wrap',
     name: 'Wrap',
     inputs: [ 'input', 'intensity' ],
