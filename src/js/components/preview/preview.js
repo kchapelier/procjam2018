@@ -11,7 +11,9 @@ function Preview () {
   this.active = false;
   this.shownNode = null;
   this.mask = true;
-  this.zoomLevel = 0.;
+  this.zoomLevel = 1.;
+  this.offsetViewX = 0.5;
+  this.offsetViewY = 0.5;
   this.needDisplayUpdate = false;
 
   this.width = this.element.getBoundingClientRect().width;
@@ -20,7 +22,7 @@ function Preview () {
   this.downloadCanvas = document.createElement('canvas');
 
   this.context = new WorkingContext(this.width, this.height);
-  this.texture = new WorkingTexture({ working: this.context }, 1024, 1024, true);
+  this.texture = new WorkingTexture({ working: this.context }, 1024, 1024, true, true);
   this.program = new WorkingProgram({ working: this.context }, `#version 300 es
 
     precision highp float;
@@ -33,6 +35,8 @@ function Preview () {
     uniform float size;
 
     uniform bool mask;
+    uniform float zoom;
+    uniform vec2 offset;
 
     uniform sampler2D source;
     uniform bool sourceSet;
@@ -43,22 +47,25 @@ function Preview () {
     }
 
     void main () {
-      vec2 uv = (gl_FragCoord.xy - resolution.xy / 2.) * 1.1 / vec2(min(resolution.x,resolution.y)) + 0.5;
+      vec2 uv = (gl_FragCoord.xy - resolution.xy / 2.) / vec2(min(resolution.x,resolution.y));
+      uv *= zoom;
+      uv += offset;
       if (mask && (uv.x < 0. || uv.y < 0. || uv.x >= 1. || uv.y >= 1.)) {
-        fragColor = process(fract(uv)) * 0.3;
+        fragColor = process(uv) * 0.3;
       } else {
-        fragColor = process(fract(uv));
+        fragColor = process(uv);
       }
     }
   `, {
     source: 't',
-    mask: 'b'
+    mask: 'b',
+    zoom: 'f',
+    offset: '2f'
   });
 
   this.element.appendChild(this.context.canvas);
 
   this.setEvents();
-
 
   this._render = this.render.bind(this);
 
@@ -89,7 +96,9 @@ Preview.prototype.changeTexture = function (texture) {
 Preview.prototype.updateDisplay = function () {
   this.program.execute({
     source: this.texture,
-    mask: this.mask
+    mask: this.mask,
+    zoom: this.zoomLevel,
+    offset: [this.offsetViewX, this.offsetViewY]
   }, {
     width: this.width,
     height: this.height
@@ -97,6 +106,24 @@ Preview.prototype.updateDisplay = function () {
 };
 
 Preview.prototype.setEvents = function () {
+  this.down = false;
+
+  window.addEventListener('mousemove', e => {
+    if (this.active && this.down) {
+      const multiplier = this.zoomLevel / Math.min(this.width, this.height);
+      this.offsetViewX -= e.movementX * multiplier;
+      this.offsetViewY += e.movementY * multiplier;
+      this.needDisplayUpdate = true;
+    }
+  });
+
+  window.addEventListener('wheel', e => {
+    if (this.active) {
+      this.zoomLevel = Math.min(5., Math.max(0.2, this.zoomLevel - e.deltaY * 0.0025));
+      this.needDisplayUpdate = true;
+    }
+  });
+
   document.addEventListener('keydown', e => {
     if (this.active) {
       var code = e.keyCode || e.charCode;
@@ -127,6 +154,14 @@ Preview.prototype.setEvents = function () {
     }
   });
 
+  this.element.addEventListener('mousedown', e => {
+    this.down = true;
+  });
+
+  this.element.addEventListener('mouseup', e => {
+    this.down = false;
+  });
+
   this.saveImageButton.addEventListener('click', e => {
     e.preventDefault();
     this.saveImageButton.blur();
@@ -150,6 +185,9 @@ Preview.prototype.setEvents = function () {
 
 Preview.prototype.show = function (uuid) {
   this.shownNode = uuid;
+  this.offsetViewX = 0.5;
+  this.offsetViewY = 0.5;
+  this.zoomLevel = 1.;
   this.active = true;
   this.updateDisplay();
   this.element.classList.add('active');

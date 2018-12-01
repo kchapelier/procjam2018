@@ -1,10 +1,11 @@
 "use strict";
 
-function WorkingTexture (context, width, height, repeat) {
+function WorkingTexture (context, width, height, repeat, mipmap) {
   this.context = context;
   this.width = width;
   this.height = height;
   this.repeat = !!repeat;
+  this.mipmap = !!mipmap;
 
   this.initialize();
 }
@@ -12,6 +13,8 @@ function WorkingTexture (context, width, height, repeat) {
 WorkingTexture.prototype.context = null;
 WorkingTexture.prototype.width = null;
 WorkingTexture.prototype.height = null;
+WorkingTexture.prototype.repeat = null;
+WorkingTexture.prototype.mipmap = null;
 
 WorkingTexture.prototype.floatArray = null;
 WorkingTexture.prototype.floatArrayReady = null;
@@ -37,8 +40,14 @@ WorkingTexture.prototype.initialize = function () {
 
   gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, this.repeat ? gl.REPEAT : gl.CLAMP_TO_EDGE);
   gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, this.repeat ? gl.REPEAT : gl.CLAMP_TO_EDGE);
-  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
-  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+
+  if (this.mipmap) {
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR);
+  } else {
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+  }
 
   gl.bindFramebuffer(gl.FRAMEBUFFER, this.webglFrameBuffer);
   gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, this.webglTexture, 0);
@@ -157,6 +166,11 @@ WorkingTexture.prototype.updateFromImageElement = function (img) {
   gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
   gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA32F, this.width, this.height, 0, gl.RGBA, gl.FLOAT, img);
   gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, false);
+
+  if (this.mipmap) {
+    gl.generateMipmap(gl.TEXTURE_2D);
+  }
+
   gl.bindTexture(gl.TEXTURE_2D, null);
 
   this.floatArrayReady = false;
@@ -173,6 +187,11 @@ WorkingTexture.prototype.updateFromInternalFloatArray = function () {
 
   gl.bindTexture(gl.TEXTURE_2D, this.webglTexture);
   gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA32F, this.width, this.height, 0, gl.RGBA, gl.FLOAT, this.floatArray);
+
+  if (this.mipmap) {
+    gl.generateMipmap(gl.TEXTURE_2D);
+  }
+
   gl.bindTexture(gl.TEXTURE_2D, null);
 
   this.imageDataReady = false;
