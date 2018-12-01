@@ -13,6 +13,8 @@ function NodeGraph (app) {
   this.nodesLayer = this.root.querySelector('.node-layer');
   this.connectionsLayer = document.querySelector('.connection-layer');
 
+  this.autoSnappingButton = this.root.querySelector('.toggle-snapping-button');
+
   var bb = this.root.getBoundingClientRect();
   this.isBoardDragging = false;
   this.boardPositionX = 0;
@@ -44,6 +46,24 @@ function NodeGraph (app) {
 }
 
 NodeGraph.prototype.addEvents = function () {
+
+  this.autoSnappingButton.addEventListener('mousedown', e => e.stopPropagation());
+  this.autoSnappingButton.addEventListener('click', e => {
+    e.stopPropagation();
+
+    this.autoSnapping = !this.autoSnapping;
+
+    this.autoSnappingButton.blur();
+
+    if (this.autoSnapping) {
+      this.autoSnappingButton.classList.remove('fa-square-o');
+      this.autoSnappingButton.classList.add('fa-plus-square-o');
+    } else {
+      this.autoSnappingButton.classList.add('fa-square-o');
+      this.autoSnappingButton.classList.remove('fa-plus-square-o');
+    }
+  });
+
   this.root.addEventListener('mouseenter', e => {
     if (e.target.classList.contains('interactive-path')) {
       e.target.parentNode.classList.add('hover');
@@ -273,7 +293,15 @@ NodeGraph.prototype.addNode = function (uuid, type) {
     this.setConnectionFromTo(connection.uuid, this.selectedNode.uuid, this.selectedNode.outputs[0], node.uuid, node.inputs[0]);
     this.triggerCreateConnection(connection);
   } else {
-    node.position(this.boardWidth / 2 - this.boardPositionX, this.boardHeight / 2 - this.boardPositionY);
+    var x = this.boardWidth / 2 - this.boardPositionX;
+    var y = this.boardHeight / 2 - this.boardPositionY;
+
+    if (this.autoSnapping) {
+      x = Math.round(x / 25) * 25;
+      y = Math.round(y / 25) * 25;
+    }
+
+    node.position(x, y);
   }
 
   return node;

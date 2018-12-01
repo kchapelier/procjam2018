@@ -19,6 +19,26 @@ main section.working-space
     right 0
     bottom 0
 
+    .toggle-snapping-button
+      position absolute
+      z-index 1
+      top 8px
+      right 8px
+      line-height 23px
+      width 24px
+      display block
+      height 24px
+      border 0
+      padding 0
+      background-color var(--primary)
+      color white
+      border-radius 3px
+      cursor pointer
+      transition color 0.1s ease-in-out
+
+      &:hover
+        color #BBAAFF
+
   .preview
     position absolute
     top 0
@@ -38,7 +58,7 @@ main section.working-space
       z-index 1
       top 8px
       right 8px
-      line-height 24px
+      line-height 23px
       width 24px
       display block
       height 24px

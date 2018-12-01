@@ -341,6 +341,7 @@ App.prototype.clearError = function () {
 App.prototype.setError = function (error, silent) {
   if (this.errorTimeout !== null) {
     clearTimeout(this.errorTimeout);
+    this.errorTimeout = null;
   }
 
   if (!silent && console.error) {
@@ -362,9 +363,10 @@ App.prototype.loadStateFromGist = function (url) {
   var match = /^https?:\/\/gist\.(github|githubusercontent)\.com\/([^\/ \?#]+)\/([a-z0-9]+)/.exec(url);
 
   if (match !== null) {
-    fetch('https://gist.githubusercontent.com/' + match[2] + '/' + match[3] + '/raw', { cache: 'no-cache' }).then(function(response) {
-      return response.json();
-    })
+    fetch('https://gist.githubusercontent.com/' + match[2] + '/' + match[3] + '/raw', { cache: 'no-cache' })
+      .then(function(response) {
+        return response.json();
+      })
       .then(json => {
         this.loadState(json);
       });
