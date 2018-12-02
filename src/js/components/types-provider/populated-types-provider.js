@@ -28,6 +28,7 @@ var HslShiftParameters = require('./../parameters/hsl-shift-parameters');
 var ImageParameters = require('./../parameters/image-parameters');
 var InvertParameters = require('./../parameters/invert-parameters');
 var IsolinesParameters = require('./../parameters/isolines-parameters');
+var KaleidoscopeParameters = require('./../parameters/kaleidoscope-parameters');
 var LinearGradientParameters = require('./../parameters/linear-gradient-2-parameters');
 var MakeTileableParameters = require('./../parameters/make-tileable-parameters');
 var MirrorParameters = require('./../parameters/mirror-parameters');
@@ -79,6 +80,7 @@ var hslShiftJob = require('./../jobs/hsl-shift');
 var imageJob = require('./../jobs/image');
 var invertJob = require('./../jobs/invert');
 var isolinesJob = require('./../jobs/isolines');
+var kaleidoscopeJob = require('./../jobs/kaleidoscope');
 var linearGradientJob = require('./../jobs/linear-gradient-2');
 var makeTileableJob = require('./../jobs/make-tileable');
 var mirrorJob = require('./../jobs/mirror');
@@ -219,6 +221,16 @@ PopulatedTypeProvider.prototype.populate = function () {
     outputs: [ 'output' ],
     parameters: ImageParameters,
     job: imageJob
+  });
+
+  this.registerType({
+    isFilter: true,
+    id: 'kaleidoscope',
+    name: 'Kaleidoscope',
+    inputs: [ 'input', 'distortion' ],
+    outputs: [ 'output' ],
+    parameters: KaleidoscopeParameters,
+    job: kaleidoscopeJob
   });
 
   this.registerType({
