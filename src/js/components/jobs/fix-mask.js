@@ -27,20 +27,28 @@ function getProgram (context) {
       uniform bool sourceSet;
       uniform vec2 sourceSize;
 
-      vec4 process (in vec2 uv) {
+      float getLevel (const in vec2 uv) {
+        vec3 color = texture(source, uv).rgb;
+
+        return (clamp(color.r, 0., 1.) + clamp(color.g, 0., 1.) + clamp(color.b, 0., 1.)) / 3.;
+      }
+
+      vec4 process (const in vec2 uv) {
         vec2 p = 1. / resolution.xy;
 
-        float t = (0.130371 + (1. - 0.130371) * (1. - softness)) * (length(texture(source, uv).rgb) / 1.733 > threshold ? 1. : 0.);
+        float ithreshold = threshold * 1.000001;
 
-        t += 0.115349 * softness * (length(texture(source, uv + p * vec2(1., 1.)).rgb) / 1.733 > threshold ? 1. : 0.);
-        t += 0.115349 * softness * (length(texture(source, uv + p * vec2(-1., -1.)).rgb) / 1.733 > threshold ? 1. : 0.);
-        t += 0.115349 * softness * (length(texture(source, uv + p * vec2(1., -1.)).rgb) / 1.733 > threshold ? 1. : 0.);
-        t += 0.115349 * softness * (length(texture(source, uv + p * vec2(-1., 1.)).rgb) / 1.733 > threshold ? 1. : 0.);
+        float t = (0.130371 + (1. - 0.130371) * (1. - softness)) * (getLevel(uv) >= ithreshold ? 1. : 0.);
 
-        t += 0.102059 * softness * (length(texture(source, uv + p * vec2(0., 1.) * 0.7071).rgb) / 1.733 > threshold ? 1. : 0.);
-        t += 0.102059 * softness * (length(texture(source, uv + p * vec2(0., -1.) * 0.7071).rgb) / 1.733 > threshold ? 1. : 0.);
-        t += 0.102059 * softness * (length(texture(source, uv + p * vec2(1., 0.) * 0.7071).rgb) / 1.733 > threshold ? 1. : 0.);
-        t += 0.102059 * softness * (length(texture(source, uv + p * vec2(-1., 0.) * 0.7071).rgb) / 1.733 > threshold ? 1. : 0.);
+        t += 0.115349 * softness * (getLevel(uv + p * vec2(1., 1.)) >= ithreshold ? 1. : 0.);
+        t += 0.115349 * softness * (getLevel(uv + p * vec2(-1., -1.)) >= ithreshold ? 1. : 0.);
+        t += 0.115349 * softness * (getLevel(uv + p * vec2(1., -1.)) >= ithreshold ? 1. : 0.);
+        t += 0.115349 * softness * (getLevel(uv + p * vec2(-1., 1.)) >= ithreshold ? 1. : 0.);
+
+        t += 0.102059 * softness * (getLevel(uv + p * vec2(0., 1.)) >= ithreshold ? 1. : 0.);
+        t += 0.102059 * softness * (getLevel(uv + p * vec2(0., -1.)) >= ithreshold ? 1. : 0.);
+        t += 0.102059 * softness * (getLevel(uv + p * vec2(1., 0.)) >= ithreshold ? 1. : 0.);
+        t += 0.102059 * softness * (getLevel(uv + p * vec2(-1., 0.)) >= ithreshold ? 1. : 0.);
 
         return vec4(vec3(clamp(t, 0., 1.)), 1.);
       }
