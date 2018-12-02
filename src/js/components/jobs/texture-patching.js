@@ -41,21 +41,10 @@ function getProgram (context) {
       uniform bool sourceSet;
       uniform vec2 sourceSize;
 
-      float hash1( vec2 n, float seed)
+      float hash1 (const in vec2 n, const in float seed)
       {
         return fract(sin(dot(n + seed / 12.7,vec2(127.1, 311.7)))*(43758.5453 + seed*100.35));
       }
-
-      /*
-      vec3 blerp (const in vec3 p00, const in vec3 p10, const in vec3 p01, const in vec3 p11,const in vec2 t) {
-        return mix(mix(p00, p10, t.x), mix(p01, p11, t.x), t.y);
-      }
-
-      vec3 slerp (const in vec3 p00, const in vec3 p10, const in vec3 p01, const in vec3 p11,const in vec2 t) {
-        vec2 pt = smoothstep(0., 1., t);
-        return mix(mix(p00, p10, pt.x), mix(p01, p11, pt.x), pt.y);
-      }
-      */
 
       float bias (const in float b, const in float t) {
         return pow(t, log(b) / log(0.5));
@@ -79,7 +68,7 @@ function getProgram (context) {
         return nt;
       }
 
-      vec3 clerp (const in vec3 p00, const in vec3 p10, const in vec3 p01, const in vec3 p11,const in vec2 t, float smoothness) {
+      vec3 clerp (const in vec3 p00, const in vec3 p10, const in vec3 p01, const in vec3 p11, const in vec2 t, in float smoothness) {
         smoothness = pow(smoothness, 1.33);
         vec2 pt = mix(
           mix(gain(0.995, t), t * t * t * (t * (t * 6. - 15.) + 10.), clamp(smoothness * 2., 0., 1.)),
@@ -91,26 +80,25 @@ function getProgram (context) {
       }
 
 
-      vec3 plerp (const in vec3 p00, const in vec3 p10, const in vec3 p01, const in vec3 p11,const in vec2 t) {
+      vec3 plerp (const in vec3 p00, const in vec3 p10, const in vec3 p01, const in vec3 p11, const in vec2 t) {
         vec2 pt = t * t * t * (t * (t * 6. - 15.) + 10.);
         return mix(mix(p00, p10, pt.x), mix(p01, p11, pt.x), pt.y);
       }
 
-      vec2 rotate(vec2 v, float a) {
+      vec2 rotate (const in vec2 v, const in float a) {
         float s = sin(a);
         float c = cos(a);
         mat2 m = mat2(c, -s, s, c);
         return m * v;
       }
 
-      vec3 floatToCol (float c, vec2 uv, float randomization, float angle) {
-        vec2 offset = vec2(c*10.17, c *30.67);
-        offset = mix(vec2((1. - randomization)/2.), vec2((1. + randomization)/2.), offset);
-        uv = rotate(uv, angle) + offset;
-        return texture(source, uv, -20.).rgb;
+      vec3 floatToCol (const in float c, const in vec2 uv, const in float randomization, const in float angle) {
+        vec2 offset = vec2(c * 10.17, c * 30.67);
+        offset = mix(vec2((1. - randomization) / 2.), vec2((1. + randomization) / 2.), offset);
+        return texture(source, rotate(uv, angle) + offset, -20.).rgb;
       }
 
-      float getRotationAngle (int rotation, vec2 p, float seed) {
+      float getRotationAngle (const in int rotation, const in vec2 p, const in float seed) {
         if (rotation == ROTATION_180) {
           return floor(hash1(p, seed) * 2.) * _PI;
         } else if (rotation == ROTATION_90) {
@@ -141,22 +129,24 @@ function getProgram (context) {
 
       vec3 processCornerAndCenterMode (ivec2 puv, vec2 fuv, vec2 uv, float seed, float randomization, int rotation, float smoothness) {
 
+        float itilesNumber = float(tilesNumber);
+
         float cb = mix(4., 1., smoothness);
         float cd = cb * 2.;
         float pb = mix(5., 2., smoothness);
         float pd = pb * 2. - 1.33 - smoothness * 0.33;
 
         float wc = clamp(cb - mix((abs(fuv.x - 0.5) + abs(fuv.y - 0.5)), distance(fuv, vec2(0.5)), .66) * cd, 0., 1.);
-        vec3 cc = floatToCol(hash1(mod(vec2(puv), float(tilesNumber)), seed + 2.), uv, randomization, getRotationAngle(rotation, mod(vec2(puv), float(tilesNumber)), seed + 5.));
+        vec3 cc = floatToCol(hash1(mod(vec2(puv), itilesNumber), seed + 2.), uv, randomization, getRotationAngle(rotation, mod(vec2(puv), itilesNumber), seed + 5.));
 
         float w00 = clamp(pb - mix((abs(fuv.x - 0.0) + abs(fuv.y - 0.0)), distance(fuv, vec2(0.0)), .33) * pd, 0., 1.);
-        vec3 c00 = floatToCol(hash1(mod(vec2(puv + ivec2(0, 0)), float(tilesNumber)), seed), uv, randomization, getRotationAngle(rotation, mod(vec2(puv + ivec2(0, 0)), float(tilesNumber)), seed + 3.));
+        vec3 c00 = floatToCol(hash1(mod(vec2(puv + ivec2(0, 0)), itilesNumber), seed), uv, randomization, getRotationAngle(rotation, mod(vec2(puv + ivec2(0, 0)), itilesNumber), seed + 3.));
         float w10 = clamp(pb - mix((abs(fuv.x - 1.0) + abs(fuv.y - 0.0)), distance(fuv, vec2(1.0, 0.0)), .33) * pd, 0., 1.);
-        vec3 c10 = floatToCol(hash1(mod(vec2(puv + ivec2(1, 0)), float(tilesNumber)), seed), uv, randomization, getRotationAngle(rotation, mod(vec2(puv + ivec2(1, 0)), float(tilesNumber)), seed + 3.));
+        vec3 c10 = floatToCol(hash1(mod(vec2(puv + ivec2(1, 0)), itilesNumber), seed), uv, randomization, getRotationAngle(rotation, mod(vec2(puv + ivec2(1, 0)), itilesNumber), seed + 3.));
         float w01 = clamp(pb - mix((abs(fuv.x - 0.0) + abs(fuv.y - 1.0)), distance(fuv, vec2(0.0, 1.0)), .33) * pd, 0., 1.);
-        vec3 c01 = floatToCol(hash1(mod(vec2(puv + ivec2(0, 1)), float(tilesNumber)), seed), uv, randomization, getRotationAngle(rotation, mod(vec2(puv + ivec2(0, 1)), float(tilesNumber)), seed + 3.));
+        vec3 c01 = floatToCol(hash1(mod(vec2(puv + ivec2(0, 1)), itilesNumber), seed), uv, randomization, getRotationAngle(rotation, mod(vec2(puv + ivec2(0, 1)), itilesNumber), seed + 3.));
         float w11 = clamp(pb - mix((abs(fuv.x - 1.0) + abs(fuv.y - 1.0)), distance(fuv, vec2(1.0, 1.0)), .33) * pd, 0., 1.);
-        vec3 c11 = floatToCol(hash1(mod(vec2(puv + ivec2(1, 1)), float(tilesNumber)), seed), uv, randomization, getRotationAngle(rotation, mod(vec2(puv + ivec2(1, 1)), float(tilesNumber)), seed + 3.));
+        vec3 c11 = floatToCol(hash1(mod(vec2(puv + ivec2(1, 1)), itilesNumber), seed), uv, randomization, getRotationAngle(rotation, mod(vec2(puv + ivec2(1, 1)), itilesNumber), seed + 3.));
 
         vec3 c = vec3(0.);
         float sumw = 0.;
@@ -181,7 +171,7 @@ function getProgram (context) {
 
       vec3 processCornerMode (ivec2 puv, vec2 fuv, vec2 uv, float seed, float randomization, int rotation, float smoothness) {
 
-        float itilesNumber = float(tilesNumber) + 1.;
+        float itilesNumber = float(tilesNumber);
 
         return clerp(
           floatToCol(hash1(mod(vec2(puv + ivec2(0, 0)), itilesNumber), seed), uv, randomization, getRotationAngle(rotation, mod(vec2(puv + ivec2(0, 0)), itilesNumber), seed + 3.)),
@@ -302,7 +292,7 @@ function getProgram (context) {
           if (sourceSet == true) {
             fragColor = process(uv);
           } else {
-            fragColor = vec4(0., 0., 0., 1.);
+            fragColor = vec4(0., -0.3, 0., 1.);
           }
       }
 
