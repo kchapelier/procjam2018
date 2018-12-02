@@ -10,8 +10,8 @@ function DirectionalBlurParameters (name, values, callback) {
   this.values = {
     angle: getProp(values, 'angle', 1),
     intensity: getProp(values, 'intensity', 3),
-    iterations: 200.,
-    parabolaFactor: 3.
+    iterations: 175.,
+    parabolaFactor: getProp(values, 'parabolaFactor', 3)
   };
 }
 
@@ -24,6 +24,13 @@ DirectionalBlurParameters.prototype.initializeElements = function () {
     softMin: 0,
     softMax: 10,
     hardMin: 0,
+    hardMax: 50
+  });
+
+  this.setElement('parabolaFactor', 'range', 'Parabola factor', {
+    softMin: 0.1,
+    softMax: 10,
+    hardMin: 0.001,
     hardMax: 50
   });
 };
