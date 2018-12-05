@@ -40,6 +40,7 @@ var NormalRotateParameters = require('./../parameters/normal-rotate-parameters')
 var NormalTweakParameters = require('./../parameters/normal-tweak-parameters');
 var PosterizeParameters = require('./../parameters/posterize-parameters');
 var PowParameters = require('./../parameters/pow-parameters');
+var RadialBlurParameters = require('./../parameters/radial-blur-parameters');
 var ShapeParameters = require('./../parameters/shape-parameters');
 var ShapeMapperParameters = require('./../parameters/shape-mapper-parameters');
 var SharpenParameters = require('./../parameters/sharpen-parameters');
@@ -92,6 +93,7 @@ var normalRotateJob = require('./../jobs/normal-rotate');
 var normalTweakJob = require('./../jobs/normal-tweak');
 var posterizeJob = require('./../jobs/posterize');
 var powJob = require('./../jobs/pow');
+var radialBlurJob = require('./../jobs/radial-blur');
 var shapeJob = require('./../jobs/shape');
 var shapeMapperJob = require('./../jobs/shape-mapper');
 var sharpenJob = require('./../jobs/sharpen');
@@ -241,6 +243,16 @@ PopulatedTypeProvider.prototype.populate = function () {
     outputs: [ 'output' ],
     parameters: LinearGradientParameters,
     job: linearGradientJob
+  });
+
+  this.registerType({
+    isFilter: true,
+    id: 'radial-blur',
+    name: 'Radial blur',
+    inputs: [ 'input' ],
+    outputs: [ 'output' ],
+    parameters: RadialBlurParameters,
+    job: radialBlurJob
   });
 
   this.registerType({
