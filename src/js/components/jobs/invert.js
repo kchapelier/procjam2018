@@ -51,7 +51,7 @@ function getProgram (context) {
   return program;
 }
 
-function sharpenJob (context, inputs, outputs, parameters, done) {
+function invertJob (context, inputs, outputs, parameters, done) {
   var program = getProgram(context);
   var uniforms = {
     source: inputs.input,
@@ -63,4 +63,4 @@ function sharpenJob (context, inputs, outputs, parameters, done) {
   done();
 }
 
-module.exports = sharpenJob;
+module.exports = invertJob;
