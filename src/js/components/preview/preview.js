@@ -8,9 +8,11 @@ var download = require('./../../commons/download');
 function Preview () {
   this.element = document.querySelector('.preview');
   this.saveImageButton = document.querySelector('.save-image-button');
+  this.toggleMaskButton = document.querySelector('.toggle-mask-button');
   this.active = false;
   this.shownNode = null;
   this.mask = true;
+  this.currentMask = true;
   this.zoomLevel = 1.;
   this.offsetViewX = 0.5;
   this.offsetViewY = 0.5;
@@ -96,7 +98,7 @@ Preview.prototype.changeTexture = function (texture) {
 Preview.prototype.updateDisplay = function () {
   this.program.execute({
     source: this.texture,
-    mask: this.mask,
+    mask: this.currentMask,
     zoom: this.zoomLevel,
     offset: [this.offsetViewX, this.offsetViewY]
   }, {
@@ -151,7 +153,7 @@ Preview.prototype.setEvents = function () {
       var code = e.keyCode || e.charCode;
 
       if (code === 32) {
-        this.mask = false;
+        this.currentMask = !this.mask;
         this.needDisplayUpdate = true;
       }
     }
@@ -164,14 +166,14 @@ Preview.prototype.setEvents = function () {
       if (code === 27) { // ESC
         this.hide();
       } else if (code === 32) {
-        this.mask = true;
+        this.currentMask = this.mask;
         this.needDisplayUpdate = true;
       }
     }
   });
 
   this.element.addEventListener('dblclick', e => {
-    if (this.active) {
+    if (this.active && e.target && e.target.tagName.toLowerCase() !== 'button') {
       e.preventDefault();
       e.stopPropagation();
       this.hide();
@@ -188,6 +190,16 @@ Preview.prototype.setEvents = function () {
     if (this.active && this.down) {
       this.down = false;
     }
+  });
+
+  this.toggleMaskButton.addEventListener('click', e => {
+    e.preventDefault();
+    e.stopPropagation();
+    this.toggleMaskButton.blur();
+
+    this.mask = !this.mask;
+    this.currentMask = !this.currentMask;
+    this.needDisplayUpdate = true;
   });
 
   this.saveImageButton.addEventListener('click', e => {
