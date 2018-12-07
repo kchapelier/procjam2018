@@ -39,6 +39,7 @@ var NormalBlurParameters = require('./../parameters/normal-blur-parameters');
 var NormalInvertParameters = require('./../parameters/normal-invert-parameters');
 var NormalRotateParameters = require('./../parameters/normal-rotate-parameters');
 var NormalTweakParameters = require('./../parameters/normal-tweak-parameters');
+var OctaveSumParameters = require('./../parameters/octave-sum-parameters');
 var PosterizeParameters = require('./../parameters/posterize-parameters');
 var PowParameters = require('./../parameters/pow-parameters');
 var RadialBlurParameters = require('./../parameters/radial-blur-parameters');
@@ -94,6 +95,7 @@ var normalBlurJob = require('./../jobs/normal-blur');
 var normalInvertJob = require('./../jobs/normal-invert');
 var normalRotateJob = require('./../jobs/normal-rotate');
 var normalTweakJob = require('./../jobs/normal-tweak');
+var octaveSumJob = require('./../jobs/octave-sum');
 var posterizeJob = require('./../jobs/posterize');
 var powJob = require('./../jobs/pow');
 var radialBlurJob = require('./../jobs/radial-blur');
@@ -561,6 +563,16 @@ PopulatedTypeProvider.prototype.populate = function () {
     outputs: [ 'output' ],
     parameters: NoParameters,
     job: normalizeJob
+  });
+
+  this.registerType({
+    isFilter: true,
+    id: 'octave-sum',
+    name: 'Octave sum',
+    inputs: [ 'input' ],
+    outputs: [ 'output' ],
+    parameters: OctaveSumParameters,
+    job: octaveSumJob
   });
 
   this.registerType({

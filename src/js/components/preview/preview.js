@@ -1,9 +1,9 @@
 "use strict";
 
-var WorkingContext = require('./../webgl/working-context');
-var WorkingProgram = require('./../webgl/working-program');
-var WorkingTexture = require('./../webgl/working-texture');
-var download = require('./../../commons/download');
+const WorkingContext = require('./../webgl/working-context');
+const WorkingProgram = require('./../webgl/working-program');
+const WorkingTexture = require('./../webgl/working-texture');
+const download = require('./../../commons/download');
 
 function Preview () {
   this.element = document.querySelector('.preview');
@@ -84,7 +84,7 @@ Preview.prototype.render = function () {
 };
 
 Preview.prototype.resize = function () {
-  var bb = this.element.getBoundingClientRect();
+  const bb = this.element.getBoundingClientRect();
   this.width = bb.width;
   this.height = bb.height;
   this.needDisplayUpdate = true;
@@ -150,7 +150,7 @@ Preview.prototype.setEvents = function () {
 
   document.addEventListener('keydown', e => {
     if (this.active) {
-      var code = e.keyCode || e.charCode;
+      const code = e.keyCode || e.charCode;
 
       if (code === 32) {
         this.currentMask = !this.mask;
@@ -161,7 +161,7 @@ Preview.prototype.setEvents = function () {
 
   document.addEventListener('keyup', e => {
     if (this.active) {
-      var code = e.keyCode || e.charCode;
+      const code = e.keyCode || e.charCode;
 
       if (code === 27) { // ESC
         this.hide();
@@ -213,15 +213,15 @@ Preview.prototype.setEvents = function () {
     this.downloadCanvas.getContext('2d').putImageData(this.texture.getImageData(), 0, 0);
 
     this.downloadCanvas.toBlob(blob => {
-      var d = new Date();
-      var filename = 'graph-ical-' + (
+      const d = new Date();
+      const filename = 'graph-ical-' + (
         d.getFullYear() + ('0' + (d.getMonth()+1)).substr(-2) + ('0' + d.getDate()).substr(-2) + '-' +
         ('0' + d.getHours()).substr(-2) + ('0' + d.getMinutes()).substr(-2) + ('0' + d.getSeconds()).substr(-2)
       ) + '.png';
 
       download(blob, 'image/png', filename);
     }, 'image/png');
-  })
+  });
 };
 
 Preview.prototype.show = function (uuid) {
