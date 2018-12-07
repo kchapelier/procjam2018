@@ -229,6 +229,7 @@ Preview.prototype.show = function (uuid) {
   this.offsetViewX = 0.5;
   this.offsetViewY = 0.5;
   this.zoomLevel = 1.1;
+  this.currentMask = this.mask;
   this.active = true;
   this.updateDisplay();
   this.element.classList.add('active');
