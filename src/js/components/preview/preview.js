@@ -216,7 +216,7 @@ Preview.prototype.show = function (uuid) {
   this.shownNode = uuid;
   this.offsetViewX = 0.5;
   this.offsetViewY = 0.5;
-  this.zoomLevel = 1.;
+  this.zoomLevel = 1.1;
   this.active = true;
   this.updateDisplay();
   this.element.classList.add('active');
