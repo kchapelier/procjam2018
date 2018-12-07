@@ -119,7 +119,29 @@ Preview.prototype.setEvents = function () {
 
   window.addEventListener('wheel', e => {
     if (this.active) {
+      const previousLevel = this.zoomLevel;
       this.zoomLevel = Math.min(5., Math.max(0.2, this.zoomLevel - e.deltaY * 0.0025));
+
+      let multiplier;
+      let changeRatio;
+      let changeX;
+      let changeY;
+
+      if (this.zoomLevel <= previousLevel) {
+        multiplier = previousLevel / Math.min(this.width, this.height);
+        changeRatio = (previousLevel - this.zoomLevel) / this.zoomLevel;
+        changeX = -(this.width / 2 - e.offsetX) * multiplier;
+        changeY = (this.height / 2 - e.offsetY) * multiplier;
+      } else {
+        multiplier = previousLevel / Math.min(this.width, this.height);
+        changeRatio = (this.zoomLevel - previousLevel) / this.zoomLevel;
+        changeX = (this.width / 2 - e.offsetX) * multiplier;
+        changeY = -(this.height / 2 - e.offsetY) * multiplier;
+      }
+
+      this.offsetViewX = this.offsetViewX * (1. - changeRatio) + (this.offsetViewX + changeX) * changeRatio;
+      this.offsetViewY = this.offsetViewY * (1. - changeRatio) + (this.offsetViewY + changeY) * changeRatio;
+
       this.needDisplayUpdate = true;
     }
   });
@@ -150,20 +172,27 @@ Preview.prototype.setEvents = function () {
 
   this.element.addEventListener('dblclick', e => {
     if (this.active) {
+      e.preventDefault();
+      e.stopPropagation();
       this.hide();
     }
   });
 
   this.element.addEventListener('mousedown', e => {
+    e.preventDefault();
+    e.stopPropagation();
     this.down = true;
   });
 
-  this.element.addEventListener('mouseup', e => {
-    this.down = false;
+  window.addEventListener('mouseup', e => {
+    if (this.active && this.down) {
+      this.down = false;
+    }
   });
 
   this.saveImageButton.addEventListener('click', e => {
     e.preventDefault();
+    e.stopPropagation();
     this.saveImageButton.blur();
 
     this.downloadCanvas.width = this.texture.width;
