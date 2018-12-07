@@ -119,8 +119,8 @@ Preview.prototype.setEvents = function () {
     }
   });
 
-  window.addEventListener('wheel', e => {
-    if (this.active) {
+  this.element.addEventListener('wheel', e => {
+    if (this.active && e.target.tagName.toLowerCase() === 'canvas') {
       const previousLevel = this.zoomLevel;
       this.zoomLevel = Math.min(5., Math.max(0.2, this.zoomLevel - e.deltaY * 0.0025));
 
@@ -146,7 +146,7 @@ Preview.prototype.setEvents = function () {
 
       this.needDisplayUpdate = true;
     }
-  });
+  }, { passive:true });
 
   document.addEventListener('keydown', e => {
     if (this.active) {
