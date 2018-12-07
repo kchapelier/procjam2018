@@ -28,6 +28,7 @@ var HslShiftParameters = require('./../parameters/hsl-shift-parameters');
 var ImageParameters = require('./../parameters/image-parameters');
 var InvertParameters = require('./../parameters/invert-parameters');
 var IsolinesParameters = require('./../parameters/isolines-parameters');
+var JitterFilterParameters = require('./../parameters/jitter-filter-parameters');
 var KaleidoscopeParameters = require('./../parameters/kaleidoscope-parameters');
 var LinearGradientParameters = require('./../parameters/linear-gradient-2-parameters');
 var MakeTileableParameters = require('./../parameters/make-tileable-parameters');
@@ -82,6 +83,7 @@ var hslShiftJob = require('./../jobs/hsl-shift');
 var imageJob = require('./../jobs/image');
 var invertJob = require('./../jobs/invert');
 var isolinesJob = require('./../jobs/isolines');
+var jitterFilterJob = require('./../jobs/jitter-filter');
 var kaleidoscopeJob = require('./../jobs/kaleidoscope');
 var linearGradientJob = require('./../jobs/linear-gradient-2');
 var makeTileableJob = require('./../jobs/make-tileable');
@@ -469,6 +471,16 @@ PopulatedTypeProvider.prototype.populate = function () {
     outputs: [ 'output' ],
     parameters: IsolinesParameters,
     job: isolinesJob
+  });
+
+  this.registerType({
+    isFilter: true,
+    id: 'jitter-filter',
+    name: 'Jitter Filter',
+    inputs: [ 'input' ],
+    outputs: [ 'output' ],
+    parameters: JitterFilterParameters,
+    job: jitterFilterJob
   });
 
   this.registerType({
