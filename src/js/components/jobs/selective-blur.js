@@ -46,7 +46,7 @@ function getProgram (context) {
       vec3 _process (const in vec3 base, const in vec2 uv, const in float value, inout float sum) {
         float ithreshold = threshold * (1. - 0.00001);
         vec3 col = texture(source, uv).rgb;
-        float weight = clamp(1. - getDistance(base, col) - threshold, 0., 1.) / (1. - threshold);
+        float weight = clamp(1. - getDistance(base, col) - ithreshold, 0., 1.) / (1. - ithreshold);
         sum += value * weight;
         return col * value * weight;
       }
