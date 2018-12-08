@@ -23,6 +23,7 @@ The main objective of this project is to have a free, intuitive and efficient gr
  * [Examples of each noise generator nodes](http://www.kchapelier.com/graph.ical/?gist=https://gist.github.com/kchapelier/65608b65fd726c3f77ed9522e0524a56)
  * [Custom kaleidoscope](http://www.kchapelier.com/graph.ical/?gist=https://gist.github.com/kchapelier/69c85cb68ee4610a30548facf69e8bf9)
  * [Cartoonish shiny stones](http://www.kchapelier.com/graph.ical/?gist=https://gist.github.com/kchapelier/b801ea0ed3443dfb1af939f80f6b435f)
+ * [Semi-realistic polished volcanic cobblestones](http://www.kchapelier.com/graph.ical/?gist=https://gist.github.com/kchapelier/49d95ca6190410872e9b5c1e3a7c7097)
  * [Cords](http://www.kchapelier.com/graph.ical/?gist=https://gist.github.com/kchapelier/b60f7b9b3f39895ec3082dc2f82fa520)
  * [Black sea](http://www.kchapelier.com/graph.ical/?gist=https://gist.github.com/kchapelier/a5a8e30cd99307d0920cdb6826055d08), simplified port of my first [PROCJAM projet](https://github.com/kchapelier/procjam2014)
 
