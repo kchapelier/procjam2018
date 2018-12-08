@@ -220,7 +220,7 @@ WorkingGraph.prototype.deleteConnection = function (connectionUuid) {
   const { fromUuid, fromParam, toUuid, toParam } = this.connections[connectionUuid];
 
   this.nodes[fromUuid].outputRefs[fromParam] = this.nodes[fromUuid].outputRefs[fromParam].reduce((a, v) => {
-    if (v[0] !== toUuid) {
+    if (v[0] !== toUuid || v[1] !== toParam) {
       a.push(v);
     }
 
