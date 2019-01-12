@@ -67,3 +67,4 @@ typings/
 
 public/*.css
 public/*.js
+*.stub

@@ -2,5 +2,6 @@
     font-family: 'Arimo';
     font-style: normal;
     font-weight: 400;
+    font-display: swap;
     src: local('Arimo Regular'), local('Arimo-Regular'), url(./arimo-regular.woff2) format('woff2');
 }
