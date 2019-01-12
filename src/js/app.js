@@ -17,8 +17,8 @@ var { generateUUID } = require('./commons/utils');
 function App () {
   // Initialize node graph
 
-  this.version = 4;
-  this.versionStr = '1.2.0';
+  this.version = 5;
+  this.versionStr = '1.2.1';
   this.context = new Context();
 
   document.querySelector('#version').innerHTML = this.versionStr;

@@ -5,7 +5,7 @@ const { makeElement, simplifyString } = require('./../../commons/utils');
 function TypeSelector (typesProvider, callback) {
   this.callback = callback;
   this.element = makeElement('div', { className: 'selector' });
-  this.input = makeElement('input', { type: 'text', placeholder: 'Type node name', value: '' });
+  this.input = makeElement('input', { 'aria-label': 'Search a node', type: 'text', placeholder: 'Type node name', value: '' });
   this.container = makeElement('div', { className: 'types-container'});
 
   this.element.appendChild(this.input);
