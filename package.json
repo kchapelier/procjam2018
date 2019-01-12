@@ -1,6 +1,6 @@
 {
   "name": "procjam2018",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Procjam2018 project",
   "main": "src/js/index.js",
   "private": true,
@@ -8,7 +8,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build-styles": "stylus src/stylus/main.styl -o public/main.css",
     "build-scripts": "browserify src/js/app.js -d --s App -u crypto > public/main.js",
-    "build": "(stylus src/stylus/main.styl -o public/main.css; echo 'Styles compiled.';) & (browserify src/js/app.js --s App -u crypto > public/main.js; echo 'Scripts compiled.';) & wait"
+    "build": "(stylus src/stylus/main.styl -o public/main.css; echo 'Styles compiled.';) & (browserify src/js/app.js --s App -u crypto | terser > public/main.js; echo 'Scripts compiled.';) & wait"
   },
   "repository": {
     "type": "git",
@@ -22,6 +22,7 @@
   "homepage": "https://github.com/kchapelier/procjam2018#readme",
   "devDependencies": {
     "browserify": "^16.2.3",
-    "stylus": "^0.54.5"
+    "stylus": "^0.54.5",
+    "terser": "^3.14.1"
   }
 }
