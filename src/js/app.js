@@ -278,7 +278,8 @@ App.prototype.getState = function () {
       position: [this.graph.boardPositionX, this.graph.boardPositionY]
     },
     nodes: nodes,
-    connections: connections
+    connections: connections,
+    parametersShown: this.parametersShown
   };
 };
 
@@ -443,6 +444,10 @@ App.prototype.loadState = function (data) {
     this.graph.setConnectionFromTo(uuid, connectionDesc.fromUuid, connectionDesc.fromParam, connectionDesc.toUuid, connectionDesc.toParam);
 
     this.workingGraph.createConnection(uuid, connectionDesc.fromUuid, connectionDesc.fromParam, connectionDesc.toUuid, connectionDesc.toParam, true);
+  }
+
+  if (data.parametersShown) {
+    this.displayParameters(data.parametersShown);
   }
 
   this.workingGraph.scheduleAll();
