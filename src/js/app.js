@@ -182,12 +182,7 @@ function App () {
   });
 
   globalEE.on('show-full-preview', (uuid) => {
-    //console.log('show-full-preview', uuid);
-
-    this.preview.changeTexture(this.workingGraph.nodes[uuid].defaultTexture);
-    this.preview.show(uuid);
-
-    //TODO implement this
+    this.displayPreview(uuid);
   });
 
   globalEE.on('change-parameters', (uuid, values) => {
@@ -277,9 +272,10 @@ App.prototype.getState = function () {
     board: {
       position: [this.graph.boardPositionX, this.graph.boardPositionY]
     },
+    parametersShown: this.parametersShown,
+    previewShown: this.preview.active ? this.preview.shownNode : null,
     nodes: nodes,
-    connections: connections,
-    parametersShown: this.parametersShown
+    connections: connections
   };
 };
 
@@ -289,6 +285,11 @@ App.prototype.downloadState = function (filename) {
     'text/plain;charset=utf-8',
     filename
   );
+};
+
+App.prototype.displayPreview = function (uuid) {
+  this.preview.changeTexture(this.workingGraph.nodes[uuid].defaultTexture);
+  this.preview.show(uuid);
 };
 
 App.prototype.displayParameters = function (parametersUuid) {
@@ -448,6 +449,10 @@ App.prototype.loadState = function (data) {
 
   if (data.parametersShown) {
     this.displayParameters(data.parametersShown);
+  }
+
+  if (data.previewShown) {
+    this.displayPreview(data.previewShown);
   }
 
   this.workingGraph.scheduleAll();
