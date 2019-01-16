@@ -3,7 +3,8 @@
 const Pulse = require('../pulse');
 const globalEE = require('../event-emitter').global;
 
-function WorkingGraph (context) {
+function WorkingGraph (context, size) {
+  this.size = size;
   this.context = context;
   this.nodes = {};
   this.connections = {};
@@ -47,7 +48,7 @@ WorkingGraph.prototype.createNode = function (uuid, type, parameters, miniCanvas
   }
 
   for(i = 0; i < type.outputs.length; i++) {
-    textures[type.outputs[i]] = this.context.createTexture(1024, 1024, true);
+    textures[type.outputs[i]] = this.context.createTexture(this.size, this.size, true);
     outputRefs[type.outputs[i]] = [];
   }
 

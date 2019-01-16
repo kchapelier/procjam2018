@@ -38,6 +38,7 @@ Context.prototype.createTexture = function (width, height, repeat) {
  * @param texture
  */
 Context.prototype.drawToCanvas = function (canvas, canvasCtx, texture) {
+  //TODO something is wrong about this, probable the call to drawImage
   var canvasSize = Math.max(canvas.width, canvas.height);
 
   CopyToCanvasProgram.getInstance(this).execute({

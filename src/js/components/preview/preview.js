@@ -5,7 +5,8 @@ const WorkingProgram = require('./../webgl/working-program');
 const WorkingTexture = require('./../webgl/working-texture');
 const download = require('./../../commons/download');
 
-function Preview () {
+function Preview (size) {
+  this.size = size;
   this.element = document.querySelector('.preview');
   this.saveImageButton = document.querySelector('.save-image-button');
   this.toggleMaskButton = document.querySelector('.toggle-mask-button');
@@ -24,7 +25,7 @@ function Preview () {
   this.downloadCanvas = document.createElement('canvas');
 
   this.context = new WorkingContext(this.width, this.height);
-  this.texture = new WorkingTexture({ working: this.context }, 1024, 1024, true, true);
+  this.texture = new WorkingTexture({ working: this.context }, this.size, this.size, true, true);
   this.program = new WorkingProgram({ working: this.context }, `#version 300 es
 
     precision highp float;

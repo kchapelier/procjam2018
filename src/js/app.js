@@ -21,6 +21,8 @@ function App () {
   this.versionStr = '1.2.1';
   this.context = new Context();
 
+  var hashOptions = parseUrlQuery();
+
   document.querySelector('#version').innerHTML = this.versionStr;
 
   // buttons
@@ -112,10 +114,10 @@ function App () {
 
   this.typesProvider = new TypesProvider();
 
-  this.workingGraph = new WorkingGraph(this.context);
+  this.workingGraph = new WorkingGraph(this.context, hashOptions.size);
   this.graph = new NodeGraph(this);
 
-  this.preview = new Preview();
+  this.preview = new Preview(hashOptions.size);
 
   var selector = new TypeSelector(this.typesProvider, function (type) {
     globalEE.trigger('create-node', type);
@@ -197,7 +199,7 @@ function App () {
     var buffers = [];
 
     for (var i = 0; i < number; i++) {
-      buffers.push(this.context.createTexture(1024, 1024, repeat));
+      buffers.push(this.context.createTexture(hashOptions.size, hashOptions.size, repeat));
     }
 
     callback(buffers);
@@ -214,8 +216,6 @@ function App () {
       this.preview.changeTexture(texture);
     }
   });
-
-  var hashOptions = parseUrlQuery();
 
   if (hashOptions.gist) {
     this.loadStateFromGist(hashOptions.gist);
@@ -448,6 +448,7 @@ App.prototype.loadState = function (data) {
   }
 
   if (data.parametersShown) {
+    //this.graph.selectNode(data.parametersShown);
     this.displayParameters(data.parametersShown);
   }
 
