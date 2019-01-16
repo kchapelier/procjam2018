@@ -79,7 +79,7 @@ function getProgram (context) {
   return program;
 }
 
-function wrapJob (context, inputs, outputs, parameters, done) {
+function warpJob (context, inputs, outputs, parameters, done) {
   var program = getProgram(context);
 
   var uniforms = {
@@ -93,4 +93,4 @@ function wrapJob (context, inputs, outputs, parameters, done) {
   done();
 }
 
-module.exports = wrapJob;
+module.exports = warpJob;

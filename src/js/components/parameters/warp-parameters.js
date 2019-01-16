@@ -4,7 +4,7 @@ const BaseParameters = require('./base-parameters');
 
 const { getProp, extendClass } = require('./../../commons/utils');
 
-function WrapParameters (name, values, callback) {
+function WarpParameters (name, values, callback) {
   this.constructor.super.call(this, name, callback);
 
   this.values = {
@@ -12,9 +12,9 @@ function WrapParameters (name, values, callback) {
   };
 }
 
-extendClass(WrapParameters, BaseParameters);
+extendClass(WarpParameters, BaseParameters);
 
-WrapParameters.prototype.initializeElements = function () {
+WarpParameters.prototype.initializeElements = function () {
   this.setElement('intensity', 'range', 'Intensity', {
     softMin: 0,
     softMax: 1,
@@ -23,4 +23,4 @@ WrapParameters.prototype.initializeElements = function () {
   });
 };
 
-module.exports = WrapParameters;
+module.exports = WarpParameters;

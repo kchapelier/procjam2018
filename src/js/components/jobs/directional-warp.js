@@ -98,7 +98,7 @@ function getProgram (context) {
   return program;
 }
 
-function channelSplitterJob (context, inputs, outputs, parameters, done) {
+function directionalWarpJob (context, inputs, outputs, parameters, done) {
   var program = getProgram(context);
   var uniforms = {
     source: inputs.input,
@@ -117,4 +117,4 @@ function channelSplitterJob (context, inputs, outputs, parameters, done) {
   done();
 }
 
-module.exports = channelSplitterJob;
+module.exports = directionalWarpJob;

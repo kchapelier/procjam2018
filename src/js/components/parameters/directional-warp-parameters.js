@@ -4,7 +4,7 @@ const BaseParameters = require('./base-parameters');
 
 const { getProp, extendClass } = require('./../../commons/utils');
 
-function DirectonalWrapParameters (name, values, callback) {
+function DirectionalWarpParameters (name, values, callback) {
   this.constructor.super.call(this, name, callback);
 
   this.values = {
@@ -16,9 +16,9 @@ function DirectonalWrapParameters (name, values, callback) {
   };
 }
 
-extendClass(DirectonalWrapParameters, BaseParameters);
+extendClass(DirectionalWarpParameters, BaseParameters);
 
-DirectonalWrapParameters.prototype.initializeElements = function () {
+DirectionalWarpParameters.prototype.initializeElements = function () {
   this.setElement('angle', 'angle', 'Angle', {});
 
   this.setElement('intensity', 'range', 'Intensity', {
@@ -40,4 +40,4 @@ DirectonalWrapParameters.prototype.initializeElements = function () {
   this.setElement('angleCenteredOnGray', 'boolean', 'Rotation centered on gray', {});
 };
 
-module.exports = DirectonalWrapParameters;
+module.exports = DirectionalWarpParameters;

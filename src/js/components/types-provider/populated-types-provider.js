@@ -14,7 +14,7 @@ var CheckersParameters = require('./../parameters/checkers-parameters');
 var ColorToMaskParameters = require('./../parameters/color-to-mask-parameters');
 var ColorspaceConversionParameters = require('./../parameters/colorspace-conversion-parameters');
 var DirectionalBlurParameters = require('./../parameters/directional-blur-parameters');
-var DirectionalWrapParameters = require('./../parameters/directional-wrap-parameters');
+var DirectionalWarpParameters = require('./../parameters/directional-warp-parameters');
 var EdgeDetectParameters = require('./../parameters/edge-detect-parameters');
 var FastMazeParameters = require('./../parameters/fast-maze-parameters');
 var FixMaskParameters = require('./../parameters/fix-mask-parameters');
@@ -55,7 +55,7 @@ var UniformGrayscaleParameters = require('./../parameters/uniform-gray-parameter
 var ValueNoiseParameters = require('./../parameters/value-noise-parameters');
 var ValueNoiseFractalParameters = require('./../parameters/value-noise-fractal-parameters');
 var VibranceParameters = require('./../parameters/vibrance-parameters');
-var WrapParameters = require('./../parameters/wrap-parameters');
+var WarpParameters = require('./../parameters/warp-parameters');
 
 var anisotropicNoiseJob = require('./../jobs/anisotropic-noise');
 var blendJob = require('./../jobs/blend');
@@ -70,7 +70,7 @@ var checkersJob = require('./../jobs/checkers');
 var colorToMaskJob = require('./../jobs/color-to-mask');
 var colorspaceConversionJob = require('./../jobs/colorspace-conversion');
 var directionalBlurJob = require('./../jobs/directional-blur');
-var directionalWrapJob = require('./../jobs/directional-wrap');
+var directionalWarpJob = require('./../jobs/directional-warp');
 var edgeDetectJob = require('./../jobs/edge-detect');
 var fastMazeJob = require('./../jobs/fast-maze');
 var fixMaskJob = require('./../jobs/fix-mask');
@@ -110,7 +110,7 @@ var uniformColorJob = require('./../jobs/uniform-color');
 var valueNoiseJob = require('./../jobs/value-noise');
 var valueNoiseFractalJob = require('./../jobs/value-noise-fractal');
 var vibranceJob = require('./../jobs/vibrance');
-var wrapJob = require('./../jobs/wrap');
+var warpJob = require('./../jobs/warp');
 
 function PopulatedTypeProvider () {
   this.constructor.super.call(this);
@@ -397,12 +397,13 @@ PopulatedTypeProvider.prototype.populate = function () {
 
   this.registerType({
     isFilter: true,
-    id: 'directional-wrap',
-    name: 'Directional wrap',
+    id: 'directional-warp',
+    name: 'Directional warp',
+    synonymous: [ 'Directional wrap' ],
     inputs: [ 'input', 'intensity', 'angle' ],
     outputs: [ 'output' ],
-    parameters: DirectionalWrapParameters,
-    job: directionalWrapJob
+    parameters: DirectionalWarpParameters,
+    job: directionalWarpJob
   });
 
   this.registerType({
@@ -667,12 +668,13 @@ PopulatedTypeProvider.prototype.populate = function () {
 
   this.registerType({
     isFilter: true,
-    id: 'wrap',
-    name: 'Wrap',
+    id: 'warp',
+    name: 'Warp',
+    synonymous: [ 'Wrap' ],
     inputs: [ 'input', 'intensity' ],
     outputs: [ 'output' ],
-    parameters: WrapParameters,
-    job: wrapJob
+    parameters: WarpParameters,
+    job: warpJob
   });
 };
 

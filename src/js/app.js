@@ -12,6 +12,7 @@ var globalEE = require('./components/event-emitter').global;
 
 var parseUrlQuery = require('./commons/parse-url-query');
 var download = require('./commons/download');
+var normalizeSave = require('./normalize-save');
 var { generateUUID } = require('./commons/utils');
 
 function App () {
@@ -428,6 +429,10 @@ App.prototype.loadState = function (data) {
     this.setError('Incorrect version : ' + data.version, true);
     return false;
   }
+
+  // normalize the data
+
+  data = normalizeSave(data);
 
   this.clearState();
 
