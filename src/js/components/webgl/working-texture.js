@@ -1,11 +1,12 @@
 "use strict";
 
-function WorkingTexture (context, width, height, repeat, mipmap) {
+function WorkingTexture (context, width, height, repeat, mipmap, nearest) {
   this.context = context;
   this.width = width;
   this.height = height;
   this.repeat = !!repeat;
   this.mipmap = !!mipmap;
+  this.nearest = !!nearest;
 
   this.initialize();
 }
@@ -41,12 +42,12 @@ WorkingTexture.prototype.initialize = function () {
   gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, this.repeat ? gl.REPEAT : gl.CLAMP_TO_EDGE);
   gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, this.repeat ? gl.REPEAT : gl.CLAMP_TO_EDGE);
 
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, this.nearest ? gl.NEAREST : gl.LINEAR);
+
   if (this.mipmap) {
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, this.nearest ? gl.NEAREST_MIPMAP_LINEAR : gl.LINEAR_MIPMAP_LINEAR);
   } else {
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, this.nearest ? gl.NEAREST : gl.LINEAR);
   }
 
   gl.bindFramebuffer(gl.FRAMEBUFFER, this.webglFrameBuffer);
@@ -286,7 +287,7 @@ WorkingTexture.fromImageFile = function (context, file, callback) {
   });
 
   img.addEventListener('load', function () {
-    var texture = new WorkingTexture(context, img.naturalWidth, img.naturalHeight, false);
+    var texture = new WorkingTexture(context, img.naturalWidth, img.naturalHeight, false, false, false);
     texture.updateFromImageElement(img);
 
     callback(texture);

@@ -25,7 +25,7 @@ function Preview (size) {
   this.downloadCanvas = document.createElement('canvas');
 
   this.context = new WorkingContext(this.width, this.height);
-  this.texture = new WorkingTexture({ working: this.context }, this.size, this.size, true, true);
+  this.texture = new WorkingTexture({ working: this.context }, this.size, this.size, true, true, true);
   this.program = new WorkingProgram({ working: this.context }, `#version 300 es
 
     precision highp float;
