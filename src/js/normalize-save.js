@@ -5,8 +5,8 @@ function normalizeLessThan6 (save) {
   for (var key in save.nodes) {
     if (save.nodes[key].type === 'wrap') {
       save.nodes[key].type = 'warp';
-    } else if (save.nodes[key].type === 'directional wrap') {
-      save.nodes[key].type = 'directional warp';
+    } else if (save.nodes[key].type === 'directional-wrap') {
+      save.nodes[key].type = 'directional-warp';
     }
   }
 
