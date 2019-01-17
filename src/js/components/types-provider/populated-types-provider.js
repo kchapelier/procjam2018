@@ -124,7 +124,7 @@ PopulatedTypeProvider.prototype.populate = function () {
   this.registerType({
     isFilter: false,
     id: 'anisotropic-noise',
-    name: 'Anisotropic noise',
+    name: 'Anisotropic Noise',
     inputs: [ ],
     outputs: [ 'output' ],
     parameters: AnisotropicNoiseParameters,
@@ -144,7 +144,7 @@ PopulatedTypeProvider.prototype.populate = function () {
   this.registerType({
     isFilter: true,
     id: 'channel-shuffle',
-    name: 'Channel shuffle',
+    name: 'Channel Shuffle',
     inputs: [ 'input1', 'input2', 'input3' ],
     outputs: [ 'output' ],
     parameters: ChannelShuffleParameters,
@@ -154,7 +154,7 @@ PopulatedTypeProvider.prototype.populate = function () {
   this.registerType({
     isFilter: true,
     id: 'channel-splitter',
-    name: 'Channel splitter',
+    name: 'Channel Splitter',
     inputs: [ 'input' ],
     outputs: [ 'channel1', 'channel2', 'channel3' ],
     parameters: NoParameters,
@@ -194,7 +194,7 @@ PopulatedTypeProvider.prototype.populate = function () {
   this.registerType({
     isFilter: true,
     id: 'gaussian-blur',
-    name: 'Gaussian blur',
+    name: 'Gaussian Blur',
     inputs: [ 'input' ],
     outputs: [ 'output' ],
     parameters: GaussianBlurParameters,
@@ -204,7 +204,7 @@ PopulatedTypeProvider.prototype.populate = function () {
   this.registerType({
     isFilter: false,
     id: 'gradient-noise',
-    name: 'Gradient noise',
+    name: 'Gradient Noise',
     inputs: [ ],
     outputs: [ 'output' ],
     parameters: GradientNoiseParameters,
@@ -214,7 +214,8 @@ PopulatedTypeProvider.prototype.populate = function () {
   this.registerType({
     isFilter: false,
     id: 'gradient-noise-fractal',
-    name: 'Gradient noise (fractal sum)',
+    name: 'Gradient Noise (fractal sum)',
+    keywords: [ 'fbm' ],
     inputs: [ ],
     outputs: [ 'output' ],
     parameters: GradientNoiseFractalParameters,
@@ -225,6 +226,7 @@ PopulatedTypeProvider.prototype.populate = function () {
     isFilter: false,
     id: 'image',
     name: 'Image',
+    keywords: [ 'bitmap', 'picture' ],
     inputs: [ ],
     outputs: [ 'output' ],
     parameters: ImageParameters,
@@ -254,7 +256,7 @@ PopulatedTypeProvider.prototype.populate = function () {
   this.registerType({
     isFilter: true,
     id: 'radial-blur',
-    name: 'Radial blur',
+    name: 'Radial Blur',
     inputs: [ 'input' ],
     outputs: [ 'output' ],
     parameters: RadialBlurParameters,
@@ -264,7 +266,7 @@ PopulatedTypeProvider.prototype.populate = function () {
   this.registerType({
     isFilter: true,
     id: 'selective-blur',
-    name: 'Selective blur',
+    name: 'Selective Blur',
     inputs: [ 'input' ],
     outputs: [ 'output' ],
     parameters: SelectiveBlurParameters,
@@ -284,7 +286,7 @@ PopulatedTypeProvider.prototype.populate = function () {
   this.registerType({
     isFilter: false,
     id: 'uniform-color',
-    name: 'Uniform color',
+    name: 'Uniform Color',
     inputs: [ ],
     outputs: [ 'output' ],
     parameters: UniformColorParameters,
@@ -294,7 +296,7 @@ PopulatedTypeProvider.prototype.populate = function () {
   this.registerType({
     isFilter: false,
     id: 'uniform-grayscale',
-    name: 'Uniform grayscale',
+    name: 'Uniform Grayscale',
     inputs: [ ],
     outputs: [ 'output' ],
     parameters: UniformGrayscaleParameters,
@@ -304,7 +306,7 @@ PopulatedTypeProvider.prototype.populate = function () {
   this.registerType({
     isFilter: false,
     id: 'value-noise',
-    name: 'Value noise',
+    name: 'Value Noise',
     inputs: [ ],
     outputs: [ 'output' ],
     parameters: ValueNoiseParameters,
@@ -314,7 +316,8 @@ PopulatedTypeProvider.prototype.populate = function () {
   this.registerType({
     isFilter: false,
     id: 'value-noise-fractal',
-    name: 'Value noise (fractal sum)',
+    name: 'Value Noise (fractal sum)',
+    keywords: [ 'fbm' ],
     inputs: [ ],
     outputs: [ 'output' ],
     parameters: ValueNoiseFractalParameters,
@@ -338,7 +341,7 @@ PopulatedTypeProvider.prototype.populate = function () {
   this.registerType({
     isFilter: true,
     id: 'brightness-contrast',
-    name: 'Brightness and contrast',
+    name: 'Brightness and Contrast',
     inputs: [ 'input' ],
     outputs: [ 'output' ],
     parameters: BrightnessContrastParameters,
@@ -348,7 +351,7 @@ PopulatedTypeProvider.prototype.populate = function () {
   this.registerType({
     isFilter: false,
     id: 'cellular-noise',
-    name: 'Cellular noise',
+    name: 'Cellular Noise',
     inputs: [],
     outputs: [ 'output' ],
     parameters: CellularNoiseParameters,
@@ -368,7 +371,7 @@ PopulatedTypeProvider.prototype.populate = function () {
   this.registerType({
     isFilter: true,
     id: 'color-to-mask',
-    name: 'Color to mask',
+    name: 'Color to Mask',
     inputs: [ 'input' ],
     outputs: [ 'output' ],
     parameters: ColorToMaskParameters,
@@ -378,7 +381,7 @@ PopulatedTypeProvider.prototype.populate = function () {
   this.registerType({
     isFilter: true,
     id: 'colorspace-conversion',
-    name: 'Colorspace conversion',
+    name: 'Colorspace Conversion',
     inputs: [ 'input' ],
     outputs: [ 'output' ],
     parameters: ColorspaceConversionParameters,
@@ -388,7 +391,7 @@ PopulatedTypeProvider.prototype.populate = function () {
   this.registerType({
     isFilter: true,
     id: 'directional-blur',
-    name: 'Directional blur',
+    name: 'Directional Blur',
     inputs: [ 'input' ],
     outputs: [ 'output' ],
     parameters: DirectionalBlurParameters,
@@ -398,8 +401,8 @@ PopulatedTypeProvider.prototype.populate = function () {
   this.registerType({
     isFilter: true,
     id: 'directional-warp',
-    name: 'Directional warp',
-    synonymous: [ 'Directional wrap' ],
+    name: 'Directional Warp',
+    keywords: [ 'wrap' ],
     inputs: [ 'input', 'intensity', 'angle' ],
     outputs: [ 'output' ],
     parameters: DirectionalWarpParameters,
@@ -409,7 +412,7 @@ PopulatedTypeProvider.prototype.populate = function () {
   this.registerType({
     isFilter: true,
     id: 'edge-detect',
-    name: 'Edge detect',
+    name: 'Edge Detect',
     inputs: [ 'input' ],
     outputs: [ 'output' ],
     parameters: EdgeDetectParameters,
@@ -419,7 +422,7 @@ PopulatedTypeProvider.prototype.populate = function () {
   this.registerType({
     isFilter: true,
     id: 'fix-mask',
-    name: 'Fix mask',
+    name: 'Fix Mask',
     inputs: [ 'input' ],
     outputs: [ 'output' ],
     parameters: FixMaskParameters,
@@ -429,7 +432,7 @@ PopulatedTypeProvider.prototype.populate = function () {
   this.registerType({
     isFilter: true,
     id: 'gradient-map',
-    name: 'Gradient map',
+    name: 'Gradient Map',
     inputs: [ 'input', 'gradient' ],
     outputs: [ 'output' ],
     parameters: GradientMapParameters,
@@ -439,7 +442,7 @@ PopulatedTypeProvider.prototype.populate = function () {
   this.registerType({
     isFilter: true,
     id: 'height-to-normal',
-    name: 'Height to normal',
+    name: 'Height to Normal',
     inputs: [ 'input' ],
     outputs: [ 'output' ],
     parameters: HeightToNormalParameters,
@@ -489,7 +492,7 @@ PopulatedTypeProvider.prototype.populate = function () {
   this.registerType({
     isFilter: true,
     id: 'make-tileable',
-    name: 'Make tileable',
+    name: 'Make Tileable',
     inputs: [ 'input', 'perturbation' ],
     outputs: [ 'output' ],
     parameters: MakeTileableParameters,
@@ -569,7 +572,7 @@ PopulatedTypeProvider.prototype.populate = function () {
   this.registerType({
     isFilter: true,
     id: 'octave-sum',
-    name: 'Octave sum',
+    name: 'Octave Sum',
     inputs: [ 'input' ],
     outputs: [ 'output' ],
     parameters: OctaveSumParameters,
@@ -599,7 +602,7 @@ PopulatedTypeProvider.prototype.populate = function () {
   this.registerType({
     isFilter: true,
     id: 'grayscale-conversion',
-    name: 'Grayscale conversion',
+    name: 'Grayscale Conversion',
     inputs: [ 'input' ],
     outputs: [ 'output' ],
     parameters: GrayscaleConversionParameters,
@@ -609,7 +612,7 @@ PopulatedTypeProvider.prototype.populate = function () {
   this.registerType({
     isFilter: true,
     id: 'shape-mapper',
-    name: 'Shape mapper',
+    name: 'Shape Mapper',
     inputs: [ 'input' ],
     outputs: [ 'output' ],
     parameters: ShapeMapperParameters,
@@ -639,7 +642,7 @@ PopulatedTypeProvider.prototype.populate = function () {
   this.registerType({
     isFilter: true,
     id: 'texture-patching',
-    name: 'Texture patching',
+    name: 'Texture Patching',
     inputs: [ 'input' ],
     outputs: [ 'output' ],
     parameters: TexturePatchingParameters,
@@ -670,7 +673,7 @@ PopulatedTypeProvider.prototype.populate = function () {
     isFilter: true,
     id: 'warp',
     name: 'Warp',
-    synonymous: [ 'Wrap' ],
+    keywords: [ 'wrap' ],
     inputs: [ 'input', 'intensity' ],
     outputs: [ 'output' ],
     parameters: WarpParameters,
