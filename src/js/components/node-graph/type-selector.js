@@ -24,12 +24,13 @@ function TypeSelector (typesProvider, callback) {
   for (let i = 0; i < types.length; i++) {
     const id = types[i].id;
     const name = types[i].name;
+    const keywords = types[i].keywords || [];
     const element = makeElement('div', { className: 'type ' + (types[i].isFilter ? 'type-filter' : 'type-source'), 'data-id': id });
     element.appendChild(makeElement('span', { innerText: name }));
 
     this.options.push({
       id: id,
-      name: simplifyString(name),
+      name: simplifyString(name + ' ' + keywords.join(' ')),
       element: element,
       enable: true
     });
@@ -133,8 +134,20 @@ TypeSelector.prototype.filter = function (value) {
     this.currentOption = null;
   }
 
+  value = value.split(' ').filter(v => !!v);
+
   for (let i = 0; i < this.options.length; i++) {
-    if (value.length === 0 || this.options[i].name.indexOf(value) !== -1) {
+    let score = 0;
+
+    for (let j = 0; j < value.length; j++) {
+      if (this.options[i].name.indexOf(value[j]) !== -1) {
+        score++;
+      } else {
+        break;
+      }
+    }
+
+    if (value.length === score) {
       this.options[i].enable = true;
       this.container.appendChild(this.options[i].element);
 
