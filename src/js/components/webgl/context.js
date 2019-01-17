@@ -35,11 +35,10 @@ Context.prototype.createTexture = function (width, height, repeat) {
  *
  * @param canvas
  * @param canvasCtx
- * @param texture
+ * @param {WorkingTexture} texture
  */
 Context.prototype.drawToCanvas = function (canvas, canvasCtx, texture) {
-  //TODO something is wrong about this, probable the call to drawImage
-  var canvasSize = Math.max(canvas.width, canvas.height);
+  var canvasSize = Math.min(Math.max(canvas.width, canvas.height), this.working.canvas.width);
 
   CopyToCanvasProgram.getInstance(this).execute({
     source: texture,
@@ -49,7 +48,7 @@ Context.prototype.drawToCanvas = function (canvas, canvasCtx, texture) {
     height: texture.height
   });
 
-  canvasCtx.drawImage(this.working.canvas, 0, texture.height - canvasSize, canvasSize, canvasSize, 0, 0, canvasSize, canvasSize);
+  canvasCtx.drawImage(this.working.canvas, 0, texture.height - canvasSize, canvasSize, canvasSize, 0, 0, 96, 96);
 };
 
 module.exports = Context;

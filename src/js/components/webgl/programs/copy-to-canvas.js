@@ -53,9 +53,9 @@ CopyToCanvasProgram.getInstance = function (context) {
           discard;
         }
 
-        float scale = clamp(size / max(sourceSize.x, sourceSize.y), 0., 1.);
-        scale = pow(clamp(1. - scale, 0., 1.), 1.5);
-        fragColor = downSample(source, gl_FragCoord.xy / vec2(size), 1.);
+        float scale = size / max(sourceSize.x, sourceSize.y);
+        scale = pow(clamp(1. - scale, 0., 1.), 0.33);
+        fragColor = downSample(source, gl_FragCoord.xy / vec2(size), scale);
         fragColor.a = 1.;
       }
 
