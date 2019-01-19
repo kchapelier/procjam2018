@@ -27,19 +27,19 @@ function Pulse (callback, maxTime) {
       tickFunc();
     }
 
-    self.raf = window.requestAnimationFrame(self.loopFunc);
+    self.raf = requestAnimationFrame(self.loopFunc);
   };
 }
 
 Pulse.prototype.start = function () {
   if (this.raf === null) {
-    this.raf = window.requestAnimationFrame(this.loopFunc);
+    this.raf = requestAnimationFrame(this.loopFunc);
   }
 };
 
 Pulse.prototype.stop = function () {
   if (this.raf !== null) {
-    window.cancelAnimationFrame(this.raf);
+    cancelAnimationFrame(this.raf);
     this.raf = null;
   }
 };

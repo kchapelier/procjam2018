@@ -17,6 +17,9 @@ function NodeGraph (app) {
 
   var bb = this.root.getBoundingClientRect();
   this.isBoardDragging = false;
+  this.currentX = 0;
+  this.currentY = 0;
+  this.tweening = 0;
   this.boardPositionX = 0;
   this.boardPositionY = 0;
   this.boardWidth = bb.width;
@@ -231,6 +234,27 @@ NodeGraph.prototype.addEvents = function () {
       // TODO disable board dragging mode
     }
   });
+
+  const animation = () => {
+    if (this.currentX !== this.boardPositionX || this.currentY !== this.boardPositionY) {
+      this.currentX = this.currentX * (1 - this.tweening) + this.boardPositionX * this.tweening;
+      this.currentY = this.currentY * (1 - this.tweening) + this.boardPositionY * this.tweening;
+
+      if (Math.round(this.currentX) === this.boardPositionX) {
+        this.currentX = this.boardPositionX;
+      }
+
+      if (Math.round(this.currentY) === this.boardPositionY) {
+        this.currentY = this.boardPositionY;
+      }
+
+      this.container.style.transform = 'translate3d(' + this.currentX.toFixed(2) + 'px, ' + this.currentY.toFixed(2) + 'px, 0px)';
+    }
+
+    requestAnimationFrame(animation);
+  };
+
+  requestAnimationFrame(animation);
 };
 
 NodeGraph.prototype.moveBoard = function (x, y, noTransition) {
@@ -240,14 +264,7 @@ NodeGraph.prototype.moveBoard = function (x, y, noTransition) {
 
   this.boardPositionX = x;
   this.boardPositionY = y;
-  this.container.style.transform = 'translate(' + this.boardPositionX + 'px, ' + this.boardPositionY + 'px)';
-
-  if (noTransition) {
-    setTimeout(() => {
-      this.container.classList.remove('no-transition');
-    }, 5);
-
-  }
+  this.tweening = noTransition ? 1.0 : 0.3;
 };
 
 NodeGraph.prototype.resize = function () {
