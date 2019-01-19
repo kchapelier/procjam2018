@@ -18,8 +18,8 @@ var { generateUUID } = require('./commons/utils');
 function App () {
   // Initialize node graph
 
-  this.version = 5;
-  this.versionStr = '1.2.1';
+  this.version = 6;
+  this.versionStr = '1.2.2';
   this.context = new Context();
 
   var hashOptions = parseUrlQuery();
