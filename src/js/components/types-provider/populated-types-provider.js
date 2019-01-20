@@ -48,6 +48,7 @@ var ShapeParameters = require('./../parameters/shape-parameters');
 var ShapeMapperParameters = require('./../parameters/shape-mapper-parameters');
 var SharpenParameters = require('./../parameters/sharpen-parameters');
 var SkewParameters = require('./../parameters/skew-parameters');
+var SolarizeParameters = require('./../parameters/solarize-parameters');
 var TexturePatchingParameters = require('./../parameters/texture-patching-parameters');
 var Transform2dParameters = require('./../parameters/transform-2d-parameters');
 var UniformColorParameters = require('./../parameters/uniform-color-parameters');
@@ -104,6 +105,7 @@ var shapeJob = require('./../jobs/shape');
 var shapeMapperJob = require('./../jobs/shape-mapper');
 var sharpenJob = require('./../jobs/sharpen');
 var skewJob = require('./../jobs/skew');
+var solarizeJob = require('./../jobs/solarize');
 var texturePatchingJob = require('./../jobs/texture-patching');
 var transform2dJob = require('./../jobs/transform-2d');
 var uniformColorJob = require('./../jobs/uniform-color');
@@ -637,6 +639,17 @@ PopulatedTypeProvider.prototype.populate = function () {
     outputs: [ 'output' ],
     parameters: SkewParameters,
     job: skewJob
+  });
+
+  this.registerType({
+    isFilter: true,
+    id: 'solarize',
+    name: 'Solarize',
+    keywords: [ 'sabattier' ],
+    inputs: [ 'input' ],
+    outputs: [ 'output' ],
+    parameters: SolarizeParameters,
+    job: solarizeJob
   });
 
   this.registerType({
