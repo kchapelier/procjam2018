@@ -16,6 +16,7 @@ var ColorspaceConversionParameters = require('./../parameters/colorspace-convers
 var DirectionalBlurParameters = require('./../parameters/directional-blur-parameters');
 var DirectionalWarpParameters = require('./../parameters/directional-warp-parameters');
 var EdgeDetectParameters = require('./../parameters/edge-detect-parameters');
+var EmbossParameters = require('./../parameters/emboss-parameters');
 var FastMazeParameters = require('./../parameters/fast-maze-parameters');
 var FixMaskParameters = require('./../parameters/fix-mask-parameters');
 var GaussianBlurParameters = require('./../parameters/gaussian-blur-parameters');
@@ -73,6 +74,7 @@ var colorspaceConversionJob = require('./../jobs/colorspace-conversion');
 var directionalBlurJob = require('./../jobs/directional-blur');
 var directionalWarpJob = require('./../jobs/directional-warp');
 var edgeDetectJob = require('./../jobs/edge-detect');
+var embossJob = require('./../jobs/emboss');
 var fastMazeJob = require('./../jobs/fast-maze');
 var fixMaskJob = require('./../jobs/fix-mask');
 var gaussianBlurJob = require('./../jobs/gaussian-blur');
@@ -419,6 +421,16 @@ PopulatedTypeProvider.prototype.populate = function () {
     outputs: [ 'output' ],
     parameters: EdgeDetectParameters,
     job: edgeDetectJob
+  });
+
+  this.registerType({
+    isFilter: true,
+    id: 'emboss',
+    name: 'Emboss',
+    inputs: [ 'input' ],
+    outputs: [ 'output' ],
+    parameters: EmbossParameters,
+    job: embossJob
   });
 
   this.registerType({
