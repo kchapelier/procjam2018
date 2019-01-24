@@ -1,0 +1,11 @@
+{
+  "short_name": "Graph.ical",
+  "name": "Graph.ical",
+  "description": "Free open-source graph-based application to author procedural texture",
+  "icons": [],
+  "start_url": "./",
+  "display": "fullscreen",
+  "orientation": "landscape",
+  "theme_color": "#000063",
+  "background_color": "#311b92"
+}
