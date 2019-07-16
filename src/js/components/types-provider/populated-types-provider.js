@@ -4,6 +4,7 @@ const TypeProvider = require('./types-provider');
 const { extendClass } = require('./../../commons/utils');
 
 var AnisotropicNoiseParameters = require('./../parameters/anisotropic-noise-parameters');
+var AnisotropicBlurParameters = require('./../parameters/anisotropic-blur-parameters');
 var BlendParameters = require('./../parameters/blend-parameters');
 var BricksParameters = require('./../parameters/bricks-parameters');
 var BrightnessContrastParameters = require('./../parameters/brightness-contrast-parameters');
@@ -59,6 +60,7 @@ var ValueNoiseFractalParameters = require('./../parameters/value-noise-fractal-p
 var VibranceParameters = require('./../parameters/vibrance-parameters');
 var WarpParameters = require('./../parameters/warp-parameters');
 
+var anisotropicBlurJob = require('./../jobs/anisotropic-blur');
 var anisotropicNoiseJob = require('./../jobs/anisotropic-noise');
 var blendJob = require('./../jobs/blend');
 var bricksJob = require('./../jobs/bricks');
@@ -331,6 +333,16 @@ PopulatedTypeProvider.prototype.populate = function () {
 
 
 
+
+  this.registerType({
+    isFilter: true,
+    id: 'anisotropic-blur',
+    name: 'Anisotropic Blur',
+    inputs: [ 'input' ],
+    outputs: [ 'output' ],
+    parameters: AnisotropicBlurParameters,
+    job: anisotropicBlurJob
+  });
 
   this.registerType({
     isFilter: true,
