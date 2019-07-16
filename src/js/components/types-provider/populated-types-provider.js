@@ -65,6 +65,7 @@ var anisotropicNoiseJob = require('./../jobs/anisotropic-noise');
 var blendJob = require('./../jobs/blend');
 var bricksJob = require('./../jobs/bricks');
 var brightnessContrastJob = require('./../jobs/brightness-contrast');
+var cartesianToPolarJob = require('./../jobs/cartesian-to-polar');
 var cellularNoiseJob = require('./../jobs/cellular-noise');
 var channelMergeJob = require('./../jobs/channel-merge');
 var channelShuffleJob = require('./../jobs/channel-shuffle');
@@ -101,6 +102,7 @@ var normalInvertJob = require('./../jobs/normal-invert');
 var normalRotateJob = require('./../jobs/normal-rotate');
 var normalTweakJob = require('./../jobs/normal-tweak');
 var octaveSumJob = require('./../jobs/octave-sum');
+var polarToCartesianJob = require('./../jobs/polar-to-cartesian');
 var posterizeJob = require('./../jobs/posterize');
 var powJob = require('./../jobs/pow');
 var radialBlurJob = require('./../jobs/radial-blur');
@@ -145,6 +147,16 @@ PopulatedTypeProvider.prototype.populate = function () {
     outputs: [ 'output' ],
     parameters: BricksParameters,
     job: bricksJob
+  });
+
+  this.registerType({
+    isFilter: true,
+    id: 'cartesian-to-polar',
+    name: 'Cartesian to Polar',
+    inputs: [ 'input' ],
+    outputs: [ 'output' ],
+    parameters: NoParameters,
+    job: cartesianToPolarJob
   });
 
   this.registerType({
@@ -258,6 +270,18 @@ PopulatedTypeProvider.prototype.populate = function () {
     parameters: LinearGradientParameters,
     job: linearGradientJob
   });
+
+  /*
+  this.registerType({
+    isFilter: true,
+    id: 'polar-to-cartesian',
+    name: 'Polar to Cartesian',
+    inputs: [ 'input' ],
+    outputs: [ 'output' ],
+    parameters: NoParameters,
+    job: polarToCartesianJob
+  });
+  */
 
   this.registerType({
     isFilter: true,
