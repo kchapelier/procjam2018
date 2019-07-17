@@ -51,6 +51,7 @@ var ShapeMapperParameters = require('./../parameters/shape-mapper-parameters');
 var SharpenParameters = require('./../parameters/sharpen-parameters');
 var SkewParameters = require('./../parameters/skew-parameters');
 var SolarizeParameters = require('./../parameters/solarize-parameters');
+var SwirlParameters = require('./../parameters/swirl-parameters');
 var TexturePatchingParameters = require('./../parameters/texture-patching-parameters');
 var Transform2dParameters = require('./../parameters/transform-2d-parameters');
 var UniformColorParameters = require('./../parameters/uniform-color-parameters');
@@ -112,6 +113,7 @@ var shapeMapperJob = require('./../jobs/shape-mapper');
 var sharpenJob = require('./../jobs/sharpen');
 var skewJob = require('./../jobs/skew');
 var solarizeJob = require('./../jobs/solarize');
+var swirlJob = require('./../jobs/swirl');
 var texturePatchingJob = require('./../jobs/texture-patching');
 var transform2dJob = require('./../jobs/transform-2d');
 var uniformColorJob = require('./../jobs/uniform-color');
@@ -696,6 +698,16 @@ PopulatedTypeProvider.prototype.populate = function () {
     outputs: [ 'output' ],
     parameters: SolarizeParameters,
     job: solarizeJob
+  });
+
+  this.registerType({
+    isFilter: true,
+    id: 'swirl',
+    name: 'Swirl',
+    inputs: [ 'input' ],
+    outputs: [ 'output' ],
+    parameters: SwirlParameters,
+    job: swirlJob
   });
 
   this.registerType({
