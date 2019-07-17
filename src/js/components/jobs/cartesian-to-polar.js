@@ -31,7 +31,7 @@ function getProgram (context) {
 
         vec2 polarUv = vec2(
           (atan(uv.y, uv.x) + 3.141592653589) / 6.283185307179,
-          length(uv)
+          length(uv) * 2.
         );
 
         return texture(source, polarUv);

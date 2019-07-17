@@ -271,7 +271,6 @@ PopulatedTypeProvider.prototype.populate = function () {
     job: linearGradientJob
   });
 
-  /*
   this.registerType({
     isFilter: true,
     id: 'polar-to-cartesian',
@@ -281,7 +280,6 @@ PopulatedTypeProvider.prototype.populate = function () {
     parameters: NoParameters,
     job: polarToCartesianJob
   });
-  */
 
   this.registerType({
     isFilter: true,

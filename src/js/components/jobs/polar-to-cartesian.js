@@ -28,8 +28,8 @@ function getProgram (context) {
 
       vec4 process (in vec2 uv) {
         vec2 cartesianUv = vec2(
-          cos(uv.x * 6.28 - 3.14) * uv.y,
-          sin(uv.x * 6.28 - 3.14) * uv.y
+          cos(uv.x * 6.283185307179 - 3.141592653589) * uv.y / 2.,
+          sin(uv.x * 6.283185307179 - 3.141592653589) * uv.y / 2.
         ) + 0.5;
 
         cartesianUv.y = fract(1. - cartesianUv.y);
