@@ -59,6 +59,7 @@ var UniformGrayscaleParameters = require('./../parameters/uniform-gray-parameter
 var ValueNoiseParameters = require('./../parameters/value-noise-parameters');
 var ValueNoiseFractalParameters = require('./../parameters/value-noise-fractal-parameters');
 var VibranceParameters = require('./../parameters/vibrance-parameters');
+var VoronoiseParameters = require('./../parameters/voronoise-parameters');
 var WarpParameters = require('./../parameters/warp-parameters');
 
 var anisotropicBlurJob = require('./../jobs/anisotropic-blur');
@@ -120,6 +121,7 @@ var uniformColorJob = require('./../jobs/uniform-color');
 var valueNoiseJob = require('./../jobs/value-noise');
 var valueNoiseFractalJob = require('./../jobs/value-noise-fractal');
 var vibranceJob = require('./../jobs/vibrance');
+var voronoiseJob = require('./../jobs/voronoise');
 var warpJob = require('./../jobs/warp');
 
 function PopulatedTypeProvider () {
@@ -738,6 +740,16 @@ PopulatedTypeProvider.prototype.populate = function () {
     outputs: [ 'output' ],
     parameters: VibranceParameters,
     job: vibranceJob
+  });
+
+  this.registerType({
+    isFilter: false,
+    id: 'voronoise',
+    name: 'Voronoise',
+    inputs: [ 'input' ],
+    outputs: [ 'output' ],
+    parameters: VoronoiseParameters,
+    job: voronoiseJob
   });
 
   this.registerType({
