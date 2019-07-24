@@ -14,6 +14,7 @@ var ChannelShuffleParameters = require('./../parameters/channel-shuffle-paramete
 var CheckersParameters = require('./../parameters/checkers-parameters');
 var ColorToMaskParameters = require('./../parameters/color-to-mask-parameters');
 var ColorspaceConversionParameters = require('./../parameters/colorspace-conversion-parameters');
+var ConicGradientParameters = require('./../parameters/conic-gradient-parameters');
 var DirectionalBlurParameters = require('./../parameters/directional-blur-parameters');
 var DirectionalWarpParameters = require('./../parameters/directional-warp-parameters');
 var EdgeDetectParameters = require('./../parameters/edge-detect-parameters');
@@ -76,6 +77,7 @@ var clampJob = require('./../jobs/clamp');
 var checkersJob = require('./../jobs/checkers');
 var colorToMaskJob = require('./../jobs/color-to-mask');
 var colorspaceConversionJob = require('./../jobs/colorspace-conversion');
+var conicGradientJob = require('./../jobs/conic-gradient');
 var directionalBlurJob = require('./../jobs/directional-blur');
 var directionalWarpJob = require('./../jobs/directional-warp');
 var edgeDetectJob = require('./../jobs/edge-detect');
@@ -652,6 +654,16 @@ PopulatedTypeProvider.prototype.populate = function () {
   });
 
   this.registerType({
+    isFilter: false,
+    id: 'conic-gradient',
+    name: 'Conic Gradient',
+    inputs: [ ],
+    outputs: [ 'output' ],
+    parameters: ConicGradientParameters,
+    job: conicGradientJob
+  });
+
+  this.registerType({
     isFilter: true,
     id: 'grayscale-conversion',
     name: 'Grayscale Conversion',
@@ -746,7 +758,7 @@ PopulatedTypeProvider.prototype.populate = function () {
     isFilter: false,
     id: 'voronoise',
     name: 'Voronoise',
-    inputs: [ 'input' ],
+    inputs: [],
     outputs: [ 'output' ],
     parameters: VoronoiseParameters,
     job: voronoiseJob
