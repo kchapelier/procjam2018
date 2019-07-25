@@ -46,6 +46,7 @@ var OctaveSumParameters = require('./../parameters/octave-sum-parameters');
 var PosterizeParameters = require('./../parameters/posterize-parameters');
 var PowParameters = require('./../parameters/pow-parameters');
 var RadialBlurParameters = require('./../parameters/radial-blur-parameters');
+var RadialGradientParameters = require('./../parameters/radial-gradient-parameters');
 var SelectiveBlurParameters = require('./../parameters/selective-blur-parameters');
 var ShapeParameters = require('./../parameters/shape-parameters');
 var ShapeMapperParameters = require('./../parameters/shape-mapper-parameters');
@@ -110,6 +111,7 @@ var polarToCartesianJob = require('./../jobs/polar-to-cartesian');
 var posterizeJob = require('./../jobs/posterize');
 var powJob = require('./../jobs/pow');
 var radialBlurJob = require('./../jobs/radial-blur');
+var radialGradientJob = require('./../jobs/radial-gradient');
 var selectiveBlurJob = require('./../jobs/selective-blur');
 var shapeJob = require('./../jobs/shape');
 var shapeMapperJob = require('./../jobs/shape-mapper');
@@ -671,6 +673,16 @@ PopulatedTypeProvider.prototype.populate = function () {
     outputs: [ 'output' ],
     parameters: GrayscaleConversionParameters,
     job: grayscaleConversionJob
+  });
+
+  this.registerType({
+    isFilter: false,
+    id: 'radial-gradient',
+    name: 'Radial Gradient',
+    inputs: [ ],
+    outputs: [ 'output' ],
+    parameters: RadialGradientParameters,
+    job: radialGradientJob
   });
 
   this.registerType({
