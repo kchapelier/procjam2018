@@ -28,7 +28,12 @@ function getProgram (context) {
       const int SHAPE_CIRCLE = 0;
       const int SHAPE_POLYGON = 1;
 
+      const int TYPE_SINGLE = 0;
+      const int TYPE_FORTHBACK = 1;
+      const int TYPE_BACKFORTH = 2;
+
       uniform int type;
+      uniform int direction;
       uniform int patternAmount;
       uniform int segments;
       uniform int rowNumber;
@@ -73,7 +78,15 @@ function getProgram (context) {
           nuv.y = length(uv) * 2. / length(mix(vec2(cos(pangle), sin(pangle)), vec2(cos(nangle), sin(nangle)), nx) * 2.) - radius / width;
         }
 
-        return nuv.y >= 0. && nuv.y < float(rowNumber) ? texture(source, nuv) : vec4(0.,0.,0.,1.);
+        float yMultiplier = 1.;
+
+        if (direction == TYPE_FORTHBACK) {
+          yMultiplier = mix(1., -1., mod(floor(nuv.y), 2.));
+        } else if (direction == TYPE_BACKFORTH) {
+          yMultiplier = mix(-1., 1., mod(floor(nuv.y), 2.));
+        }
+
+        return nuv.y >= 0. && nuv.y < float(rowNumber) ? texture(source, nuv * vec2(1., yMultiplier)) : vec4(0.,0.,0.,1.);
       }
 
       void main () {
@@ -88,6 +101,7 @@ function getProgram (context) {
     `, {
       source: 't',
       type: 'i',
+      direction: 'i',
       segments: 'i',
       patternAmount: 'i',
       rowNumber: 'i',
@@ -106,6 +120,7 @@ function shapeMapperJob (context, inputs, outputs, parameters, done) {
   var uniforms = {
     source: inputs.input,
     type: parameters.type,
+    direction: parameters.direction,
     patternAmount: parameters.patternAmount,
     rowNumber: parameters.rowNumber,
     radius: parameters.radius,

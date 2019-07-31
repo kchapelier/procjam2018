@@ -9,6 +9,7 @@ function ShapeMapperParameters (name, values, callback) {
 
   this.values = {
     type: getProp(values, 'type', 0),
+    direction: getProp(values, 'direction', 0),
     radius: getProp(values, 'radius', 0),
     width: getProp(values, 'width', 1),
     rotation: getProp(values, 'rotation', 0),
@@ -36,6 +37,14 @@ ShapeMapperParameters.prototype.initializeElements = function () {
     options: [
       [0, 'Circle'],
       [1, 'Polygons']
+    ]
+  });
+
+  this.setElement('direction', 'select', 'Direction', {
+    options: [
+      [0, 'Normal'],
+      [1, 'Forth and back'],
+      [2, 'Back and forth']
     ]
   });
 
