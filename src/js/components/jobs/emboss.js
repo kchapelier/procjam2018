@@ -38,14 +38,16 @@ function getProgram (context) {
         vec2 o = vec2(-cos(angle), -sin(angle));
         vec3 base = vec3(0.);
 
-        for(float i = 0.; i < 20.; i++) {
+        float iter = floor(20. + max(0., range - 4.) / 6. * 10.);
+
+        for(float i = 0.; i < iter; i++) {
           base += (
-            texture(source, uv + (1. + (range - 1.) * i / 19.) * o / resolution).rgb -
-            texture(source, uv - (1. + (range - 1.) * i / 19.) * o / resolution).rgb
+            texture(source, uv + (1. + (range - 1.) * i / (iter - 1.)) * o / resolution).rgb -
+            texture(source, uv - (1. + (range - 1.) * i / (iter - 1.)) * o / resolution).rgb
           );
         }
 
-        base = base / 20.;
+        base = base / iter;
 
         return vec4(vec3(
             remap(base.r, height, depth),
