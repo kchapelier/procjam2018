@@ -49,6 +49,28 @@ function NodeGraph (app) {
 }
 
 NodeGraph.prototype.addEvents = function () {
+  this.root.addEventListener('dragenter', e => {
+    e.preventDefault();
+  });
+
+  this.root.addEventListener('dragleave', e => {});
+
+  this.root.addEventListener('dragover', e => {
+    e.preventDefault();
+  });
+
+  this.root.addEventListener('drop', e => {
+    e.preventDefault();
+
+    const imageTypes = [
+      'image/png',
+      'image/jpeg'
+    ];
+
+    if (e.dataTransfer.files.length && imageTypes.includes(e.dataTransfer.files[0].type)) {
+      globalEE.trigger('create-node', 'image', { type: 2, image: e.dataTransfer.files[0] }, e.clientX - this.boardPositionX, e.clientY - this.boardPositionY - 50);
+    }
+  });
 
   this.autoSnappingButton.addEventListener('mousedown', e => e.stopPropagation());
   this.autoSnappingButton.addEventListener('click', e => {

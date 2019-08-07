@@ -191,7 +191,7 @@ WorkingWebGLProgram.prototype.execute = function (uniforms, workingTexture) {
     var value = uniforms[texture.id];
 
     context.working.gl.activeTexture(texture.textureUnit);
-    context.working.gl.bindTexture(context.working.gl.TEXTURE_2D, value ? value.getTexture() : context.working.defaultTexture);
+    context.working.gl.bindTexture(context.working.gl.TEXTURE_2D, value && typeof value.getTexture === 'function' ? value.getTexture() : context.working.defaultTexture);
     context.working.gl.uniform1i(texture.location, texture.textureNumber);
     context.working.gl.uniform1f(texture.setLocation, value ? 1. : 0.);
     context.working.gl.uniform2f(texture.sizeLocation, value ? value.width : 0,  value ? value.height : 0);

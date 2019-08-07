@@ -121,7 +121,7 @@ function App () {
   this.preview = new Preview(hashOptions.size);
 
   var selector = new TypeSelector(this.typesProvider, function (type) {
-    globalEE.trigger('create-node', type);
+    globalEE.trigger('create-node', type, {}, null, null);
   });
 
   selector.setNextPosition(window.innerWidth / 2, window.innerHeight / 2);
@@ -156,10 +156,10 @@ function App () {
     this.workingGraph.deleteConnection(connectionUuid);
   });
 
-  globalEE.on('create-node', (typeId) => {
+  globalEE.on('create-node', (typeId, parameters, posX, posY) => {
     var uuid = generateUUID();
 
-    this.createNode(uuid, typeId, {}, null, null);
+    this.createNode(uuid, typeId, parameters||{}, posX, posY);
     var uiNode = this.graph.getNode(uuid);
     this.graph.selectNode(uiNode);
     this.displayParameters(uuid);

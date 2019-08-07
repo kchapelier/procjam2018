@@ -90,7 +90,9 @@ ImageWidget.prototype.initialize = function (label, value, options, callback) {
   this.value = null;
   this.options = null;
 
-  // TODO handle initial value
+  if (value !== null) {
+    this.setImage(value);
+  }
 
   return this;
 };

@@ -9,7 +9,7 @@ function ImageParameters (name, values, callback) {
 
   this.values = {
     type: getProp(values, 'type', 1),
-    image: null
+    image: getProp(values, 'image', null)
   };
 }
 
