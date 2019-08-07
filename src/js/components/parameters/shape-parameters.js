@@ -14,7 +14,8 @@ function ShapeParameters (name, values, callback) {
     blendMode: getProp(values, 'blendMode', 0),
     angle: getProp(values, 'angle', 0),
     size: getProp(values, 'size', [0.75, 0.75]),
-    specific: getProp(values, 'specific', 0)
+    specific: getProp(values, 'specific', 0),
+    hq: getProp(values, 'hq', false)
   };
 }
 
@@ -93,6 +94,7 @@ ShapeParameters.prototype.initializeElements = function () {
     hardMax: 1
   });
 
+  this.setElement('hq', 'boolean', 'High quality', {});
 };
 
 module.exports = ShapeParameters;
