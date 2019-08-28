@@ -21,7 +21,7 @@ VoronoiseParameters.prototype.initializeElements = function () {
   this.setElement('scale', 'range', 'Scale', {
     steps: 1,
     softMin: 1,
-    softMax: 80,
+    softMax: 50,
     hardMin: 1,
     hardMax: 200
   });

@@ -24,15 +24,15 @@ function getProgram (context) {
       uniform float smoothness;
       uniform float jitter;
 
-      vec3 hash3(in vec2 p)
+      vec3 hash3(in vec2 p, float seed)
       {
           vec3 q = vec3(
-            dot(p, vec2(127.1, 311.7)),
-            dot(p, vec2(269.5, 183.3)),
-            dot(p, vec2(419.2, 371.9))
+            dot(p + seed / 12000.795, vec2(127.1, 311.7)),
+            dot(p + seed / 12800.795, vec2(269.5, 183.3)),
+            dot(p + seed / 14300.795, vec2(419.2, 371.9))
           );
 
-          return fract(sin(q) * 43758.5453);
+          return fract(sin(q + seed / 2777.) * (43758.5453 + seed / 999.));
       }
 
       float iqnoise(in vec2 uv)
@@ -49,7 +49,7 @@ function getProgram (context) {
         for(float j = -2.; j <= 2.; j++) {
           for(float i = -2.; i <= 2.; i++) {
             vec2 g = vec2(i, j);
-            vec3 o = hash3(mod(p + g, iscale)) * vec3(jitter, jitter, 1.0);
+            vec3 o = hash3(mod(p + g, iscale), seed) * vec3(jitter, jitter, 1.0);
             vec2 r = g - f + o.xy;
             float d = dot(r, r);
             float ww = pow(1.0 - smoothstep(0., 1.414,sqrt(d)), k);
