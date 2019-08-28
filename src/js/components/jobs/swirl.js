@@ -20,9 +20,11 @@ function getProgram (context) {
       uniform vec2 resolution;
       uniform float seed;
 
-      uniform float outerAngle;
       uniform float innerAngle;
       uniform float power;
+      uniform float radius;
+      uniform float centerX;
+      uniform float centerY;
 
       uniform sampler2D source;
       uniform bool sourceSet;
@@ -36,13 +38,15 @@ function getProgram (context) {
       }
 
       vec4 process (in vec2 uv) {
-        uv -= 0.5;
+        vec2 offset = vec2(centerX, -centerY) * 0.5 + vec2(0.5);
 
-        float l = length(uv) / 0.70710678119;
+        uv -= offset;
 
-        float a = mix(innerAngle, outerAngle, pow(l, power));
+        float l = clamp(length(uv) / 0.70710678119 / radius, 0., 1.);
 
-        uv = _rotate(uv, a) - 0.5;
+        float a = mix(innerAngle, 0., pow(l, power));
+
+        uv = _rotate(uv, a) + offset;
 
         return texture(source, uv);
       }
@@ -59,9 +63,11 @@ function getProgram (context) {
 
     `, {
       source: 't',
-      outerAngle: 'f',
       innerAngle: 'f',
-      power: 'f'
+      power: 'f',
+      radius: 'f',
+      centerX: 'f',
+      centerY: 'f'
     });
   }
 
@@ -72,9 +78,11 @@ function swirlJob (context, inputs, outputs, parameters, done) {
   var program = getProgram(context);
   var uniforms = {
     source: inputs.input,
-    outerAngle: parameters.outerAngle,
     innerAngle: parameters.innerAngle,
-    power: parameters.power
+    power: parameters.power,
+    radius: parameters.radius,
+    centerX: parameters.centerX,
+    centerY: parameters.centerY
   };
 
   program.execute(uniforms, outputs.output);
