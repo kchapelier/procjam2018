@@ -305,15 +305,38 @@ function getProgram (context) {
         return vec3(abs(q.z + (q.w - q.y) / (6.0*d+eps)), d / (q.x+eps), q.x);
       }
 
-      vec3 _rgb2hsl( vec3 col )
-      {
-        float minc = min( col.r, min(col.g, col.b) );
-        float maxc = max( col.r, max(col.g, col.b) );
-        vec3  mask = step(col.grr,col.rgb) * step(col.bbg,col.rgb);
-        vec3 h = mask * (vec3(0.0,2.0,4.0) + (col.gbr-col.brg)/(maxc-minc + eps)) / 6.0;
-        return vec3( fract( 1.0 + h.x + h.y + h.z ),              // H
-                     (maxc-minc)/(1.0-abs(minc+maxc-1.0) + eps),  // S
-                     (minc+maxc)*0.5 );                           // L
+      // https://gist.github.com/yiwenl/745bfea7f04c456e0101 (much better than previous implementation)
+      vec3 _rgb2hsl(vec3 color) {
+        vec3 hsl = vec3(0.);
+        float fmin = min(min(color.r, color.g), color.b); //Min. value of RGB
+        float fmax = max(max(color.r, color.g), color.b); //Max. value of RGB
+        float delta = fmax - fmin; //Delta RGB value
+        hsl.z = (fmax + fmin) / 2.0; // Luminance
+        if (delta == 0.0) //This is a gray, no chroma...
+        {
+          hsl.x = 0.0; // Hue
+          hsl.y = 0.0; // Saturation
+        } else //Chromatic data...
+        {
+          if (hsl.z < 0.5)
+            hsl.y = delta / (fmax + fmin); // Saturation
+          else
+            hsl.y = delta / (2.0 - fmax - fmin); // Saturation
+          float deltaR = (((fmax - color.r) / 6.0) + (delta / 2.0)) / delta;
+          float deltaG = (((fmax - color.g) / 6.0) + (delta / 2.0)) / delta;
+          float deltaB = (((fmax - color.b) / 6.0) + (delta / 2.0)) / delta;
+          if (color.r == fmax)
+            hsl.x = deltaB - deltaG; // Hue
+          else if (color.g == fmax)
+            hsl.x = (1.0 / 3.0) + deltaR - deltaB; // Hue
+          else if (color.b == fmax)
+            hsl.x = (2.0 / 3.0) + deltaG - deltaR; // Hue
+          if (hsl.x < 0.0)
+            hsl.x += 1.0; // Hue
+          else if (hsl.x > 1.0)
+            hsl.x -= 1.0; // Hue
+        }
+        return hsl;
       }
 
       vec3 _rgb2cmy (vec3 col) {
