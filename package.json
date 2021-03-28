@@ -1,14 +1,14 @@
 {
-  "name": "procjam2018",
-  "version": "1.2.2",
-  "description": "Procjam2018 project",
+  "name": "graph.ical",
+  "version": "1.2.3",
+  "description": "Free open-source graph-based application to author procedural texture.",
   "main": "src/js/index.js",
   "private": true,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build-styles": "stylus src/stylus/main.styl -o public/main.css",
-    "build-scripts": "browserify src/js/app.js -d --s App -u crypto > public/main.js",
-    "build": "(stylus src/stylus/main.styl -o public/main.css; echo 'Styles compiled.';) & (browserify src/js/app.js --s App -u crypto | terser > public/main.js; echo 'Scripts compiled.';) & wait"
+    "build-scripts": "browserify src/js/app.js -d --s App -u crypto | terser > public/main.js",
+    "build-scripts-dev": "browserify src/js/app.js -d --s App -u crypto > public/main.js"
   },
   "repository": {
     "type": "git",
@@ -21,8 +21,8 @@
   },
   "homepage": "https://github.com/kchapelier/procjam2018#readme",
   "devDependencies": {
-    "browserify": "^16.2.3",
-    "stylus": "^0.54.5",
-    "terser": "^3.14.1"
+    "browserify": "^17.0.0",
+    "stylus": "^0.54.8",
+    "terser": "^5.6.1"
   }
 }

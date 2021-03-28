@@ -10,7 +10,7 @@ The main objective of this project is to have a free, intuitive and efficient gr
 
  * Create procedural height maps for 3D applications.
  * Procedurally generate a full set of tileable textures (diffuse, normal maps, height maps, specular maps, ...) for 3D applications.
- * Generate tileable variations from a given tileable texture with very simple patch-based synthesis ([graph](https://www.kchapelier.com/graph.ical/?gist=https://gist.github.com/kchapelier/07869fb98c5348605cd9dffd104580e5)). Works best with highdensity textures such as sand, gravels, dirt, ...
+ * Generate tileable variations from a given tileable texture with very simple patch-based synthesis ([graph](https://www.kchapelier.com/graph.ical/?gist=https://gist.github.com/kchapelier/07869fb98c5348605cd9dffd104580e5)). Works best with high density textures such as sand, gravels, dirt, ...
  * Generate a tileable textures from a given non-tileable texture ([graph](https://www.kchapelier.com/graph.ical/?gist=https://gist.github.com/kchapelier/b70aef495c97e306291b35dd57d9ddb3)). Works best with highdensity textures such as sand, gravels, dirt, ...
  * Generate a normal map from a given image ([graph](https://www.kchapelier.com/graph.ical/?gist=https://gist.github.com/kchapelier/f0e5741103160c1f7f89b8eb4a14e1a1)).
  * Combine multiple b/w maps in a single image ([graph](https://www.kchapelier.com/graph.ical/?gist=https://gist.github.com/kchapelier/c8cc088bdca781c421666656e0ea6723))
@@ -52,6 +52,7 @@ Make sure to contact me, either on [Twitter](https://twitter.com/kchplr) or thro
 
 ## History
 
+ * **1.3.0 (2021-03-28):** [Changelog](https://github.com/kchapelier/procjam2018/wiki/Changelogs#130-2021-03-28)
  * **1.2.2 (2019-01-19):** [Changelog](https://github.com/kchapelier/procjam2018/wiki/Changelogs#122-2019-01-19)
  * **1.2.1 (2019-01-12):** [Changelog](https://github.com/kchapelier/procjam2018/wiki/Changelogs#121-2019-01-12)
  * **1.2.0 (2018-12-08):** [Changelog](https://github.com/kchapelier/procjam2018/wiki/Changelogs#120-2018-12-08)

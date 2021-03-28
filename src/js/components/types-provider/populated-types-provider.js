@@ -493,6 +493,7 @@ PopulatedTypeProvider.prototype.populate = function () {
     job: edgeDetectJob
   });
 
+  /*
   this.registerType({
     isFilter: true,
     id: 'emboss',
@@ -502,6 +503,7 @@ PopulatedTypeProvider.prototype.populate = function () {
     parameters: EmbossParameters,
     job: embossJob
   });
+  */
 
   this.registerType({
     isFilter: true,
