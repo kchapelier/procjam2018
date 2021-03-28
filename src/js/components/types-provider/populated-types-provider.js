@@ -17,6 +17,7 @@ var ColorspaceConversionParameters = require('./../parameters/colorspace-convers
 var ConicGradientParameters = require('./../parameters/conic-gradient-parameters');
 var DirectionalBlurParameters = require('./../parameters/directional-blur-parameters');
 var DirectionalWarpParameters = require('./../parameters/directional-warp-parameters');
+var DitherParameters = require('./../parameters/dither-parameters');
 var EdgeDetectParameters = require('./../parameters/edge-detect-parameters');
 var EmbossParameters = require('./../parameters/emboss-parameters');
 var FastMazeParameters = require('./../parameters/fast-maze-parameters');
@@ -35,6 +36,7 @@ var JitterFilterParameters = require('./../parameters/jitter-filter-parameters')
 var KaleidoscopeParameters = require('./../parameters/kaleidoscope-parameters');
 var LinearGradientParameters = require('./../parameters/linear-gradient-2-parameters');
 var MakeTileableParameters = require('./../parameters/make-tileable-parameters');
+var MatcapParameters = require('./../parameters/matcap-parameters');
 var MirrorParameters = require('./../parameters/mirror-parameters');
 var NoParameters = require('./../parameters/no-parameters');
 var NormalBlendParameters = require('./../parameters/normal-blend-parameters');
@@ -81,6 +83,7 @@ var colorspaceConversionJob = require('./../jobs/colorspace-conversion');
 var conicGradientJob = require('./../jobs/conic-gradient');
 var directionalBlurJob = require('./../jobs/directional-blur');
 var directionalWarpJob = require('./../jobs/directional-warp');
+var ditherJob = require('./../jobs/dither');
 var edgeDetectJob = require('./../jobs/edge-detect');
 var embossJob = require('./../jobs/emboss');
 var fastMazeJob = require('./../jobs/fast-maze');
@@ -99,6 +102,7 @@ var jitterFilterJob = require('./../jobs/jitter-filter');
 var kaleidoscopeJob = require('./../jobs/kaleidoscope');
 var linearGradientJob = require('./../jobs/linear-gradient-2');
 var makeTileableJob = require('./../jobs/make-tileable');
+var matcapJob = require('./../jobs/matcap');
 var mirrorJob = require('./../jobs/mirror');
 var normalizeJob = require('./../jobs/normalize');
 var normalBlendJob = require('./../jobs/normal-blend');
@@ -457,6 +461,17 @@ PopulatedTypeProvider.prototype.populate = function () {
 
   this.registerType({
     isFilter: true,
+    id: 'dither',
+    name: 'Dither',
+    keywords: [ 'dithering', 'valve' ],
+    inputs: [ 'input' ],
+    outputs: [ 'output' ],
+    parameters: DitherParameters,
+    job: ditherJob
+  });
+
+  this.registerType({
+    isFilter: true,
     id: 'edge-detect',
     name: 'Edge Detect',
     inputs: [ 'input' ],
@@ -553,6 +568,17 @@ PopulatedTypeProvider.prototype.populate = function () {
     outputs: [ 'output' ],
     parameters: MakeTileableParameters,
     job: makeTileableJob
+  });
+
+  this.registerType({
+    isFilter: true,
+    id: 'matcap',
+    name: 'Matcap',
+    keywords: [ 'litsphere' ],
+    inputs: [ 'normal', 'matcap' ],
+    outputs: [ 'output' ],
+    parameters: MatcapParameters,
+    job: matcapJob
   });
 
   this.registerType({
