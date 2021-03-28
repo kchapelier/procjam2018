@@ -21,7 +21,9 @@ function getProgram (context) {
       uniform float seed;
 
       uniform float innerAngle;
+      uniform float smoothness;
       uniform float power;
+      uniform float innerRadius;
       uniform float radius;
       uniform float centerX;
       uniform float centerY;
@@ -29,6 +31,8 @@ function getProgram (context) {
       uniform sampler2D source;
       uniform bool sourceSet;
       uniform vec2 sourceSize;
+
+      const float eps = 0.0000001;
 
       vec2 _rotate(vec2 v, float a) {
         float s = sin(a);
@@ -42,9 +46,11 @@ function getProgram (context) {
 
         uv -= offset;
 
-        float l = clamp(length(uv) / 0.70710678119 / radius, 0., 1.);
+        float l = clamp((length(uv) / 0.5 - innerRadius) / radius, 0., 1.);
 
-        float a = mix(innerAngle, 0., pow(l, power));
+        l = mix(l, smoothstep(0., 1., l), smoothness);
+
+        float a = mix(innerAngle, 0., pow(l, max(power, eps)));
 
         uv = _rotate(uv, a) + offset;
 
@@ -64,7 +70,9 @@ function getProgram (context) {
     `, {
       source: 't',
       innerAngle: 'f',
+      smoothness: 'f',
       power: 'f',
+      innerRadius: 'f',
       radius: 'f',
       centerX: 'f',
       centerY: 'f'
@@ -79,7 +87,9 @@ function swirlJob (context, inputs, outputs, parameters, done) {
   var uniforms = {
     source: inputs.input,
     innerAngle: parameters.innerAngle,
+    smoothness: parameters.smoothness,
     power: parameters.power,
+    innerRadius: parameters.innerRadius,
     radius: parameters.radius,
     centerX: parameters.centerX,
     centerY: parameters.centerY

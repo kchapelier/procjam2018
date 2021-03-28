@@ -9,7 +9,9 @@ function SwirlParameters (name, values, callback) {
 
   this.values = {
     innerAngle: getProp(values, 'innerAngle', 1),
+    smoothness: getProp(values, 'smoothness', 1),
     power: getProp(values, 'power', 1),
+    innerRadius: getProp(values, 'innerRadius', 0),
     radius: getProp(values, 'radius', 1),
     centerX: getProp(values, 'centerX', 0),
     centerY: getProp(values, 'centerY', 0)
@@ -26,11 +28,25 @@ SwirlParameters.prototype.initializeElements = function () {
     hardMax: 20
   });
 
-  this.setElement('power', 'range', 'Power', {
+  this.setElement('smoothness', 'range', 'Smoothness', {
     softMin: 0,
-    softMax: 5,
+    softMax: 1,
     hardMin: 0,
+    hardMax: 1
+  });
+
+  this.setElement('power', 'range', 'Power', {
+    softMin: 0.5,
+    softMax: 5,
+    hardMin: 0.5,
     hardMax: 5
+  });
+
+  this.setElement('innerRadius', 'range', 'Inner radius', {
+    softMin: 0,
+    softMax: 2,
+    hardMin: 0,
+    hardMax: 10
   });
 
   this.setElement('radius', 'range', 'Radius', {
