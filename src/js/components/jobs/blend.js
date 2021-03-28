@@ -277,7 +277,7 @@ function getProgram (context) {
         }
 
 
-        return vec4(color, 1.);
+        return vec4(clamp(color, 0., 1.), 1.);
       }
 
       void main () {
