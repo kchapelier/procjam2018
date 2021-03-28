@@ -92,6 +92,8 @@ ImageWidget.prototype.initialize = function (label, value, options, callback) {
 
   if (value !== null) {
     this.setImage(value);
+  } else {
+    this.clearImage();
   }
 
   return this;
@@ -100,11 +102,12 @@ ImageWidget.prototype.initialize = function (label, value, options, callback) {
 ImageWidget.prototype.clearImage = function () {
   this.input.value = null;
 
+  this.img.onload = _ => {};
+  this.img.src = transparentPixel;
+  this.inputContainer.style.paddingTop = defaultHeightPercents.toFixed(3) + '%';
+  this.buttonClear.style.display = 'none';
+
   if (this.value !== null) {
-    this.img.onload = _ => {};
-    this.img.src = transparentPixel;
-    this.inputContainer.style.paddingTop = defaultHeightPercents.toFixed(3) + '%';
-    this.buttonClear.style.display = 'none';
     this.value.dispose();
     this.value = null;
     this.triggerChangeCallback();
