@@ -17,8 +17,6 @@ function getProgram (context) {
 
       layout(location = 0) out vec4 fragColor;
 
-      const float eps = 0.0000001;
-
       uniform vec2 resolution;
       uniform float seed;
 
@@ -43,9 +41,7 @@ function getProgram (context) {
           vec2 cdir = vec2(cos(cangle), sin(cangle));
           vec3 crgb = texture(intensityMap, uv + p * cdir * 0.5).rgb;
           float cweight = fcc - (crgb.r + crgb.g + crgb.b) / 3.;
-          vec3 crgb2 = texture(intensityMap, uv + p * cdir * 1.5).rgb;
-          float cweight2 = (fcc - (crgb.r + crgb.g + crgb.b) / 3.) / 2.;
-          dir -= cdir * (cweight + cweight2);
+          dir -= cdir * cweight * 1.5;
         }
 
         return dir;
