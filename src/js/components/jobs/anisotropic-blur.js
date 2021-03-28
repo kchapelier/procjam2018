@@ -50,7 +50,7 @@ function getProgram (context) {
 
         float dist = resolution.y / iterations * intensity;
 
-        p*= vec2(1. + anisotropy, 1. - anisotropy * 0.99) * dist;
+        p*= vec2(1. + anisotropy * 0.99, 1. - anisotropy * 0.99) * dist;
 
         for (float x = -iterations; x <= iterations; x++) {
             k = (x + iterations) / (iterations * 2. + 0.00001);
@@ -106,7 +106,7 @@ function anisotropicBlurJob (context, inputs, outputs, parameters, done) {
     angle: parameters.angle,
     anisotropy: parameters.anisotropy,
     intensity: parameters.intensity,
-    iterations: 30,
+    iterations: 20,
     parabolaFactor: parameters.parabolaFactor
   };
 
@@ -123,12 +123,12 @@ function anisotropicBlurJob (context, inputs, outputs, parameters, done) {
     program.execute(uniforms, buffers[1]);
     source = buffers[1];
 
-    uniforms.multiplier = [1, 0];
+    uniforms.multiplier = [0.33, 0];
     uniforms.source = source;
     program.execute(uniforms, buffers[0]);
     source = buffers[0];
 
-    uniforms.multiplier = [0, 1];
+    uniforms.multiplier = [0, 0.33];
     uniforms.source = source;
     program.execute(uniforms, outputs.output);
 

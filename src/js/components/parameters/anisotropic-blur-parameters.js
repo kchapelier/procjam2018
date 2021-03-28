@@ -10,7 +10,7 @@ function AnisotropicBlurParameters (name, values, callback) {
   this.values = {
     angle: getProp(values, 'rotate', 0),
     intensity: getProp(values, 'intensity', 0),
-    anisotropy: getProp(values, 'anisotropy', 0),
+    anisotropy: getProp(values, 'anisotropy', 0.5),
     parabolaFactor: getProp(values, 'parabolaFactor', 3)
   };
 }
@@ -22,9 +22,9 @@ AnisotropicBlurParameters.prototype.initializeElements = function () {
 
   this.setElement('intensity', 'range', 'Intensity', {
     softMin: 0,
-    softMax: 1,
+    softMax: 0.1,
     hardMin: 0,
-    hardMax: 1
+    hardMax: 0.1
   });
 
   this.setElement('anisotropy', 'range', 'Anisotropy', {
