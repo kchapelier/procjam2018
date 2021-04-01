@@ -3,7 +3,7 @@
 const TypeProvider = require('./types-provider');
 const { extendClass } = require('./../../commons/utils');
 
-var AmbiantOcclusionParameters = require('./../parameters/ambiant-occlusion-parameters');
+var AmbientOcclusionParameters = require('../parameters/ambient-occlusion-parameters');
 var AnisotropicNoiseParameters = require('./../parameters/anisotropic-noise-parameters');
 var AnisotropicBlurParameters = require('./../parameters/anisotropic-blur-parameters');
 var BlendParameters = require('./../parameters/blend-parameters');
@@ -67,7 +67,7 @@ var VibranceParameters = require('./../parameters/vibrance-parameters');
 var VoronoiseParameters = require('./../parameters/voronoise-parameters');
 var WarpParameters = require('./../parameters/warp-parameters');
 
-var ambiantOcclusionJob = require('./../jobs/ambiant-occlusion');
+var ambientOcclusionJob = require('../jobs/ambient-occlusion');
 var anisotropicBlurJob = require('./../jobs/anisotropic-blur');
 var anisotropicNoiseJob = require('./../jobs/anisotropic-noise');
 var blendJob = require('./../jobs/blend');
@@ -146,12 +146,12 @@ PopulatedTypeProvider.prototype.populate = function () {
   this.registerType({
     isFilter: true,
     id: 'ambiant-occlusion',
-    name: 'Ambiant occlusion',
-    keywords: [ 'ssao' ],
+    name: 'Ambient occlusion',
+    keywords: [ 'ssao', 'ambiant' ],
     inputs: [ 'heightmap' ],
     outputs: [ 'output' ],
-    parameters: AmbiantOcclusionParameters,
-    job: ambiantOcclusionJob
+    parameters: AmbientOcclusionParameters,
+    job: ambientOcclusionJob
   });
 
   this.registerType({

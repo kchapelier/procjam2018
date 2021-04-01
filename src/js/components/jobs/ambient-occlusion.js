@@ -85,7 +85,7 @@ function getProgram (context) {
   return program;
 }
 
-function ambiantOcclusionJob (context, inputs, outputs, parameters, done) {
+function ambientOcclusionJob (context, inputs, outputs, parameters, done) {
   var program = getProgram(context);
   var uniforms = {
     source: inputs.heightmap,
@@ -100,4 +100,4 @@ function ambiantOcclusionJob (context, inputs, outputs, parameters, done) {
   done();
 }
 
-module.exports = ambiantOcclusionJob;
+module.exports = ambientOcclusionJob;

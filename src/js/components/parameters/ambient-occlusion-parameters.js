@@ -4,7 +4,7 @@ const BaseParameters = require('./base-parameters');
 
 const { getProp, extendClass } = require('../../commons/utils');
 
-function AmbiantOcclusionParameters (name, values, callback) {
+function AmbientOcclusionParameters (name, values, callback) {
   this.constructor.super.call(this, name, callback);
 
   this.values = {
@@ -15,9 +15,9 @@ function AmbiantOcclusionParameters (name, values, callback) {
   };
 }
 
-extendClass(AmbiantOcclusionParameters, BaseParameters);
+extendClass(AmbientOcclusionParameters, BaseParameters);
 
-AmbiantOcclusionParameters.prototype.initializeElements = function () {
+AmbientOcclusionParameters.prototype.initializeElements = function () {
   this.setElement('size', 'range', 'Size', {
     softMin: 0.2,
     softMax: 1,
@@ -47,4 +47,4 @@ AmbiantOcclusionParameters.prototype.initializeElements = function () {
   });
 };
 
-module.exports = AmbiantOcclusionParameters;
+module.exports = AmbientOcclusionParameters;
