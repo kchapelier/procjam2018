@@ -132,7 +132,7 @@ function App () {
 
   document.body.addEventListener('keypress', e => {
     var code = e.keyCode || e.charCode;
-    if (code === 32 && !this.preview.active) {
+    if (code === 32 && !this.isInPreview()) {
       selector.toggle();
     }
   });
@@ -213,7 +213,7 @@ function App () {
   });
 
   globalEE.on('update-texture', (uuid, texture) => {
-    if (this.preview.active && this.preview.shownNode === uuid) {
+    if (this.isInPreview() && this.preview.shownNode === uuid) {
       this.preview.changeTexture(texture);
     }
   });
@@ -222,6 +222,33 @@ function App () {
     this.loadStateFromGist(hashOptions.gist);
   }
 }
+
+App.prototype.getNodeState = function (nodeUuid) {
+  var nodeInGraph = this.graph.getNode(nodeUuid);
+  var nodeInWorkingGraph = this.workingGraph.getNode(nodeUuid);
+
+  if (nodeInGraph && nodeInWorkingGraph) {
+    var nodeParams = nodeInWorkingGraph.parameters;
+    var processedParams = {};
+
+    for (var paramName in nodeParams) {
+      var paramValue = nodeParams[paramName];
+      var paramType = typeof paramValue;
+
+      if (paramType === 'number' || paramType === 'string' || paramType === 'boolean' || Array.isArray(paramValue)) {
+        processedParams[paramName] = paramValue;
+      }
+    }
+
+    return {
+      type: nodeInWorkingGraph.type,
+      position: [nodeInGraph.positionX, nodeInGraph.positionY],
+      params: processedParams
+    };
+  }
+
+  return null;
+};
 
 App.prototype.getState = function () {
   var nodes = {};
@@ -274,7 +301,7 @@ App.prototype.getState = function () {
       position: [this.graph.boardPositionX, this.graph.boardPositionY]
     },
     parametersShown: this.parametersShown,
-    previewShown: this.preview.active ? this.preview.shownNode : null,
+    previewShown: this.isInPreview() ? this.preview.shownNode : null,
     nodes: nodes,
     connections: connections
   };
@@ -286,6 +313,10 @@ App.prototype.downloadState = function (filename) {
     'text/plain;charset=utf-8',
     filename
   );
+};
+
+App.prototype.isInPreview = function () {
+  return this.preview.active === true;
 };
 
 App.prototype.displayPreview = function (uuid) {
@@ -386,6 +417,15 @@ App.prototype.loadStateFromFile = function (file) {
     this.loadState(JSON.parse(e.target.result));
   };
   reader.readAsText(file);
+};
+
+App.prototype.cloneNode = function (uuid) {
+  var nodeState = this.getNodeState(uuid);
+  var newUuid = generateUUID();
+
+  this.createNode(newUuid, nodeState.type, nodeState.params, nodeState.position[0], nodeState.position[1]);
+
+  return newUuid;
 };
 
 App.prototype.createNode = function (uuid, typeId, params, x, y) {

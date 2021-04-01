@@ -6,6 +6,10 @@ var Connection = require('./connection');
 
 var globalEE = require('./../event-emitter').global;
 
+function snapPosition (v) {
+  return Math.round(v / 25) * 25;
+}
+
 function NodeGraph (app) {
   this.app = app;
   this.root = document.querySelector('.graph');
@@ -68,7 +72,15 @@ NodeGraph.prototype.addEvents = function () {
     ];
 
     if (e.dataTransfer.files.length && imageTypes.includes(e.dataTransfer.files[0].type)) {
-      globalEE.trigger('create-node', 'image', { type: 2, image: e.dataTransfer.files[0] }, e.clientX - this.boardPositionX, e.clientY - this.boardPositionY - 50);
+      var posX = e.clientX - this.boardPositionX;
+      var posY = e.clientY - this.boardPositionY - 50;
+
+      if (this.autoSnapping) {
+        posX = snapPosition(posX);
+        posY = snapPosition(posY);
+      }
+
+      globalEE.trigger('create-node', 'image', { type: 2, image: e.dataTransfer.files[0] }, posX, posY);
     }
   });
 
@@ -120,6 +132,13 @@ NodeGraph.prototype.addEvents = function () {
         this.selectConnection(null);
         this.showFullPreview(node);
       } else {
+        if (e.shiftKey) {
+          this.selectNode(null);
+          this.selectConnection(null);
+          nowUuid = this.app.cloneNode(nowUuid);
+          node = this.getNode(nowUuid);
+        }
+
         // simple click handling
         this.isNodeDragging = true;
         this.root.classList.add('node-dragging');
@@ -187,8 +206,8 @@ NodeGraph.prototype.addEvents = function () {
       var posY = (e.clientY - this.nodeOffsetY - this.boardPositionY);
 
       if (e.altKey || e.shiftKey || this.autoSnapping) {
-        posX = Math.round(posX / 25) * 25;
-        posY = Math.round(posY / 25) * 25;
+        posX = snapPosition(posX);
+        posY = snapPosition(posY);
       }
 
       this.selectedNode.position(posX, posY);
@@ -199,8 +218,6 @@ NodeGraph.prototype.addEvents = function () {
           this.setConnectionFromTo(connection.uuid, connection.fromUuid, connection.fromParam, connection.toUuid, connection.toParam);
         }
       }
-
-      //this.setConnectionFromTo(connection.uuid, node2.uuid, 'output', node1.uuid, 'input1');
     } else if (this.isBoardDragging) {
       this.moveBoard(this.boardPositionX + e.movementX, this.boardPositionY + e.movementY);
     }
@@ -235,7 +252,7 @@ NodeGraph.prototype.addEvents = function () {
   this.root.addEventListener('keydown', e => {
     var code = e.keyCode || e.charCode;
     // backspace or delete
-    if (code === 8 || code === 46) {
+    if ((code === 8 || code === 46) && !this.app.isInPreview()) {
       e.preventDefault();
 
       if (this.selectedConnection !== null) {
@@ -246,14 +263,10 @@ NodeGraph.prototype.addEvents = function () {
       if (this.selectedNode !== null) {
         globalEE.trigger('delete-node', this.selectedNode.uuid);
       }
-    } else if (code === 27) {
+    } else if (code === 27 && !this.app.isInPreview()) {
       this.selectNode(null);
       this.selectConnection(null);
-
-      //globalEE.trigger('display-parameters', null); //there is currently a bug where this is triggered even though the user is in the preview
-
-      // TODO disable node dragging mode
-      // TODO disable board dragging mode
+      globalEE.trigger('display-parameters', null);
     }
   });
 
@@ -336,8 +349,8 @@ NodeGraph.prototype.addNode = function (uuid, type) {
     var y = this.boardHeight / 2 - this.boardPositionY;
 
     if (this.autoSnapping) {
-      x = Math.round(x / 25) * 25;
-      y = Math.round(y / 25) * 25;
+      x = snapPosition(x);
+      y = snapPosition(y);
     }
 
     node.position(x, y);
@@ -452,6 +465,9 @@ NodeGraph.prototype.selectNode = function (node) {
 
   if (this.selectedNode !== null) {
     this.selectedNode.select();
+  } else {
+    this.isNodeDragging = false;
+    this.root.classList.remove('node-dragging');
   }
 };
 

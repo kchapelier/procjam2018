@@ -153,7 +153,9 @@ Preview.prototype.setEvents = function () {
     if (this.active) {
       const code = e.keyCode || e.charCode;
 
-      if (code === 32) {
+      if (code === 27) { // ESC
+        this.hide();
+      } else if (code === 32) {
         this.currentMask = !this.mask;
         this.needDisplayUpdate = true;
       }
@@ -164,9 +166,7 @@ Preview.prototype.setEvents = function () {
     if (this.active) {
       const code = e.keyCode || e.charCode;
 
-      if (code === 27) { // ESC
-        this.hide();
-      } else if (code === 32) {
+      if (code === 32) {
         this.currentMask = this.mask;
         this.needDisplayUpdate = true;
       }
