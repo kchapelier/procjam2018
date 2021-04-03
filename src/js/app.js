@@ -298,7 +298,8 @@ App.prototype.getState = function () {
   return {
     version: this.version,
     board: {
-      position: [this.graph.boardPositionX, this.graph.boardPositionY]
+      position: [this.graph.boardPositionX, this.graph.boardPositionY],
+      autoSnapping: this.graph.autoSnapping
     },
     parametersShown: this.parametersShown,
     previewShown: this.isInPreview() ? this.preview.shownNode : null,
@@ -476,6 +477,7 @@ App.prototype.loadState = function (data) {
 
   this.clearState();
 
+  this.graph.setAutoSnapping(false);
   this.graph.moveBoard(data.board.position[0], data.board.position[1], true);
 
   for (let uuid in data.nodes) {
@@ -500,6 +502,8 @@ App.prototype.loadState = function (data) {
   if (data.previewShown) {
     this.displayPreview(data.previewShown);
   }
+
+  this.graph.setAutoSnapping(data.board.autoSnapping);
 
   this.workingGraph.scheduleAll();
 

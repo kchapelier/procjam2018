@@ -13,9 +13,20 @@ function normalizeLessThan6 (save) {
   return save;
 }
 
+function normalizeLessThan8 (save) {
+  // set board.autoSnapping to default value
+  save.board.autoSnapping = false;
+
+  return save;
+}
+
 function normalizeSave (save) {
   if (save.version < 6) {
     save = normalizeLessThan6(save);
+  }
+
+  if (save.version < 8) {
+    save = normalizeLessThan8(save);
   }
 
   return save;

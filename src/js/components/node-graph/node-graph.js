@@ -87,18 +87,8 @@ NodeGraph.prototype.addEvents = function () {
   this.autoSnappingButton.addEventListener('mousedown', e => e.stopPropagation());
   this.autoSnappingButton.addEventListener('click', e => {
     e.stopPropagation();
-
-    this.autoSnapping = !this.autoSnapping;
-
     this.autoSnappingButton.blur();
-
-    if (this.autoSnapping) {
-      this.autoSnappingButton.classList.remove('fa-square-o');
-      this.autoSnappingButton.classList.add('fa-plus-square-o');
-    } else {
-      this.autoSnappingButton.classList.add('fa-square-o');
-      this.autoSnappingButton.classList.remove('fa-plus-square-o');
-    }
+    this.setAutoSnapping(!this.autoSnapping);
   });
 
   this.root.addEventListener('mouseenter', e => {
@@ -290,6 +280,18 @@ NodeGraph.prototype.addEvents = function () {
   };
 
   requestAnimationFrame(animation);
+};
+
+NodeGraph.prototype.setAutoSnapping = function (autoSnapping) {
+  this.autoSnapping = autoSnapping;
+
+  if (this.autoSnapping) {
+    this.autoSnappingButton.classList.remove('fa-square-o');
+    this.autoSnappingButton.classList.add('fa-plus-square-o');
+  } else {
+    this.autoSnappingButton.classList.add('fa-square-o');
+    this.autoSnappingButton.classList.remove('fa-plus-square-o');
+  }
 };
 
 NodeGraph.prototype.moveBoard = function (x, y, noTransition) {
